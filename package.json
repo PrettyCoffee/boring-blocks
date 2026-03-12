@@ -5,6 +5,7 @@
   "author": "PrettyCoffee",
   "license": "MIT",
   "type": "module",
+  "files": ["src", "scripts", "tsconfig.json", "tsconfig.*.json", "vite.config.ts", "*.md"],
   "module": "dist/index.mjs",
   "exports": {
     "types": "./dist/index.d.ts",
