@@ -1,0 +1,9 @@
+.dump/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+dist/
+node_modules
+storybook-static/
+
+.eslintcache

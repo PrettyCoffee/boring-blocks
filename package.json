@@ -1,0 +1,39 @@
+{
+  "name": "boring-blocks",
+  "version": "0.0.0",
+  "description": "Boring react components for classic shadcn style productivity UIs",
+  "author": "PrettyCoffee",
+  "license": "MIT",
+  "type": "module",
+  "module": "dist/index.mjs",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.mjs"
+  },
+  "scripts": {
+    "start": "cd docs && pnpm start",
+    "build": "run-s bundle:esm bundle:types",
+    "bundle:esm": "vite build",
+    "bundle:types": "tsc -p ./tsconfig.lib.json --outDir ./dist --noEmit false --declaration --emitDeclarationOnly",
+    "lint": "tsc -b && eslint",
+    "lint:fix": "pnpm run lint --fix",
+    "postinstall": "run-s bundle:esm bundle:types"
+  },
+  "dependencies": {
+    "@yaasl/react": "0.15.0-alpha.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@pretty-cozy/eslint-config": "0.8.0",
+    "@types/node": "24.12.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "5.1.4",
+    "eslint": "9.39.4",
+    "eslint-plugin-storybook": "10.2.17",
+    "npm-run-all2": "^8.0.4",
+    "typescript": "5.9.3",
+    "vite": "7.3.1"
+  }
+}

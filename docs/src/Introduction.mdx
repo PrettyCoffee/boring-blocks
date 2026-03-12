@@ -1,0 +1,25 @@
+import { Markdown } from "@storybook/addon-docs/blocks";
+import { styled } from "storybook/theming";
+
+import { useDarkMode } from "../.storybook/addons/dark-mode";
+import { lightTheme, darkTheme } from "../.storybook/themes";
+import Readme from "../../README.md?raw";
+
+export const StyledLogo = styled.img`
+  max-width: 16rem!important;
+  width: 100%;
+  margin: 0 auto 3rem auto;
+  display: block;
+`;
+
+export const Logo = () => {
+  const darkMode = useDarkMode();
+  const src = darkMode ? darkTheme.brandImage : lightTheme.brandImage;
+  return (
+    <StyledLogo alt="" src={src} />
+  );
+};
+
+<Logo />
+
+<Markdown>{Readme}</Markdown>
