@@ -11,14 +11,15 @@
     "types": "./dist/index.d.ts",
     "import": "./dist/index.mjs"
   },
+  "bin": {
+    "boring-blocks": "./scripts/cli.mjs"
+  },
   "scripts": {
     "start": "cd docs && pnpm start",
-    "build": "run-s bundle:esm bundle:types",
-    "bundle:esm": "vite build",
-    "bundle:types": "tsc -p ./tsconfig.lib.json --outDir ./dist --noEmit false --declaration --emitDeclarationOnly",
+    "build": "node ./scripts/build.mjs",
     "lint": "tsc -b && eslint",
     "lint:fix": "pnpm run lint --fix",
-    "postinstall": "run-s bundle:esm bundle:types"
+    "postinstall": "node ./scripts/build.mjs"
   },
   "dependencies": {
     "@yaasl/react": "0.15.0-alpha.1",
