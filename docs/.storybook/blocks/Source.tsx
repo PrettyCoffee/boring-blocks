@@ -6,7 +6,7 @@ import {
   Source as StorybookSource,
 } from "@storybook/addon-docs/blocks"
 
-import { extractFromFile } from "../../src/utils/extractFromFile"
+import { extractFromFile } from "../../src/utils/extract-from-file"
 import { useDarkMode } from "../addons/dark-mode"
 
 interface ExtendedSourceProps extends Pick<SourceProps, "language"> {

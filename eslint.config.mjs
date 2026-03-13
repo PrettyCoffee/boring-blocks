@@ -9,14 +9,23 @@ export default defineConfig(
   globalIgnores(["dist", "node_modules", "!./docs/.storybook"]),
 
   {
+    files: ["./*", "docs/*"],
+    rules: {
+      "import/no-extraneous-dependencies": "off",
+    },
+  },
+
+  {
     basePath: "./docs",
     extends: [
+      // eslint-disable-next-line import/no-named-as-default-member
       storybook.configs["flat/recommended"],
       {
         name: "local-rules/check-file-naming",
         files: [".storybook/**"],
         rules: {
           "checkFile/folder-naming-convention": "off",
+          "storybook/no-uninstalled-addons": "off",
         },
       },
     ],

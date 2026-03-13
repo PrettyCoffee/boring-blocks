@@ -1,7 +1,5 @@
 // @ts-ignore -- We need to import React for JSX support in Storybook internals
-import React from "react"
-
-import { type PropsWithChildren, useMemo } from "react"
+import React, { type PropsWithChildren, useMemo } from "react"
 
 import {
   DocsContainer,

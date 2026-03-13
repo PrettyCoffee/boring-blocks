@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { fn } from "storybook/test"
 
 import { Button } from "../../src"
-import { argType } from "./utils/argTypes"
+import { argType } from "./utils/arg-types"
 
 const meta = {
   title: "Components/Button",
@@ -20,7 +20,8 @@ const meta = {
     onFocus: argType.callback(),
   },
   args: {
-    children: "Button", onClick: fn(),
+    children: "Button",
+    onClick: fn(),
     onBlur: fn(),
     onFocus: fn(),
   },
@@ -30,7 +31,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Standard: Story = {
-  args: { },
+  args: {},
 }
 export const Anchor: Story = {
   args: { href: "#" },
