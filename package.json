@@ -15,8 +15,9 @@
     "boring-blocks": "./scripts/cli.mjs"
   },
   "scripts": {
-    "start": "cd docs && pnpm start",
+    "start": "pnpm run --filter ./docs start",
     "build": "node ./scripts/build.mjs",
+    "build:docs": "pnpm run --filter ./docs build",
     "lint": "tsc -b && eslint",
     "lint:fix": "pnpm run lint --fix",
     "postinstall": "node ./scripts/build.mjs"
