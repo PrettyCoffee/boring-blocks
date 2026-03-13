@@ -29,10 +29,10 @@
     "lint:fix": "pnpm run lint --fix",
     "postinstall": "node ./scripts/build.mjs"
   },
-  "dependencies": {
-    "@yaasl/react": "0.15.0-alpha.1",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+  "peerDependencies": {
+    "@yaasl/react": "^0.15.0-alpha.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@pretty-cozy/eslint-config": "0.8.0",
@@ -40,8 +40,11 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "5.1.4",
+    "@yaasl/react": "0.15.0-alpha.1",
     "eslint": "9.39.4",
     "eslint-plugin-storybook": "10.2.17",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
     "vite": "7.3.1"
