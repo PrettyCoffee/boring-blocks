@@ -1,0 +1,58 @@
+import { Title } from "@storybook/addon-docs/blocks"
+
+import { ProvideTheme, DemoRow, Placeholder, TextDemo, BackgroundDemo, StrokeDemo, AlertDemo, CategoryDemo } from "./theme-tokens"
+
+<Title>Theme Tokens</Title>
+
+<ProvideTheme />
+
+<DemoRow>
+  <TextDemo name="color.text.priority" />
+  <TextDemo name="color.text.default" />
+  <TextDemo name="color.text.gentle" />
+  <TextDemo name="color.text.muted" />
+  <TextDemo name="color.text.invert" invert />
+  <TextDemo name="color.text.button" invert />
+</DemoRow>
+
+<DemoRow>
+  <BackgroundDemo name="color.background.page" />
+  <BackgroundDemo name="color.background.default" />
+  <Placeholder />
+  <Placeholder />
+  <BackgroundDemo name="color.background.invert" invert />
+  <BackgroundDemo name="color.background.button" invert />
+</DemoRow>
+
+<DemoRow>
+  <Placeholder />
+  <StrokeDemo name="color.stroke.default" />
+  <StrokeDemo name="color.stroke.gentle" />
+  <StrokeDemo name="color.stroke.muted" />
+  <StrokeDemo name="color.stroke.invert" />
+  <StrokeDemo name="color.stroke.button" />
+</DemoRow>
+
+<DemoRow>
+  <AlertDemo name="color.alert.success" />
+  <AlertDemo name="color.alert.info" />
+  <AlertDemo name="color.alert.warn" />
+  <AlertDemo name="color.alert.error" />
+  <Placeholder />
+  <Placeholder />
+</DemoRow>
+
+<DemoRow>
+  <CategoryDemo name="color.category.pink" />
+  <CategoryDemo name="color.category.rose" />
+  <CategoryDemo name="color.category.orange" />
+  <CategoryDemo name="color.category.yellow" />
+  <CategoryDemo name="color.category.lime" />
+  <CategoryDemo name="color.category.green" />
+  <CategoryDemo name="color.category.teal" />
+  <CategoryDemo name="color.category.cyan" />
+  <CategoryDemo name="color.category.blue" />
+  <CategoryDemo name="color.category.indigo" />
+  <CategoryDemo name="color.category.violet" />
+  <CategoryDemo name="color.category.fuchsia" />
+</DemoRow>
