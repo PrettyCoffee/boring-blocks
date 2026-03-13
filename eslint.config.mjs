@@ -16,6 +16,25 @@ export default defineConfig(
   },
 
   {
+    name: "local-rules/lib-imports",
+    ignores: ["src/lib/**", "docs/src/lib/**"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@yaasl/*"],
+              importNamePattern: "^",
+              message: "Import from lib/yaasl instead.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
     basePath: "./docs",
     extends: [
       // eslint-disable-next-line import/no-named-as-default-member

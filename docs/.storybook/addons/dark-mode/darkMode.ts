@@ -1,4 +1,4 @@
-import { createAtom, localStorage } from "@yaasl/react"
+import { createAtom, localStorage } from "../../../src/lib/yaasl"
 
 const getPrefersDarkMode = () => {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -7,6 +7,7 @@ const getPrefersDarkMode = () => {
 }
 
 export const darkMode = createAtom({
+  name: "dark-mode",
   defaultValue: getPrefersDarkMode(),
   effects: [localStorage()],
 })

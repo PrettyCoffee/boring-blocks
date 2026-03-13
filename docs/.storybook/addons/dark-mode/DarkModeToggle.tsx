@@ -2,10 +2,10 @@
 import React from "react"
 
 import { MoonIcon, SunIcon } from "@storybook/icons"
-import { useAtom } from "@yaasl/react"
 import { IconButton } from "storybook/internal/components"
 
 import { darkMode } from "./darkMode"
+import { useAtom } from "../../../src/lib/yaasl"
 
 export const DarkModeToggle = () => {
   const isDarkMode = useAtom(darkMode)

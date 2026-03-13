@@ -1,6 +1,7 @@
-import { createAtom, localStorage } from "@yaasl/react"
 import { addons } from "storybook/manager-api"
 import { themes, type ThemeVars } from "storybook/theming"
+
+import { createAtom, localStorage } from "../../../src/lib/yaasl"
 
 export interface ThemeModes {
   /** The dark theme for storybook */
@@ -10,6 +11,7 @@ export interface ThemeModes {
 }
 
 const storedThemes = createAtom<ThemeModes>({
+  name: "themes",
   defaultValue: { dark: {}, light: {} },
   effects: [localStorage()],
 })
