@@ -12,11 +12,11 @@ const shared = {
 export const darkTheme = create({
   ...themes.dark,
   ...shared,
-  brandImage: "/dark-mode-logo.png",
+  brandImage: "./dark-mode-logo.png",
 })
 
 export const lightTheme = create({
   ...themes.light,
   ...shared,
-  brandImage: "/light-mode-logo.png",
+  brandImage: "./light-mode-logo.png",
 })
