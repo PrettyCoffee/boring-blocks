@@ -80,7 +80,7 @@ const tokens = createTokens()
   .addVariant("dark", {
     radius: 8,
     color: {
-      accent: colors.category.rose[500],
+      accent: colors.category.rose[300],
       shadow: colors.black,
       background: {
         page: colors.neutral[950],

@@ -4,14 +4,32 @@ import {
   AnchorHTMLAttributes,
 } from "react"
 
+import { cva, VariantProps } from "class-variance-authority"
+
+import { interactive, InteractiveProps } from "../../styles/interactive"
 import {
   RefProp,
   ClassNameProp,
   DisableProp,
   StyleProp,
   TitleProp,
-} from "../types/base-props"
-import { cn } from "../utils/cn"
+} from "../../types/base-props"
+import { cn } from "../../utils/cn"
+
+const button = cva(
+  "relative inline-flex shrink-0 items-center justify-center rounded-md text-sm font-medium whitespace-nowrap",
+  {
+    variants: {
+      size: {
+        md: "h-10 px-3",
+        sm: "h-8 px-2",
+      },
+    },
+    defaultVariants: {
+      size: "md",
+    },
+  }
+)
 
 type ButtonHtmlProps = ButtonHTMLAttributes<HTMLButtonElement>
 type AnchorHtmlProps = AnchorHTMLAttributes<HTMLAnchorElement>
@@ -23,6 +41,8 @@ type ButtonOrAnchorProps =
       RefProp<HTMLAnchorElement>)
 
 export type ButtonProps = ButtonOrAnchorProps &
+  VariantProps<typeof button> &
+  InteractiveProps &
   ClassNameProp &
   DisableProp &
   StyleProp &
@@ -41,18 +61,23 @@ const ButtonOrAnchor = ({
   console.warn(
     "<Button> component did return null since it must either have an onClick or href prop"
   )
-  return null
+  return <span {...props}>{children}</span>
 }
 
 export const Button = ({
   className,
   children,
+  size,
+  look,
+  active,
+  disabled,
   ...props
 }: PropsWithChildren<ButtonProps>) => (
   <ButtonOrAnchor
     {...props}
     className={cn(
-      "cursor-pointer rounded-md px-2 py-1 text-text hover:bg-background-button/10 focus-visible:bg-background-button/10 active:bg-background-button/20",
+      button({ size }),
+      interactive({ look, active, disabled }),
       className
     )}
   >
