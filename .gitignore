@@ -2,6 +2,7 @@
 .idea/
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 dist/
 node_modules
 storybook-static/

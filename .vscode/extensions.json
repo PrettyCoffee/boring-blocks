@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "styled-components.vscode-styled-components",
+    "bradlc.vscode-tailwindcss",
+    "dbaeumer.vscode-eslint",
+    "csstools.postcss"
+  ]
+}

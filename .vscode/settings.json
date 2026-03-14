@@ -1,0 +1,8 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "tailwindCSS.classFunctions": ["cn", "cva"],
+  "tailwindCSS.experimental.configFile": "docs/src/index.css"
+}
