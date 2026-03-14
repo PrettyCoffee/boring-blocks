@@ -11,6 +11,7 @@ import {
   StyleProp,
   TitleProp,
 } from "../types/base-props"
+import { cn } from "../utils/cn"
 
 type ButtonHtmlProps = ButtonHTMLAttributes<HTMLButtonElement>
 type AnchorHtmlProps = AnchorHTMLAttributes<HTMLAnchorElement>
@@ -27,7 +28,7 @@ export type ButtonProps = ButtonOrAnchorProps &
   StyleProp &
   TitleProp
 
-export const Button = ({
+const ButtonOrAnchor = ({
   children,
   ...props
 }: PropsWithChildren<ButtonProps>) => {
@@ -42,3 +43,19 @@ export const Button = ({
   )
   return null
 }
+
+export const Button = ({
+  className,
+  children,
+  ...props
+}: PropsWithChildren<ButtonProps>) => (
+  <ButtonOrAnchor
+    {...props}
+    className={cn(
+      "cursor-pointer rounded-md px-2 py-1 text-text hover:bg-background-button/10 focus-visible:bg-background-button/10 active:bg-background-button/20",
+      className
+    )}
+  >
+    {children}
+  </ButtonOrAnchor>
+)

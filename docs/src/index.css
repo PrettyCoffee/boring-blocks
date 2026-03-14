@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+@config '../tailwind.config.ts';
+
+@layer base {
+  :root {
+    @apply bg-background-page;
+    @apply text-text;
+    @apply font-medium;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}

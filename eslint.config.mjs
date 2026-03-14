@@ -5,6 +5,7 @@ import storybook from "eslint-plugin-storybook"
 export default defineConfig(
   prettyCozy.baseTs,
   prettyCozy.react,
+  prettyCozy.tailwind({ entryPoint: "docs/src/index.css" }),
   prettyCozy.vitest,
   globalIgnores(["dist", "node_modules", "!./docs/.storybook"]),
 

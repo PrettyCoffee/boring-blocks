@@ -40,8 +40,12 @@ export const CanvasDecorator: Decorator = (Story, context) => {
   const background = getCanvasBackground(context, isDarkMode)
   const { viewMode } = context
   const isDocsPage = viewMode === "docs"
+  const theme = isDarkMode ? "dark" : "light"
   return (
-    <CanvasLayout background={isDocsPage ? background : undefined}>
+    <CanvasLayout
+      className={theme}
+      background={isDocsPage ? background : undefined}
+    >
       <Story />
       {!isDocsPage && <Global styles={{ ":root": { background } }} />}
     </CanvasLayout>

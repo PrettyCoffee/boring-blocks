@@ -33,8 +33,8 @@ export const DemoRow = styled.div`
 `
 
 const DemoBase = styled.div`
-  height: 5rem;
-  width: 5rem;
+  height: 6rem;
+  width: 6rem;
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
   font-weight: bold;
@@ -86,7 +86,7 @@ const RotateText = styled.span`
 export const CategoryDemo = ({ name }: DemoProps) => {
   const outline = `1px solid ${theme.read(name)}`
   return (
-    <DemoBase style={{ outline, width: "1.5rem" }}>
+    <DemoBase style={{ outline, width: "2.5rem" }}>
       <RotateText>{splitName(name).at(-1)}</RotateText>
     </DemoBase>
   )

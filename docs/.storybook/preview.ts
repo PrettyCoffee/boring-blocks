@@ -1,3 +1,5 @@
+import "../src/index.css"
+
 import type { Preview } from "@storybook/react-vite"
 
 import { AutoDocsTemplate } from "./blocks/AutoDocsTemplate"
