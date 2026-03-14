@@ -7,6 +7,7 @@ import { CanvasDecorator } from "./blocks/CanvasDecorator"
 import { mdxComponents } from "./blocks/mdxComponents"
 import { ThemedDocsContainer } from "./blocks/ThemedDocsContainer"
 import { darkTheme, lightTheme } from "./themes"
+import { argType } from "../src/utils/arg-types"
 
 const preview = {
   tags: ["autodocs"],
@@ -14,6 +15,7 @@ const preview = {
 
   parameters: {
     controls: { expanded: true, sort: "requiredFirst" },
+    actions: { argTypesRegex: "^on[A-Z].*" },
     docs: {
       page: AutoDocsTemplate,
       container: ThemedDocsContainer,
@@ -34,6 +36,14 @@ const preview = {
         { name: "dark", value: darkTheme.appBg },
       ],
     },
+  },
+
+  argTypes: {
+    asChild: argType.hidden(),
+    className: argType.hidden(),
+    children: argType.hidden(),
+    style: argType.hidden(),
+    ref: argType.hidden(),
   },
 } satisfies Preview
 
