@@ -27,7 +27,7 @@
     "build:docs": "pnpm run --filter ./docs build",
     "lint": "tsc -b && eslint",
     "lint:fix": "pnpm run lint --fix",
-    "postinstall": "node ./scripts/build.mjs"
+    "postinstall": "node ./scripts/cli.mjs build"
   },
   "peerDependencies": {
     "@yaasl/react": "^0.15.0-alpha.1",
