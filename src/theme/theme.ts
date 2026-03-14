@@ -5,7 +5,11 @@ import { createTokens } from "./create-tokens"
 
 const colors = {
   black: twColors.black,
-  neutral: twColors.neutral,
+  neutral: {
+    0: "#fff",
+    ...twColors.neutral,
+    1000: "#000",
+  },
   alert: {
     error: twColors.red,
     warn: twColors.yellow,
@@ -34,6 +38,10 @@ const tokens = createTokens()
     color: {
       accent: colors.category.rose[500],
       shadow: colors.neutral[300],
+      max: {
+        default: colors.neutral[0],
+        invert: colors.neutral[1000],
+      },
       background: {
         page: colors.neutral[100],
         default: colors.neutral[50],
@@ -82,6 +90,10 @@ const tokens = createTokens()
     color: {
       accent: colors.category.rose[300],
       shadow: colors.black,
+      max: {
+        default: colors.neutral[1000],
+        invert: colors.neutral[0],
+      },
       background: {
         page: colors.neutral[950],
         default: colors.neutral[900],
@@ -145,6 +157,10 @@ export const theme = createTheme({
 
       highlight: get("color.accent"),
       shadow: get("color.shadow"),
+      max: {
+        DEFAULT: get("color.max.default"),
+        invert: get("color.max.invert"),
+      },
       background: {
         page: get("color.background.page"),
         DEFAULT: get("color.background.default"),
