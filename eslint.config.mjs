@@ -12,7 +12,7 @@ export default defineConfig(
   {
     files: ["./*", "docs/*"],
     rules: {
-      "import/no-extraneous-dependencies": "off",
+      "import-x/no-extraneous-dependencies": "off",
     },
   },
 
@@ -38,19 +38,19 @@ export default defineConfig(
   {
     basePath: "./docs",
     extends: [
-      // eslint-disable-next-line import/no-named-as-default-member
+      // eslint-disable-next-line import-x/no-named-as-default-member
       storybook.configs["flat/recommended"],
       {
         name: "local-rules/check-file-naming",
         files: [".storybook/**"],
         rules: {
-          "checkFile/folder-naming-convention": "off",
+          "check-file/folder-naming-convention": "off",
           "storybook/no-uninstalled-addons": "off",
         },
       },
     ],
     rules: {
-      "checkFile/filename-naming-convention": [
+      "check-file/filename-naming-convention": [
         "error",
         { "*/**": "KEBAB_CASE" },
         { ignoreMiddleExtensions: true },

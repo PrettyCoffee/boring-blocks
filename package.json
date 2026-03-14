@@ -50,7 +50,7 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
-    "@pretty-cozy/eslint-config": "0.8.0",
+    "@pretty-cozy/eslint-config": "0.9.0",
     "@tailwindcss/vite": "4.2.1",
     "@types/node": "24.12.0",
     "@types/react": "19.2.14",
