@@ -19,6 +19,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     },
+    "./utils": {
+      "types": "./dist/index-utils.d.ts",
+      "import": "./dist/index-utils.mjs"
+    },
     "./tailwind": {
       "import": "./tailwind/index.ts"
     }

@@ -82,6 +82,10 @@ export default defineConfig(({ command }) => ({
           outFile: "index",
           path: resolve(__dirname, "./src/index.ts"),
         },
+        "src/index-utils": {
+          outFile: "index-utils",
+          path: resolve(__dirname, "./src/index-utils.ts"),
+        },
       },
     }),
   ],
