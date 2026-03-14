@@ -128,7 +128,7 @@ const tokens = createTokens()
 
 export const theme = createTheme({
   tokens,
-  twTheme: get => ({
+  getTheme: get => ({
     borderRadius: {
       "2xl": get("radius", "calc(<var> / 8 * 1rem)"), // 1rem
       xl: get("radius", "calc(<var> / 10.666 * 1rem)"), // 0.75rem

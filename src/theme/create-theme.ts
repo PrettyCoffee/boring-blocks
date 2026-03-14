@@ -14,18 +14,18 @@ export type TokenNames<TTokens extends ThemeTokens> =
 export type TokenVariants<TTokens extends ThemeTokens> =
   TTokens extends ThemeTokens<infer VariantName, any> ? VariantName : never
 
-interface CreateThemeVariant<TTokens extends ThemeTokens, TTwTheme> {
+interface CreateThemeVariant<TTokens extends ThemeTokens, TThemeValues> {
   /** The underlying css theme with all possible values.
    *  Will be used to write css variables.
    **/
   tokens: TTokens
   /** Function to retrieve the tokens which are used in tailwind */
-  twTheme: (
+  getTheme: (
     get: (
       path: TokenNames<TTokens>,
       extra?: `${string}<var>${string}`
     ) => string
-  ) => TTwTheme
+  ) => TThemeValues
 }
 
 interface GeneralThemeOptions<TTokens extends ThemeTokens> {
@@ -34,10 +34,10 @@ interface GeneralThemeOptions<TTokens extends ThemeTokens> {
   /** Paths pointing to values that should be handled as colors */
   colorPath: TokenNames<TTokens> | TokenNames<TTokens>[]
 }
-interface ThemeConstructorProps<TTokens extends ThemeTokens, TTwTheme>
+interface ThemeConstructorProps<TTokens extends ThemeTokens, TThemeValues>
   extends
     Partial<GeneralThemeOptions<TTokens>>,
-    CreateThemeVariant<TTokens, TTwTheme> {}
+    CreateThemeVariant<TTokens, TThemeValues> {}
 
 const getCssVar = <TTokens extends ThemeTokens>(
   prefix: string,
@@ -64,26 +64,26 @@ const readVar = <TTokens extends ThemeTokens>(
 
 export class Theme<
   TTokens extends ThemeTokens = ThemeTokens,
-  TTwTheme extends Partial<CustomThemeConfig> = Partial<CustomThemeConfig>,
+  TThemeValues extends Partial<CustomThemeConfig> = Partial<CustomThemeConfig>,
 > {
   public readonly options: GeneralThemeOptions<TTokens>
 
   public readonly tokens: TTokens
-  public readonly twTheme: TTwTheme
+  public readonly values: TThemeValues
 
   constructor({
     prefix = "tw",
     colorPath = ["color", "colors"] as TokenNames<TTokens>[],
     tokens,
-    twTheme,
-  }: ThemeConstructorProps<TTokens, TTwTheme>) {
+    getTheme,
+  }: ThemeConstructorProps<TTokens, TThemeValues>) {
     this.options = {
       prefix,
       colorPath,
     }
 
     this.tokens = tokens
-    this.twTheme = twTheme((path, extra) => readVar(this.options, path, extra))
+    this.values = getTheme((path, extra) => readVar(this.options, path, extra))
   }
 
   public getCssVar(path: TokenNames<TTokens>) {
@@ -129,7 +129,7 @@ export class Theme<
 
 export const createTheme = <
   TTokens extends ThemeTokens,
-  TTwTheme extends Partial<CustomThemeConfig>,
+  TThemeValues extends Partial<CustomThemeConfig>,
 >(
-  props: ThemeConstructorProps<TTokens, TTwTheme>
+  props: ThemeConstructorProps<TTokens, TThemeValues>
 ) => new Theme(props)

@@ -41,7 +41,7 @@ export const themeVarsPlugin = plugin.withOptions<ThemeVarsPluginOptions>(
   ({ theme, strategy } = {}) => {
     assertTheme(theme)
 
-    if (strategy === "extend") return { theme: { extend: theme.twTheme } }
-    return { theme: theme.twTheme }
+    if (strategy === "extend") return { theme: { extend: theme.values } }
+    return { theme: theme.values }
   }
 )
