@@ -11,3 +11,12 @@ export const darkMode = createAtom({
   defaultValue: getPrefersDarkMode(),
   effects: [localStorage()],
 })
+
+const updateCssTheme = () => {
+  const isDarkMode = darkMode.get()
+  document.documentElement.classList.remove("dark", "light")
+  document.documentElement.classList.add(isDarkMode ? "dark" : "light")
+}
+
+updateCssTheme()
+darkMode.subscribe(updateCssTheme)
