@@ -1,11 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
+import { Button, type ButtonProps } from "boring-blocks"
 import { Fragment } from "react/jsx-runtime"
 
-import { Button } from "../../src"
 import { argType } from "./utils/arg-types"
-import { InteractiveProps } from "../../src/styles/interactive"
 
-const kinds: InteractiveProps["look"][] = [
+const kinds: ButtonProps["look"][] = [
   "key",
   "ghost",
   "flat",

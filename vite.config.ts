@@ -1,8 +1,7 @@
 import { resolve } from "node:path"
 
 import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
-import { type Plugin } from "vite"
+import { defineConfig, type Plugin } from "vite"
 
 const isLocalPath = (id: string) => {
   const fileSystemRoot = __dirname.split(/[\\/]/)[0] + "/" // e.g. "C:/" on windows or "/" on unix-based systems

@@ -46,8 +46,8 @@
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
-    "tailwindcss-animate": "1.0.7",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@pretty-cozy/eslint-config": "0.9.0",
@@ -63,6 +63,7 @@
     "react-dom": "19.2.4",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
-    "vite": "7.3.1"
+    "vite": "7.3.1",
+    "vite-tsconfig-paths": "6.1.1"
   }
 }

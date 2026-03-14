@@ -1,7 +1,7 @@
+import { theme } from "boring-blocks"
 import { Fragment } from "react/jsx-runtime"
 import { styled, Global } from "storybook/theming"
 
-import { theme } from "../../src"
 import { useDarkMode } from "../.storybook/addons/dark-mode"
 
 type TokenName = Parameters<typeof theme.read>[0]

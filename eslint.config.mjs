@@ -10,7 +10,7 @@ export default defineConfig(
   globalIgnores(["dist", "node_modules", "!./docs/.storybook"]),
 
   {
-    files: ["./*", "docs/*"],
+    files: ["./*", "docs/**"],
     rules: {
       "import-x/no-extraneous-dependencies": "off",
     },
