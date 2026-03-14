@@ -41,9 +41,9 @@ const libBundle = ({
     enforce: "pre",
     config: config => {
       config.build ??= {}
-      config.build.sourcemap ??= true // enable sourcemaps for easier debugging
-      config.build.minify ??= true // reduce size of the package, sourcemaps allow users to read the original source code
-      config.build.copyPublicDir ??= false // we don't have any necessary assets to copy
+      config.build.sourcemap ??= false
+      config.build.minify ??= false
+      config.build.copyPublicDir ??= false
 
       config.build.rollupOptions = {
         ...config.build.rollupOptions,
