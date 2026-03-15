@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Button, Tooltip, TooltipProps } from "boring-blocks"
 
 import { argType } from "./utils/arg-types"
+import { cn } from "../../src/utils/cn"
 
 const placements: TooltipProps["placement"][] = [
   "cursor",
@@ -22,7 +23,7 @@ const meta = {
   },
   args: {
     placement: "cursor",
-    trigger: <Button>Tr</Button>,
+    trigger: <Button>Trigger</Button>,
     children: "Tooltip",
   },
 } satisfies Meta<typeof Tooltip>
@@ -33,9 +34,12 @@ type Story = StoryObj<typeof meta>
 export const Standard: Story = {}
 
 export const Placements: Story = {
-  render: args => (
+  render: (args, { viewMode }) => (
     <div
-      className="grid size-full place-content-center [*:has(&)]:size-full"
+      className={cn(
+        "grid size-full place-content-center",
+        viewMode !== "docs" && "[*:has(&)]:size-full"
+      )}
       style={{ gridTemplate: '". top ." "left cursor right" ". bottom ."' }}
     >
       {placements.map(placement => (
