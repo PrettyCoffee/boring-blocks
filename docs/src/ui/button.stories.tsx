@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Button, type ButtonProps } from "boring-blocks"
 import { Fragment } from "react/jsx-runtime"
 
-import { argType } from "./utils/arg-types"
+import { argType } from "../utils/arg-types"
 
 const titleSides: ButtonProps["titleSide"][] = [
   "top",
@@ -20,7 +20,7 @@ const kinds: ButtonProps["look"][] = [
 ] as const
 
 const meta = {
-  title: "Components/Button",
+  title: "Buttons/Button",
   component: Button,
   tags: ["autodocs"],
   argTypes: {

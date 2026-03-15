@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Button, Tooltip, TooltipProps } from "boring-blocks"
 
-import { argType } from "./utils/arg-types"
-import { cn } from "../../src/utils/cn"
+import { cn } from "../../../src/utils/cn"
+import { argType } from "../utils/arg-types"
 
 const placements: TooltipProps["placement"][] = [
   "cursor",
@@ -13,7 +13,7 @@ const placements: TooltipProps["placement"][] = [
 ] as const
 
 const meta = {
-  title: "Components/Tooltip",
+  title: "Floating/Tooltip",
   component: Tooltip,
   tags: ["autodocs"],
   argTypes: {

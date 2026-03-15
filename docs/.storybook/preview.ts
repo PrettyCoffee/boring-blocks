@@ -24,7 +24,13 @@ const preview = {
     options: {
       storySort: {
         method: "alphabetical",
-        order: ["Introduction", "Changelog"],
+        order: [
+          "Introduction",
+          "Changelog",
+          "ThemeTokens",
+          "Buttons",
+          "Floating",
+        ],
       },
     },
     themes: { dark: darkTheme, light: lightTheme },
