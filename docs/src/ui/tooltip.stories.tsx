@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Button, Tooltip, TooltipProps } from "boring-blocks"
+import { cn } from "boring-blocks/utils"
 
-import { cn } from "../../../src/utils/cn"
 import { argType } from "../utils/arg-types"
 
 const placements: TooltipProps["placement"][] = [

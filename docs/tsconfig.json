@@ -6,7 +6,8 @@
     "jsx": "react-jsx",
     "types": ["vite/client"],
     "paths": {
-      "boring-blocks": ["../src"]
+      "boring-blocks": ["../src"],
+      "boring-blocks/utils": ["../src/index-utils.ts"],
     }
   },
   "include": ["src", "./.storybook/**/*", "../src/types"]
