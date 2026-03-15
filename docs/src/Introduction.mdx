@@ -4,6 +4,7 @@ import { css, styled } from "storybook/theming";
 import { useDarkMode } from "../.storybook/addons/dark-mode";
 import { lightTheme, darkTheme } from "../.storybook/themes";
 import Readme from "../../README.md?raw";
+import { version } from "../../package.json"
 
 export const StyledLogo = styled.div(({ src }) => css`
   max-width: 16rem!important;
@@ -39,6 +40,18 @@ export const Logo = () => {
   );
 };
 
+export const Version = styled.span`
+  position: relative;
+  ::after {
+    content: "v${version}";
+    position: absolute;
+    bottom: 0.5rem;
+    font-size: 1rem;
+  }
+`
+
 <Logo />
 
-<Markdown>{Readme}</Markdown>
+<Version/>
+
+<Markdown>{Readme.replace("boring-blocks", `boring-blocks`)}</Markdown>

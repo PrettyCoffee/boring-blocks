@@ -1,10 +1,12 @@
 import { themes, create } from "storybook/theming"
 
+import { version } from "../../package.json"
+
 const shared = {
   fontBase: "Quicksand",
   fontCode: "Fira Code",
 
-  brandTitle: `Boring Blocks`,
+  brandTitle: `Boring Blocks (v${version})`,
   brandUrl: "./",
   brandTarget: "_self",
 }
