@@ -1,20 +1,14 @@
-import {
-  type ButtonHTMLAttributes,
-  type PropsWithChildren,
-  AnchorHTMLAttributes,
-} from "react"
+import { type PropsWithChildren } from "react"
 
 import { cva, VariantProps } from "class-variance-authority"
 
 import { TitleTooltip, TitleTooltipProps } from "./tooltip"
 import { interactive, InteractiveProps } from "../../styles/interactive"
-import {
-  RefProp,
-  ClassNameProp,
-  DisableProp,
-  StyleProp,
-} from "../../types/base-props"
 import { cn } from "../../utils/cn"
+import {
+  ButtonPrimitive,
+  ButtonPrimitiveProps,
+} from "../primitive/button-primitive"
 import { ErrorBoundary } from "../utility/error-boundary"
 
 const button = cva(
@@ -32,42 +26,14 @@ const button = cva(
   }
 )
 
-type ButtonHtmlProps = ButtonHTMLAttributes<HTMLButtonElement>
-type AnchorHtmlProps = AnchorHTMLAttributes<HTMLAnchorElement>
-
-type ButtonOrAnchorProps =
-  | (Pick<ButtonHtmlProps, "onClick" | "onFocus" | "onBlur"> &
-      RefProp<HTMLButtonElement>)
-  | (Pick<AnchorHtmlProps, "href" | "target" | "onFocus" | "onBlur"> &
-      RefProp<HTMLAnchorElement>)
-
-export type ButtonProps = ButtonOrAnchorProps &
+export type ButtonProps = ButtonPrimitiveProps &
   VariantProps<typeof button> &
-  InteractiveProps &
-  ClassNameProp &
-  DisableProp &
-  StyleProp & {
+  InteractiveProps & {
     /** Title tooltip to briefly describe the element / an action */
     title?: string
     /** Position of the title tooltip. Will follow the cursor by default. */
     titleSide?: TitleTooltipProps["side"]
   }
-
-const ButtonOrAnchor = ({
-  children,
-  ...props
-}: PropsWithChildren<ButtonProps>) => {
-  if ("href" in props) {
-    return <a {...props}>{children}</a>
-  }
-  if ("onClick" in props) {
-    return <button {...props}>{children}</button>
-  }
-  console.warn(
-    "<Button> component did return null since it must either have an onClick or href prop"
-  )
-  return <span {...props}>{children}</span>
-}
 
 export const Button = ({
   className,
@@ -82,8 +48,9 @@ export const Button = ({
 }: PropsWithChildren<ButtonProps>) => (
   <ErrorBoundary>
     <TitleTooltip title={title} side={titleSide}>
-      <ButtonOrAnchor
+      <ButtonPrimitive
         {...props}
+        disabled={disabled}
         className={cn(
           button({ size }),
           interactive({ look, active, disabled }),
@@ -91,7 +58,7 @@ export const Button = ({
         )}
       >
         {children}
-      </ButtonOrAnchor>
+      </ButtonPrimitive>
     </TitleTooltip>
   </ErrorBoundary>
 )
