@@ -7,6 +7,7 @@ import { zIndex } from "../../../styles/z-index"
 import { ClassNameProp } from "../../../types/base-props"
 import { cn } from "../../../utils/cn"
 import { TooltipPrimitive } from "../../primitive/tooltip-primitive"
+import { ErrorBoundary } from "../../utility/error-boundary"
 
 const tooltipStyles = cn(
   surface({ look: "overlay", size: "md" }),
@@ -25,14 +26,16 @@ export const Tooltip = ({
   children,
   className,
 }: PropsWithChildren<TooltipProps>) => (
-  <TooltipPrimitive.Root
-    {...(placement === "cursor" ? { followCursor: true } : { placement })}
-  >
-    <TooltipPrimitive.Trigger>{trigger}</TooltipPrimitive.Trigger>
-    <TooltipPrimitive.Content
-      className={cn(zIndex.tooltip, tooltipStyles, className)}
+  <ErrorBoundary>
+    <TooltipPrimitive.Root
+      {...(placement === "cursor" ? { followCursor: true } : { placement })}
     >
-      {children}
-    </TooltipPrimitive.Content>
-  </TooltipPrimitive.Root>
+      <TooltipPrimitive.Trigger>{trigger}</TooltipPrimitive.Trigger>
+      <TooltipPrimitive.Content
+        className={cn(zIndex.tooltip, tooltipStyles, className)}
+      >
+        {children}
+      </TooltipPrimitive.Content>
+    </TooltipPrimitive.Root>
+  </ErrorBoundary>
 )

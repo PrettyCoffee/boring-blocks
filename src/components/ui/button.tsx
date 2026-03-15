@@ -15,6 +15,7 @@ import {
   TitleProp,
 } from "../../types/base-props"
 import { cn } from "../../utils/cn"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 const button = cva(
   "relative inline-flex shrink-0 items-center justify-center rounded-md text-sm font-medium whitespace-nowrap",
@@ -73,14 +74,16 @@ export const Button = ({
   disabled,
   ...props
 }: PropsWithChildren<ButtonProps>) => (
-  <ButtonOrAnchor
-    {...props}
-    className={cn(
-      button({ size }),
-      interactive({ look, active, disabled }),
-      className
-    )}
-  >
-    {children}
-  </ButtonOrAnchor>
+  <ErrorBoundary>
+    <ButtonOrAnchor
+      {...props}
+      className={cn(
+        button({ size }),
+        interactive({ look, active, disabled }),
+        className
+      )}
+    >
+      {children}
+    </ButtonOrAnchor>
+  </ErrorBoundary>
 )
