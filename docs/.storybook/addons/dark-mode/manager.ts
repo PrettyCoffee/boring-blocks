@@ -17,7 +17,7 @@ addons.register(ADDON_NAME, api => {
 
   const onParametersLoaded = () => {
     const themes = api.getCurrentParameter<ThemeModes>(PARAMETER_NAME)
-    theme.setThemes(themes)
+    void theme.setThemes(themes)
     applyCurrentTheme()
   }
   // Sync stored themes with themes from parameters

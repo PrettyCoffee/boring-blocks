@@ -26,6 +26,9 @@ const applyToStorybook = (isDarkMode: boolean) => {
 }
 
 export const theme = {
-  setThemes: storedThemes.set,
+  setThemes: async (modes: ThemeModes) => {
+    await storedThemes.didInit
+    storedThemes.set(modes)
+  },
   applyToStorybook,
 }
