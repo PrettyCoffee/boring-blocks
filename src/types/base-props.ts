@@ -1,5 +1,12 @@
 import { type CSSProperties, type Ref } from "react"
 
+import { LucideIcon } from "lucide-react"
+
+export interface IconProp {
+  /** Display an icon inside the component */
+  icon?: LucideIcon
+}
+
 export interface ClassNameProp {
   /** Pass custom styles to the component */
   className?: string

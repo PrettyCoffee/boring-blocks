@@ -28,6 +28,7 @@ const preview = {
           "Introduction",
           "Changelog",
           "ThemeTokens",
+          "Primitives",
           "Buttons",
           "Floating",
         ],

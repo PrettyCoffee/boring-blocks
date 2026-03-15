@@ -8,6 +8,7 @@
     "paths": {
       "boring-blocks": ["../src"],
       "boring-blocks/utils": ["../src/index-utils.ts"],
+      "boring-blocks/icons": ["../src/index-icons.ts"],
     }
   },
   "include": ["src", "./.storybook/**/*", "../src/types"]
