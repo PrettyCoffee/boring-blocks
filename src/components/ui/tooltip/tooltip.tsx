@@ -1,13 +1,12 @@
-import { PropsWithChildren, ReactNode, useState } from "react"
+import { PropsWithChildren, ReactNode } from "react"
 
-import { FloatingPortal } from "@floating-ui/react"
+import { Placement } from "@floating-ui/react"
 
-import { TooltipPlacement, useTooltip } from "./use-tooltip"
 import { surface } from "../../../styles/surface"
 import { zIndex } from "../../../styles/z-index"
 import { ClassNameProp } from "../../../types/base-props"
 import { cn } from "../../../utils/cn"
-import { Slot } from "../../utility/slot"
+import { TooltipPrimitive } from "../../primitive/tooltip-primitive"
 
 const tooltipStyles = cn(
   surface({ look: "overlay", size: "md" }),
@@ -17,7 +16,7 @@ const tooltipStyles = cn(
 
 export interface TooltipProps extends ClassNameProp {
   trigger: ReactNode
-  placement?: TooltipPlacement
+  placement?: "cursor" | Placement
 }
 
 export const Tooltip = ({
@@ -25,32 +24,15 @@ export const Tooltip = ({
   trigger,
   children,
   className,
-}: PropsWithChildren<TooltipProps>) => {
-  const [open, setOpen] = useState(false)
-  const { getTriggerProps, getFloatingProps, getTransitionProps, isMounted } =
-    useTooltip({
-      open,
-      onOpenChange: setOpen,
-      placement,
-    })
-
-  return (
-    <>
-      <Slot {...getTriggerProps()}>{trigger}</Slot>
-
-      {isMounted && (
-        <FloatingPortal>
-          <div {...getFloatingProps({})}>
-            <div
-              {...getTransitionProps({
-                className: cn(zIndex.tooltip, tooltipStyles, className),
-              })}
-            >
-              {children}
-            </div>
-          </div>
-        </FloatingPortal>
-      )}
-    </>
-  )
-}
+}: PropsWithChildren<TooltipProps>) => (
+  <TooltipPrimitive.Root
+    {...(placement === "cursor" ? { followCursor: true } : { placement })}
+  >
+    <TooltipPrimitive.Trigger>{trigger}</TooltipPrimitive.Trigger>
+    <TooltipPrimitive.Content
+      className={cn(zIndex.tooltip, tooltipStyles, className)}
+    >
+      {children}
+    </TooltipPrimitive.Content>
+  </TooltipPrimitive.Root>
+)

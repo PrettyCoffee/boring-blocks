@@ -1,14 +1,12 @@
 import { PropsWithChildren } from "react"
 
+import { Placement } from "@floating-ui/react"
+
 import { Tooltip } from "./tooltip"
-import { TooltipPlacement } from "./use-tooltip"
 import { ClassNameProp, TitleProp } from "../../../types/base-props"
 
 export interface TitleTooltipProps extends TitleProp, ClassNameProp {
-  side?: Extract<
-    TooltipPlacement,
-    "cursor" | "top" | "bottom" | "left" | "right"
-  >
+  side?: Extract<Placement, "top" | "bottom" | "left" | "right">
 }
 export const TitleTooltip = ({
   title,
@@ -19,7 +17,11 @@ export const TitleTooltip = ({
   !title ? (
     children
   ) : (
-    <Tooltip className={className} trigger={children} placement={side}>
+    <Tooltip
+      className={className}
+      trigger={children}
+      placement={side ?? "cursor"}
+    >
       {title}
     </Tooltip>
   )
