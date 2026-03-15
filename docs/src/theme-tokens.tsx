@@ -17,18 +17,31 @@ export const ProvideTheme = () => {
       styles={{
         ":root": { ...theme.getCssVars(isDarkMode ? "dark" : "light") },
         ".sbdocs.sbdocs-wrapper": {
-          background: theme.read("color.background.page"),
+          //background: theme.read("color.background.page"),
         },
       }}
     />
   )
 }
 
+export const DemoWrapper = styled.div`
+  padding: 2rem;
+  width: max-content;
+  height: max-content;
+  margin: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  background: ${theme.read("color.background.page")};
+  border-radius: ${theme.values.borderRadius["2xl"]};
+`
+
 export const DemoRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin: 1rem auto;
   max-width: max-content;
 `
 
@@ -73,8 +86,9 @@ export const StrokeDemo = ({ name }: DemoProps) => {
 }
 
 export const AlertDemo = ({ name }: DemoProps) => {
-  const border = `1px solid ${theme.read(name)}`
-  return <DemoBase style={{ border }}>{splitName(name)}</DemoBase>
+  const color = theme.read(name)
+  const border = `1px solid currentColor`
+  return <DemoBase style={{ border, color }}>{splitName(name)}</DemoBase>
 }
 
 const RotateText = styled.span`
@@ -84,9 +98,10 @@ const RotateText = styled.span`
   transform-origin: 0.5rem 0.75rem;
 `
 export const CategoryDemo = ({ name }: DemoProps) => {
-  const outline = `1px solid ${theme.read(name)}`
+  const color = theme.read(name)
+  const border = `1px solid currentColor`
   return (
-    <DemoBase style={{ outline, width: "2.5rem" }}>
+    <DemoBase style={{ border, color, width: "2.5rem" }}>
       <RotateText>{splitName(name).at(-1)}</RotateText>
     </DemoBase>
   )
