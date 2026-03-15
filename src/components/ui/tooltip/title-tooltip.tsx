@@ -3,9 +3,12 @@ import { PropsWithChildren } from "react"
 import { Placement } from "@floating-ui/react"
 
 import { Tooltip } from "./tooltip"
-import { ClassNameProp, TitleProp } from "../../../types/base-props"
+import { ClassNameProp } from "../../../types/base-props"
 
-export interface TitleTooltipProps extends TitleProp, ClassNameProp {
+export interface TitleTooltipProps extends ClassNameProp {
+  /** Title tooltip to briefly describe the element / an action */
+  title?: string
+  /** Position of the title tooltip. Will follow the cursor by default. */
   side?: Extract<Placement, "top" | "bottom" | "left" | "right">
 }
 export const TitleTooltip = ({

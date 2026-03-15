@@ -10,11 +10,6 @@ export interface DisableProp {
   disabled?: boolean
 }
 
-export interface TitleProp {
-  /** Title tooltip to briefly describe the element / an action */
-  title?: string
-}
-
 export interface StyleProp {
   /** Add custom CSS styles to the component */
   style?: CSSProperties

@@ -6,13 +6,13 @@ import {
 
 import { cva, VariantProps } from "class-variance-authority"
 
+import { TitleTooltip, TitleTooltipProps } from "./tooltip"
 import { interactive, InteractiveProps } from "../../styles/interactive"
 import {
   RefProp,
   ClassNameProp,
   DisableProp,
   StyleProp,
-  TitleProp,
 } from "../../types/base-props"
 import { cn } from "../../utils/cn"
 import { ErrorBoundary } from "../utility/error-boundary"
@@ -46,8 +46,12 @@ export type ButtonProps = ButtonOrAnchorProps &
   InteractiveProps &
   ClassNameProp &
   DisableProp &
-  StyleProp &
-  TitleProp
+  StyleProp & {
+    /** Title tooltip to briefly describe the element / an action */
+    title?: string
+    /** Position of the title tooltip. Will follow the cursor by default. */
+    titleSide?: TitleTooltipProps["side"]
+  }
 
 const ButtonOrAnchor = ({
   children,
@@ -72,18 +76,22 @@ export const Button = ({
   look,
   active,
   disabled,
+  title,
+  titleSide,
   ...props
 }: PropsWithChildren<ButtonProps>) => (
   <ErrorBoundary>
-    <ButtonOrAnchor
-      {...props}
-      className={cn(
-        button({ size }),
-        interactive({ look, active, disabled }),
-        className
-      )}
-    >
-      {children}
-    </ButtonOrAnchor>
+    <TitleTooltip title={title} side={titleSide}>
+      <ButtonOrAnchor
+        {...props}
+        className={cn(
+          button({ size }),
+          interactive({ look, active, disabled }),
+          className
+        )}
+      >
+        {children}
+      </ButtonOrAnchor>
+    </TitleTooltip>
   </ErrorBoundary>
 )

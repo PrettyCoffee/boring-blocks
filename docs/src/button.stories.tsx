@@ -4,6 +4,13 @@ import { Fragment } from "react/jsx-runtime"
 
 import { argType } from "./utils/arg-types"
 
+const titleSides: ButtonProps["titleSide"][] = [
+  "top",
+  "bottom",
+  "left",
+  "right",
+] as const
+
 const kinds: ButtonProps["look"][] = [
   "key",
   "ghost",
@@ -21,6 +28,7 @@ const meta = {
     children: argType.string(),
     disabled: argType.boolean(),
     title: argType.string(),
+    titleSide: argType.enum("select", titleSides),
 
     active: argType.boolean(),
     look: argType.enum("select", kinds),
@@ -40,12 +48,14 @@ const meta = {
     active: false,
     disabled: false,
   },
+  render: args => <Button key={args.titleSide} {...args} />,
 } satisfies Meta<typeof Button>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Standard: Story = {}
+export const TitleTooltip: Story = { args: { title: "Title tooltip" } }
 
 export const Variants: Story = {
   render: args => (
