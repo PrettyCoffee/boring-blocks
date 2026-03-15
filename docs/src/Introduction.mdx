@@ -6,7 +6,7 @@ import { lightTheme, darkTheme } from "../.storybook/themes";
 import Readme from "../../README.md?raw";
 import { version } from "../../package.json"
 
-export const StyledLogo = styled.div(({ src }) => css`
+export const Logo = styled.div(({ src }) => css`
   max-width: 16rem!important;
   aspect-ratio: 1 / 1;
   width: 100%;
@@ -32,14 +32,6 @@ export const StyledLogo = styled.div(({ src }) => css`
   }
 `);
 
-export const Logo = () => {
-  const darkMode = useDarkMode();
-  const src = darkMode ? darkTheme.brandImage : lightTheme.brandImage;
-  return (
-    <StyledLogo src={src} />
-  );
-};
-
 export const Version = styled.span`
   position: relative;
   ::after {
@@ -50,7 +42,7 @@ export const Version = styled.span`
   }
 `
 
-<Logo />
+<Logo src="./sloth.png" alt="" />
 
 <Version/>
 
