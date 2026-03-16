@@ -1,5 +1,6 @@
 export * from "./components/ui/button"
 export * from "./components/ui/icon"
+export * from "./components/ui/icon-button"
 export * from "./components/ui/tooltip"
 
 export * from "./components/utility/error-boundary"

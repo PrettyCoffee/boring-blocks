@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Button, type ButtonProps } from "boring-blocks"
+import { IconButton, type IconButtonProps } from "boring-blocks"
 import { Fragment } from "react/jsx-runtime"
 
 import { argType } from "../utils/arg-type"
@@ -9,23 +9,21 @@ const titleSides = [
   "bottom",
   "left",
   "right",
-] satisfies ButtonProps["titleSide"][]
+] satisfies IconButtonProps["titleSide"][]
 
 const kinds = [
   "key",
   "ghost",
   "flat",
-  "link",
   "destructive",
-] satisfies ButtonProps["look"][]
+] satisfies IconButtonProps["look"][]
 
 const meta = {
-  title: "Buttons/Button",
-  component: Button,
+  title: "Buttons/IconButton",
+  component: IconButton,
   tags: ["autodocs"],
   argTypes: {
     ref: argType.disabled(),
-    children: argType.string(),
     disabled: argType.boolean(),
     title: argType.string(),
     titleSide: argType.enum("select", titleSides),
@@ -43,7 +41,7 @@ const meta = {
     onFocus: argType.callback(),
   },
   args: {
-    children: "Button",
+    title: "Title!",
     look: "flat",
     size: "md",
     active: false,
@@ -51,14 +49,13 @@ const meta = {
     icon: argType.props.icon.default,
     iconColor: "current",
   },
-  render: args => <Button key={args.titleSide} {...args} />,
-} satisfies Meta<typeof Button>
+  render: args => <IconButton key={args.titleSide} {...args} />,
+} satisfies Meta<typeof IconButton>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Standard: Story = {}
-export const TitleTooltip: Story = { args: { title: "Title tooltip" } }
 
 export const Variants: Story = {
   render: args => (
@@ -66,15 +63,9 @@ export const Variants: Story = {
       {kinds.map(look => (
         <Fragment key={look}>
           <span className="mr-2 text-text-gentle">{look}:</span>
-          <Button {...args} look={look}>
-            Default
-          </Button>
-          <Button {...args} look={look} active>
-            Active
-          </Button>
-          <Button {...args} look={look} disabled>
-            Disabled
-          </Button>
+          <IconButton {...args} look={look} title="Default" />
+          <IconButton {...args} look={look} title="Active" active />
+          <IconButton {...args} look={look} title="Disabled" disabled />
         </Fragment>
       ))}
     </div>

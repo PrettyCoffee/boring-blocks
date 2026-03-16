@@ -6,14 +6,19 @@ type ButtonHtmlProps = HTMLProps<HTMLButtonElement>
 type AnchorHtmlProps = HTMLProps<HTMLAnchorElement>
 
 type ButtonOrAnchorProps =
-  | Pick<
+  | (Pick<
       ButtonHtmlProps,
       "ref" | "aria-current" | "onFocus" | "onBlur" | "onClick"
-    >
-  | Pick<
+    > & {
+      href?: undefined
+      target?: undefined
+    })
+  | (Pick<
       AnchorHtmlProps,
       "ref" | "aria-current" | "onFocus" | "onBlur" | "href" | "target"
-    >
+    > & {
+      onClick?: undefined
+    })
 
 export type ButtonPrimitiveProps = ButtonOrAnchorProps &
   ClassNameProp &
@@ -24,10 +29,10 @@ export const ButtonPrimitive = ({
   children,
   ...props
 }: PropsWithChildren<ButtonPrimitiveProps>) => {
-  if ("href" in props) {
+  if (props.href) {
     return <a {...props}>{children}</a>
   }
-  if ("onClick" in props) {
+  if (props.onClick) {
     return <button {...props}>{children}</button>
   }
   console.warn(
