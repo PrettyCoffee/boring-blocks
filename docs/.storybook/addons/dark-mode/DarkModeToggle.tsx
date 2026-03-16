@@ -66,9 +66,9 @@ export const DarkModeToggle = () => {
       onClick={() => darkMode.set(!isDarkMode)}
     >
       {isDarkMode ? (
-        <img src="/moon.png" alt="dark mode" />
+        <img src="./moon.png" alt="dark mode" />
       ) : (
-        <img src="/sun.png" alt="light mode" />
+        <img src="./sun.png" alt="light mode" />
       )}
     </ToggleButton>
   )
