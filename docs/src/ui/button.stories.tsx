@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite"
 import { Button, type ButtonProps } from "boring-blocks"
 import { Fragment } from "react/jsx-runtime"
 
-import { argType } from "../utils/arg-types"
+import { argType } from "../utils/arg-type"
 
 const titleSides: ButtonProps["titleSide"][] = [
   "top",

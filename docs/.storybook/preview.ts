@@ -7,7 +7,7 @@ import { CanvasDecorator } from "./blocks/CanvasDecorator"
 import { mdxComponents } from "./blocks/mdxComponents"
 import { ThemedDocsContainer } from "./blocks/ThemedDocsContainer"
 import { darkTheme, lightTheme } from "./themes"
-import { argType } from "../src/utils/arg-types"
+import { argType } from "../src/utils/arg-type"
 
 const preview = {
   tags: ["autodocs"],

@@ -23,7 +23,7 @@ const optionsToArgTypes = (options?: Record<string, unknown> | unknown[]) => {
 }
 
 /** Helper to create storybook argTypes */
-export const argType = createArgTypes({
+export const baseArgType = createArgTypes({
   string: () => prop({ control: "text" }),
   number: () => prop({ control: "number" }),
   boolean: () => prop({ control: "boolean" }),
