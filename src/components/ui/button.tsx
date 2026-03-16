@@ -2,8 +2,10 @@ import { type PropsWithChildren } from "react"
 
 import { cva, VariantProps } from "class-variance-authority"
 
+import { Icon, IconProps } from "./icon"
 import { TitleTooltip, TitleTooltipProps } from "./tooltip"
 import { interactive, InteractiveProps } from "../../styles/interactive"
+import { IconProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
 import {
   ButtonPrimitive,
@@ -28,11 +30,13 @@ const button = cva(
 
 export type ButtonProps = ButtonPrimitiveProps &
   VariantProps<typeof button> &
-  InteractiveProps & {
+  InteractiveProps &
+  IconProp & {
     /** Title tooltip to briefly describe the element / an action */
     title?: string
     /** Position of the title tooltip. Will follow the cursor by default. */
     titleSide?: TitleTooltipProps["side"]
+    iconColor?: IconProps["color"]
   }
 
 export const Button = ({
@@ -44,6 +48,8 @@ export const Button = ({
   disabled,
   title,
   titleSide,
+  icon,
+  iconColor = "current",
   ...props
 }: PropsWithChildren<ButtonProps>) => (
   <ErrorBoundary>
@@ -57,6 +63,14 @@ export const Button = ({
           className
         )}
       >
+        {icon ? (
+          <Icon
+            color={iconColor}
+            icon={icon}
+            size={size === "sm" ? "xs" : "sm"}
+            className="mr-2"
+          />
+        ) : null}
         {children}
       </ButtonPrimitive>
     </TitleTooltip>

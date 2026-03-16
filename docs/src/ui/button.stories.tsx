@@ -29,10 +29,11 @@ const meta = {
     disabled: argType.boolean(),
     title: argType.string(),
     titleSide: argType.enum("select", titleSides),
-
     active: argType.boolean(),
     look: argType.enum("select", kinds),
     size: argType.enum("radio", ["md", "sm"]),
+    icon: argType.props.icon,
+    iconColor: argType.props.iconColor,
 
     href: argType.string(),
     target: argType.string(),
@@ -47,6 +48,8 @@ const meta = {
     size: "md",
     active: false,
     disabled: false,
+    icon: argType.props.icon.default,
+    iconColor: "current",
   },
   render: args => <Button key={args.titleSide} {...args} />,
 } satisfies Meta<typeof Button>
