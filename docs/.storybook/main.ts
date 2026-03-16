@@ -24,6 +24,16 @@ const loadFonts = `
 </style>
 `
 
+const sbStyles = `
+<style>
+  /* Increase max size of top-left logo */
+  .sidebar-header a img {
+    max-width: 200px !important;
+    width: 100%;
+  }
+</style>
+`
+
 const config: StorybookConfig = {
   stories: ["../src/**/*.stories.@(ts|tsx)", "../src/**/*.mdx"],
   addons: [
@@ -35,7 +45,7 @@ const config: StorybookConfig = {
     options: { strictMode: true },
   },
   core: { disableTelemetry: true },
-  managerHead: head => `${head} ${loadFonts}`,
+  managerHead: head => `${head} ${loadFonts} ${sbStyles}`,
   previewHead: head => `${head} ${loadFonts}`,
 }
 export default config

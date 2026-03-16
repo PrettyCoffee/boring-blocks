@@ -9,6 +9,7 @@ const shared = {
   brandTitle: `Boring Blocks (v${version})`,
   brandUrl: "./",
   brandTarget: "_self",
+  brandImage: "./boring-blocks.webp",
 }
 
 export const darkTheme = create({
