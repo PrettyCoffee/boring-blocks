@@ -19,25 +19,35 @@ const applyStyles = (element: HTMLElement, styles: CSSProperties) => {
 // TODO: Extend with "transition.at" attribute to allow creating timelines. Default value should be previous.at + previous.duration. Example would be Checkbox checkmark -> stroke through label
 // WHen doing this, warn user when starting multiple steps on one component with different transition styles.
 
+interface AnimateStepTransition {
+  ease?: keyof typeof ease
+  duration?: number
+}
 export type AnimateStep = [
   element: HTMLElement,
-  transition: { ease: keyof typeof ease; duration: number },
   styles: CSSProperties,
+  transition?: AnimateStepTransition,
+]
+
+type RequiredAnimateStep = [
+  element: HTMLElement,
+  styles: CSSProperties,
+  transition: Required<AnimateStepTransition>,
 ]
 
 const prefersReducedMotion = () =>
   !window.matchMedia("(prefers-reduced-motion: no-preference)").matches
 
 const noMotionSteps = (steps: AnimateStep[]) => {
-  steps.forEach(([element, , styles]) => {
+  steps.forEach(([element, styles]) => {
     applyStyles(element, styles)
   })
 }
 
-const animateStep = (...[element, transition, styles]: AnimateStep) => {
+const animateStep = (...[element, styles, transition]: RequiredAnimateStep) => {
   const transitionStyles: CSSProperties = {
     transitionTimingFunction: `cubic-bezier(${ease[transition.ease].join(",")})`,
-    transitionDuration: `${prefersReducedMotion() ? 1 : transition.duration}ms`,
+    transitionDuration: `${transition.duration}ms`,
     willChange: Object.keys(styles).map(toKebabCase).join(","),
   }
 
@@ -68,7 +78,7 @@ const animateStep = (...[element, transition, styles]: AnimateStep) => {
 
 // Initialize all transition styles to make sure e.g. height can be transitioned
 const prepareTransition = (steps: AnimateStep[]) => {
-  steps.forEach(([element, , changingStyles]) => {
+  steps.forEach(([element, changingStyles]) => {
     applyStyles(element, { transitionDuration: "0ms" })
     const styles = window.getComputedStyle(element)
     const initStyles = Object.fromEntries(
@@ -95,6 +105,13 @@ const createTransitionReset = (steps: AnimateStep[]) => {
     transitionReset.map(([element, styles]) => applyStyles(element, styles))
 }
 
+const withDefaults = (steps: AnimateStep[]) =>
+  steps.map<RequiredAnimateStep>(([element, styles, transition = {}]) => [
+    element,
+    styles,
+    { ease: "linear", duration: 1, ...transition },
+  ])
+
 export const animate = (steps: AnimateStep[]) => {
   if (prefersReducedMotion()) {
     noMotionSteps(steps)
@@ -106,7 +123,7 @@ export const animate = (steps: AnimateStep[]) => {
 
   prepareTransition(steps)
 
-  const nextStep = async (...steps: AnimateStep[]): Promise<void> => {
+  const nextStep = async (...steps: RequiredAnimateStep[]): Promise<void> => {
     const [step, ...rest] = steps
     if (!step) return
 
@@ -114,10 +131,11 @@ export const animate = (steps: AnimateStep[]) => {
     cancel = current.cancel
     await current
     await flush()
-    return nextStep(...(rest as [AnimateStep]))
+    return nextStep(...rest)
   }
 
-  return Object.assign(nextStep(...steps).then(resetTransitionStyles), {
+  const promise = nextStep(...withDefaults(steps)).then(resetTransitionStyles)
+  return Object.assign(promise, {
     cancel: () => {
       cancel?.()
       resetTransitionStyles()

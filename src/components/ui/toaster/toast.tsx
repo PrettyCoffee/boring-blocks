@@ -37,8 +37,8 @@ const enterAnimation = (element?: HTMLElement | null) => {
   const visible = { opacity: 1, scale: 1 }
 
   return animate([
-    [element, { duration: 1, ease: "out" }, hidden],
-    [element, { duration: 150, ease: "out" }, visible],
+    [element, hidden],
+    [element, visible, { duration: 150, ease: "out" }],
   ])
 }
 
@@ -49,8 +49,8 @@ const exitAnimation = (element?: HTMLElement | null) => {
   const noSize = { height: 0, width: 0, padding: 0, margin: 0, borderWidth: 0 }
 
   return animate([
-    [element, { duration: 200, ease: "out" }, swipeOut],
-    [element, { duration: 150, ease: "bounce" }, noSize],
+    [element, swipeOut, { duration: 200, ease: "out" }],
+    [element, noSize, { duration: 150, ease: "bounce" }],
   ])
 }
 

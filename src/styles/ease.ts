@@ -1,5 +1,6 @@
 // Note: These easing functions were copied from Tailwind
 export const ease = {
+  linear: [0, 0, 1, 1],
   in: [0.4, 0, 1, 1],
   out: [0, 0, 0.2, 1],
   inOut: [0.4, 0, 0.2, 1],
