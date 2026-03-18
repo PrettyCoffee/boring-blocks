@@ -18,7 +18,8 @@ export default defineConfig(
 
   {
     name: "local-rules/lib-imports",
-    ignores: ["src/lib/**", "docs/src/lib/**"],
+    files: ["docs/src/**"],
+    ignores: ["docs/src/lib/**"],
     rules: {
       "no-restricted-imports": [
         "error",
