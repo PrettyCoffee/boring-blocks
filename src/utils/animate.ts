@@ -1,5 +1,6 @@
 import { CSSProperties } from "react"
 
+import { thenable } from "./thenable"
 import { ease } from "../styles/ease"
 
 const flush = () =>
@@ -38,13 +39,19 @@ type RequiredAnimateStep = [
 const prefersReducedMotion = () =>
   !window.matchMedia("(prefers-reduced-motion: no-preference)").matches
 
-const noMotionSteps = (steps: AnimateStep[]) => {
+const noMotionSteps = (...steps: AnimateStep[]) => {
   steps.forEach(([element, styles]) => {
     applyStyles(element, styles)
   })
+  return Object.assign(thenable(), { cancel: () => null })
 }
 
-const animateStep = (...[element, styles, transition]: RequiredAnimateStep) => {
+const animateStep = (step: RequiredAnimateStep) => {
+  const [element, styles, transition] = step
+  if (transition.duration === 0) {
+    return noMotionSteps(step)
+  }
+
   const transitionStyles: CSSProperties = {
     transitionTimingFunction: `cubic-bezier(${ease[transition.ease].join(",")})`,
     transitionDuration: `${transition.duration}ms`,
@@ -93,7 +100,7 @@ const prepareTransition = (steps: AnimateStep[]) => {
 
 const createTransitionReset = (steps: AnimateStep[]) => {
   const transitionReset = steps.map(([element]) => {
-    const styles = {
+    const styles: CSSProperties = {
       transitionTimingFunction: element.style.transitionTimingFunction,
       transitionDuration: element.style.transitionDuration,
       willChange: element.style.willChange,
@@ -109,13 +116,12 @@ const withDefaults = (steps: AnimateStep[]) =>
   steps.map<RequiredAnimateStep>(([element, styles, transition = {}]) => [
     element,
     styles,
-    { ease: "linear", duration: 1, ...transition },
+    { ease: "linear", duration: 0, ...transition },
   ])
 
 export const animate = (steps: AnimateStep[]) => {
   if (prefersReducedMotion()) {
-    noMotionSteps(steps)
-    return Object.assign(Promise.resolve(), { cancel: () => null })
+    return noMotionSteps(...steps)
   }
 
   let cancel: (() => void) | null = null
@@ -127,7 +133,7 @@ export const animate = (steps: AnimateStep[]) => {
     const [step, ...rest] = steps
     if (!step) return
 
-    const current = animateStep(...step)
+    const current = animateStep(step)
     cancel = current.cancel
     await current
     await flush()
