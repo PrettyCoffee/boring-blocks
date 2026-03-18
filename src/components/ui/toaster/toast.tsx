@@ -49,8 +49,8 @@ const exitAnimation = (element?: HTMLElement | null) => {
   const noSize = { height: 0, width: 0, padding: 0, margin: 0, borderWidth: 0 }
 
   return animate([
-    [element, swipeOut, { duration: 200, ease: "out" }],
-    [element, noSize, { duration: 150, ease: "bounce" }],
+    [element, swipeOut, { duration: 300, ease: "out" }],
+    [element, noSize, { at: 100, duration: 200, ease: "bounce" }],
   ])
 }
 
@@ -119,6 +119,7 @@ export const Toast = ({
           icon={X}
           // TODO: Translate title
           title="Close message"
+          hideTitle
           look="flat"
           onClick={() => void exit()}
         />

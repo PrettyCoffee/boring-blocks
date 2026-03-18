@@ -3,11 +3,6 @@ import { CSSProperties } from "react"
 import { thenable } from "./thenable"
 import { ease } from "../styles/ease"
 
-const flush = () =>
-  new Promise<void>(resolve => {
-    window.setTimeout(resolve, 1)
-  })
-
 const toKebabCase = (text: string) =>
   text.replaceAll(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
 
@@ -17,12 +12,10 @@ const applyStyles = (element: HTMLElement, styles: CSSProperties) => {
   })
 }
 
-// TODO: Extend with "transition.at" attribute to allow creating timelines. Default value should be previous.at + previous.duration. Example would be Checkbox checkmark -> stroke through label
-// WHen doing this, warn user when starting multiple steps on one component with different transition styles.
-
 interface AnimateStepTransition {
   ease?: keyof typeof ease
   duration?: number
+  at?: number
 }
 export type AnimateStep = [
   element: HTMLElement,
@@ -30,56 +23,80 @@ export type AnimateStep = [
   transition?: AnimateStepTransition,
 ]
 
-type RequiredAnimateStep = [
-  element: HTMLElement,
-  styles: CSSProperties,
-  transition: Required<AnimateStepTransition>,
-]
+interface Step {
+  element: HTMLElement
+  styles: CSSProperties
+  transition: Required<AnimateStepTransition>
+}
+
+type TransitionStyles = Required<
+  Pick<
+    CSSProperties,
+    | "transitionTimingFunction"
+    | "transitionDuration"
+    | "transitionProperty"
+    | "willChange"
+  >
+>
 
 const prefersReducedMotion = () =>
   !window.matchMedia("(prefers-reduced-motion: no-preference)").matches
 
-const noMotionSteps = (...steps: AnimateStep[]) => {
-  steps.forEach(([element, styles]) => {
+const noMotionSteps = (...steps: Step[]) => {
+  steps.forEach(({ element, styles }) => {
     applyStyles(element, styles)
   })
   return Object.assign(thenable(), { cancel: () => null })
 }
 
-const animateStep = (step: RequiredAnimateStep) => {
-  const [element, styles, transition] = step
+const applyStepStyles = ({ element, styles, transition }: Step) => {
   if (transition.duration === 0) {
+    applyStyles(element, styles)
+    return
+  }
+
+  const transitionStyles: TransitionStyles = {
+    transitionTimingFunction: `cubic-bezier(${ease[transition.ease].join(",")})`,
+    transitionDuration: `${transition.duration}ms`,
+    transitionProperty: "all",
+    willChange: [
+      ...element.style.willChange.split(/\s*,\s*/).filter(Boolean),
+      ...Object.keys(styles).map(toKebabCase),
+    ].join(","),
+  }
+
+  applyStyles(element, transitionStyles)
+  applyStyles(element, styles)
+}
+
+const animateStep = (step: Step) => {
+  if (step.transition.duration === 0 && step.transition.at === 0) {
     return noMotionSteps(step)
   }
 
-  const transitionStyles: CSSProperties = {
-    transitionTimingFunction: `cubic-bezier(${ease[transition.ease].join(",")})`,
-    transitionDuration: `${transition.duration}ms`,
-    willChange: Object.keys(styles).map(toKebabCase).join(","),
-  }
+  let timeout: number
+  let resolve: () => void
+  const promise = new Promise<void>(resolveFn => (resolve = resolveFn))
 
-  let cancelled = false
-  let cancel = () => {
-    cancelled = true
-  }
+  timeout = window.setTimeout(() => {
+    applyStepStyles(step)
+    timeout = window.setTimeout(resolve, step.transition.duration)
+  }, step.transition.at)
 
-  const start = (resolve: () => void) => {
-    if (cancelled) return
-
-    cancel = () => {
-      cancelled = true
-      element.removeEventListener("transitionend", resolve)
-      resolve()
-    }
-
-    applyStyles(element, transitionStyles)
-    element.addEventListener("transitionend", resolve)
-    applyStyles(element, styles)
-  }
-
-  const promise = new Promise<void>(resolve => start(resolve))
   return Object.assign(promise, {
-    cancel: () => cancel(),
+    cancel: () => {
+      resolve()
+      window.clearTimeout(timeout)
+    },
+  })
+}
+
+const animateSteps = (steps: Step[]) => {
+  const tasks = steps.map(animateStep)
+  return Object.assign(Promise.all(tasks), {
+    cancel: () => {
+      tasks.forEach(task => task.cancel())
+    },
   })
 }
 
@@ -100,9 +117,10 @@ const prepareTransition = (steps: AnimateStep[]) => {
 
 const createTransitionReset = (steps: AnimateStep[]) => {
   const transitionReset = steps.map(([element]) => {
-    const styles: CSSProperties = {
+    const styles: TransitionStyles = {
       transitionTimingFunction: element.style.transitionTimingFunction,
       transitionDuration: element.style.transitionDuration,
+      transitionProperty: element.style.transitionProperty,
       willChange: element.style.willChange,
     }
     return [element, styles] as const
@@ -112,39 +130,25 @@ const createTransitionReset = (steps: AnimateStep[]) => {
     transitionReset.map(([element, styles]) => applyStyles(element, styles))
 }
 
-const withDefaults = (steps: AnimateStep[]) =>
-  steps.map<RequiredAnimateStep>(([element, styles, transition = {}]) => [
-    element,
-    styles,
-    { ease: "linear", duration: 0, ...transition },
-  ])
+const convertSteps = (steps: AnimateStep[]) => {
+  let last: Step["transition"] | undefined
+
+  return steps.map<Step>(([element, styles, transition = {}]) => {
+    const at = !last ? 0 : last.at + last.duration
+    last = { ease: "linear", duration: 0, at, ...transition }
+    return { element, styles, transition: last }
+  })
+}
 
 export const animate = (steps: AnimateStep[]) => {
   if (prefersReducedMotion()) {
-    return noMotionSteps(...steps)
+    return noMotionSteps(...convertSteps(steps))
   }
 
-  let cancel: (() => void) | null = null
   const resetTransitionStyles = createTransitionReset(steps)
-
   prepareTransition(steps)
 
-  const nextStep = async (...steps: RequiredAnimateStep[]): Promise<void> => {
-    const [step, ...rest] = steps
-    if (!step) return
-
-    const current = animateStep(step)
-    cancel = current.cancel
-    await current
-    await flush()
-    return nextStep(...rest)
-  }
-
-  const promise = nextStep(...withDefaults(steps)).then(resetTransitionStyles)
-  return Object.assign(promise, {
-    cancel: () => {
-      cancel?.()
-      resetTransitionStyles()
-    },
-  })
+  const runner = animateSteps(convertSteps(steps))
+  void runner.then(resetTransitionStyles)
+  return runner
 }
