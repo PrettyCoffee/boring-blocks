@@ -25,10 +25,19 @@ export type AnimateStep = [
   styles: CSSProperties,
 ]
 
+const prefersReducedMotion = () =>
+  !window.matchMedia("(prefers-reduced-motion: no-preference)").matches
+
+const noMotionSteps = (steps: AnimateStep[]) => {
+  steps.forEach(([element, , styles]) => {
+    applyStyles(element, styles)
+  })
+}
+
 const animateStep = (...[element, transition, styles]: AnimateStep) => {
   const transitionStyles: CSSProperties = {
     transitionTimingFunction: `cubic-bezier(${ease[transition.ease].join(",")})`,
-    transitionDuration: `${transition.duration}ms`,
+    transitionDuration: `${prefersReducedMotion() ? 1 : transition.duration}ms`,
     willChange: Object.keys(styles).map(toKebabCase).join(","),
   }
 
@@ -87,6 +96,11 @@ const createTransitionReset = (steps: AnimateStep[]) => {
 }
 
 export const animate = (steps: AnimateStep[]) => {
+  if (prefersReducedMotion()) {
+    noMotionSteps(steps)
+    return Object.assign(Promise.resolve(), { cancel: () => null })
+  }
+
   let cancel: (() => void) | null = null
   const resetTransitionStyles = createTransitionReset(steps)
 
