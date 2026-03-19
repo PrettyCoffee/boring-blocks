@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from "react"
 
 import { keyframes } from "goober"
-import { X } from "lucide-react"
 
+import { X } from "../../icons"
 import { Icon } from "../icon"
 import { ToastDataProps } from "./toaster-data"
 import { alert } from "../../../styles/alert"

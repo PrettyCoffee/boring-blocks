@@ -4,8 +4,7 @@ import {
   BadgeInfo,
   BadgeX,
   LucideIcon,
-} from "lucide-react"
-
+} from "../components/icons"
 import { AlertKind } from "../types/alert"
 
 interface AlertStyle {
