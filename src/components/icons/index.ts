@@ -1,3 +1,4 @@
 export * from "lucide-react"
 
-export { Github } from "./github"
+export { GithubIcon } from "./github"
+export { GithubIcon as Github } from "./github"

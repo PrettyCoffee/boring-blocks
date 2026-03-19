@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react-vite"
 import { ContextInfo } from "boring-blocks"
-import { Ghost } from "boring-blocks/icons"
+import { GhostIcon } from "boring-blocks/icons"
 import { action } from "storybook/actions"
 
 import { argType } from "../utils/arg-type"
@@ -15,7 +15,7 @@ const meta: Meta<typeof ContextInfo> = {
     buttons: argType.disabled(),
   },
   args: {
-    icon: Ghost,
+    icon: GhostIcon,
     animateIcon: "float",
     label: "There is no data to be found here. Create some to get started!",
   },

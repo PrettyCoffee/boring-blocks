@@ -1,12 +1,17 @@
-import { Cat, BadgeAlert, Github, Activity } from "boring-blocks/icons"
+import {
+  CatIcon,
+  BadgeAlertIcon,
+  GithubIcon,
+  ActivityIcon,
+} from "boring-blocks/icons"
 
 import { baseArgType } from "./base-arg-type"
 
 const icons = {
-  Activity,
-  Cat,
-  BadgeAlert,
-  Github,
+  Activity: ActivityIcon,
+  Cat: CatIcon,
+  BadgeAlert: BadgeAlertIcon,
+  Github: GithubIcon,
 }
 
 export const icon = Object.assign(baseArgType.enum("select", icons), {

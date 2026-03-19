@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from "react"
 
 import { keyframes } from "goober"
 
-import { X } from "../../icons"
+import { XIcon } from "../../icons"
 import { Icon } from "../icon"
 import { ToastDataProps } from "./toaster-data"
 import { alert } from "../../../styles/alert"
@@ -116,7 +116,7 @@ export const Toast = ({
           )}
         </div>
         <IconButton
-          icon={X}
+          icon={XIcon}
           // TODO: Translate title
           title="Close message"
           hideTitle

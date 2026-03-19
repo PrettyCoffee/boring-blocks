@@ -2,7 +2,7 @@ import { PropsWithChildren, ReactNode } from "react"
 
 import { keyframes, css } from "goober"
 
-import { Ghost } from "../icons"
+import { GhostIcon } from "../icons"
 import { Button, ButtonProps } from "./button"
 import { Icon } from "./icon"
 import { hstack, vstack } from "../../styles/stack"
@@ -86,7 +86,7 @@ interface ContextInfoProps extends IconProp {
   buttons?: ActionButton | [ActionButton] | [ActionButton, ActionButton]
 }
 export const ContextInfo = ({
-  icon = Ghost,
+  icon = GhostIcon,
   label,
   animateIcon = "float",
   buttons: buttonsProp,

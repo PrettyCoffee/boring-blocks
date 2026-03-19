@@ -1,6 +1,6 @@
 import { createLucideIcon } from "lucide-react"
 
-export const Github = createLucideIcon("Github", [
+export const GithubIcon = createLucideIcon("Github", [
   [
     "path",
     {

@@ -1,8 +1,8 @@
 import {
-  BadgeAlert,
-  BadgeCheck,
-  BadgeInfo,
-  BadgeX,
+  BadgeAlertIcon,
+  BadgeCheckIcon,
+  BadgeInfoIcon,
+  BadgeXIcon,
   LucideIcon,
 } from "../components/icons"
 import { AlertKind } from "../types/alert"
@@ -16,25 +16,25 @@ interface AlertStyle {
 
 export const alert: Record<AlertKind, AlertStyle> = {
   info: {
-    icon: BadgeInfo,
+    icon: BadgeInfoIcon,
     bg: "bg-alert-info",
     border: "border-alert-info",
     borderGentle: "border-alert-info/25",
   },
   success: {
-    icon: BadgeCheck,
+    icon: BadgeCheckIcon,
     bg: "bg-alert-success",
     border: "border-alert-success",
     borderGentle: "border-alert-success/25",
   },
   warn: {
-    icon: BadgeAlert,
+    icon: BadgeAlertIcon,
     bg: "bg-alert-warn",
     border: "border-alert-warn",
     borderGentle: "border-alert-warn/25",
   },
   error: {
-    icon: BadgeX,
+    icon: BadgeXIcon,
     bg: "bg-alert-error",
     border: "border-alert-error",
     borderGentle: "border-alert-error/25",
