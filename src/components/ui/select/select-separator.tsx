@@ -11,3 +11,4 @@ export const SelectSeparator = ({ className }: SelectSeparator.Props) => (
     className={cn("pointer-events-none m-1 h-px bg-stroke-gentle", className)}
   />
 )
+SelectSeparator.displayName = "Select.Separator"

@@ -45,3 +45,4 @@ export const SelectOption = ({
     </span>
   </Primitive.Item>
 )
+SelectOption.displayName = "Select.Option"

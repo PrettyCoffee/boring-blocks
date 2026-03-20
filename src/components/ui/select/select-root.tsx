@@ -145,3 +145,4 @@ export const SelectRoot = ({
     </Content>
   </Primitive.Root>
 )
+SelectRoot.displayName = "Select.Root"

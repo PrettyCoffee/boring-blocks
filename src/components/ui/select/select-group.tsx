@@ -31,3 +31,4 @@ export const SelectGroup = ({
     <SelectSeparator className="[:last-child>&]:hidden" />
   </Primitive.Group>
 )
+SelectGroup.displayName = "Select.Group"
