@@ -178,7 +178,7 @@ export const theme = createTheme({
       stroke: {
         DEFAULT: get("color.stroke.default"),
         gentle: get("color.stroke.gentle"),
-        //muted: get("color.neutral.800"),
+        muted: get("color.stroke.muted"),
         invert: get("color.stroke.invert"),
         button: get("color.stroke.button"),
         focus: get("color.accent"),
