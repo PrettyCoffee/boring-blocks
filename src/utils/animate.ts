@@ -3,10 +3,12 @@ import { type CSSProperties } from "react"
 import { thenable } from "./thenable"
 import { ease } from "../styles/ease"
 
+type AnimatableElement = HTMLElement | SVGSVGElement
+
 const toKebabCase = (text: string) =>
   text.replaceAll(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
 
-const applyStyles = (element: HTMLElement, styles: CSSProperties) => {
+const applyStyles = (element: AnimatableElement, styles: CSSProperties) => {
   Object.entries(styles).forEach(([name, value]) => {
     element.style.setProperty(toKebabCase(name), String(value))
   })
@@ -18,13 +20,13 @@ interface AnimateStepTransition {
   at?: number
 }
 export type AnimateStep = [
-  element: HTMLElement,
+  element: AnimatableElement,
   styles: CSSProperties,
   transition?: AnimateStepTransition,
 ]
 
 interface Step {
-  element: HTMLElement
+  element: AnimatableElement
   styles: CSSProperties
   transition: Required<AnimateStepTransition>
 }
