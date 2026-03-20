@@ -5,7 +5,8 @@ preferFrozenLockfile: true
 
 trustPolicy: no-downgrade
 trustPolicyExclude:
-  - semver@6.3.1 
+  - semver@6.3.1 # https://github.com/npm/node-semver/issues/838
+  - reselect@5.1.1 # https://github.com/reduxjs/reselect/issues/752
 
 packages:
   - docs

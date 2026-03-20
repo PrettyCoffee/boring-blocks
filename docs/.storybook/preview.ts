@@ -30,6 +30,7 @@ const preview = {
           "ThemeTokens",
           "Primitives",
           "Buttons",
+          "Inputs",
           "Floating",
         ],
       },

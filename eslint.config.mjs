@@ -10,6 +10,12 @@ export default defineConfig(
   globalIgnores(["dist", "node_modules", "!./docs/.storybook"]),
 
   {
+    rules: {
+      "@typescript-eslint/no-namespace": "off",
+    },
+  },
+
+  {
     files: ["./*", "docs/**"],
     rules: {
       "import-x/no-extraneous-dependencies": "off",
