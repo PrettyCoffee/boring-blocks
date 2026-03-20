@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Button, Tooltip, TooltipProps } from "boring-blocks"
+import { Button, Tooltip, type TooltipProps } from "boring-blocks"
 import { cn } from "boring-blocks/utils"
 
 import { argType } from "../utils/arg-type"

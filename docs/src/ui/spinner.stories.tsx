@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { Spinner, SpinnerProps } from "boring-blocks"
+import { Spinner, type SpinnerProps } from "boring-blocks"
 
 import { argType } from "../utils/arg-type"
 

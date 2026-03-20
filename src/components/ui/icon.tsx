@@ -1,8 +1,8 @@
-import { VariantProps, cva } from "class-variance-authority"
+import { type VariantProps, cva } from "class-variance-authority"
 
 import { type ClassNameProp, type IconProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
-import { LucideProps } from "../icons"
+import { type LucideProps } from "../icons"
 
 const icon = cva("inline-block shrink-0", {
   variants: {

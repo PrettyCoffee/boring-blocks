@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react-vite"
+import { type Meta, type StoryObj } from "@storybook/react-vite"
 import { ContextInfo } from "boring-blocks"
 import { GhostIcon } from "boring-blocks/icons"
 import { action } from "storybook/actions"

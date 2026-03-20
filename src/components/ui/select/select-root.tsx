@@ -1,10 +1,10 @@
-import { PropsWithChildren, ReactNode } from "react"
+import { type PropsWithChildren, type ReactNode } from "react"
 
 import { Select as Primitive } from "@base-ui/react/select"
 
 import { surface } from "../../../styles/surface"
 import { zIndex } from "../../../styles/z-index"
-import { ClassNameProp } from "../../../types/base-props"
+import { type ClassNameProp } from "../../../types/base-props"
 import { cn } from "../../../utils/cn"
 import { ChevronDownIcon, ChevronUpIcon } from "../../icons"
 import { Button } from "../button"

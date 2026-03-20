@@ -1,10 +1,10 @@
-import { PropsWithChildren } from "react"
+import { type PropsWithChildren } from "react"
 
 import { Select as Primitive } from "@base-ui/react/select"
 
 import { interactive } from "../../../styles/interactive"
 import { hstack } from "../../../styles/stack"
-import { ClassNameProp, DisableProp } from "../../../types/base-props"
+import { type ClassNameProp, type DisableProp } from "../../../types/base-props"
 import { cn } from "../../../utils/cn"
 import { CheckIcon } from "../../icons"
 import { Icon } from "../icon"

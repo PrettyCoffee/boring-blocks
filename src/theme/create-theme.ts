@@ -1,8 +1,8 @@
 import type { ThemeConfig } from "tailwindcss/plugin.js"
 
-import { ThemeTokens } from "./create-tokens"
+import { type ThemeTokens } from "./create-tokens"
 import { parseColor, toOklch } from "./utils/color"
-import { ObjDeepPath, ObjDeepValue } from "./utils/flatten"
+import { type ObjDeepPath, type ObjDeepValue } from "./utils/flatten"
 
 type CustomThemeConfig = ThemeConfig["extend"]
 

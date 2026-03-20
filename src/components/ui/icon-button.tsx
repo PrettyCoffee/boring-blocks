@@ -1,8 +1,8 @@
-import { cva, VariantProps } from "class-variance-authority"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { Button, ButtonProps } from "./button"
-import { Icon, IconProps } from "./icon"
-import { StyleProp } from "../../types/base-props"
+import { Button, type ButtonProps } from "./button"
+import { Icon, type IconProps } from "./icon"
+import { type StyleProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
 import { VisuallyHidden } from "../utility/visually-hidden"
 

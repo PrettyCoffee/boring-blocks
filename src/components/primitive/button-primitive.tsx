@@ -1,6 +1,10 @@
-import { type PropsWithChildren, HTMLProps } from "react"
+import { type PropsWithChildren, type HTMLProps } from "react"
 
-import { ClassNameProp, DisableProp, StyleProp } from "../../types/base-props"
+import {
+  type ClassNameProp,
+  type DisableProp,
+  type StyleProp,
+} from "../../types/base-props"
 
 type ButtonHtmlProps = HTMLProps<HTMLButtonElement>
 type AnchorHtmlProps = HTMLProps<HTMLAnchorElement>

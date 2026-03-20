@@ -1,4 +1,4 @@
-import { Dispatch, PropsWithChildren, useState } from "react"
+import { type Dispatch, type PropsWithChildren, useState } from "react"
 
 import {
   flip,

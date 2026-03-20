@@ -1,9 +1,9 @@
-import { PropsWithChildren } from "react"
+import { type PropsWithChildren } from "react"
 
-import { Placement } from "@floating-ui/react"
+import { type Placement } from "@floating-ui/react"
 
 import { Tooltip } from "./tooltip"
-import { ClassNameProp } from "../../../types/base-props"
+import { type ClassNameProp } from "../../../types/base-props"
 
 export interface TitleTooltipProps extends ClassNameProp {
   /** Title tooltip to briefly describe the element / an action */

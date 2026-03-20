@@ -1,4 +1,4 @@
-import { CSSProperties } from "react"
+import { type CSSProperties } from "react"
 
 import { thenable } from "./thenable"
 import { ease } from "../styles/ease"

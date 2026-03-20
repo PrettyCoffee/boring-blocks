@@ -1,12 +1,12 @@
-import { PropsWithChildren, ReactNode } from "react"
+import { type PropsWithChildren, type ReactNode } from "react"
 
 import { keyframes, css } from "goober"
 
 import { GhostIcon } from "../icons"
-import { Button, ButtonProps } from "./button"
+import { Button, type ButtonProps } from "./button"
 import { Icon } from "./icon"
 import { hstack, vstack } from "../../styles/stack"
-import { IconProp } from "../../types/base-props"
+import { type IconProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
 
 const animationOptions = "2.5s infinite ease-in-out"

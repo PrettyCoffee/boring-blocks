@@ -1,9 +1,9 @@
-import { PropsWithChildren } from "react"
+import { type PropsWithChildren } from "react"
 
 import { Select as Primitive } from "@base-ui/react/select"
 
 import { SelectSeparator } from "./select-separator"
-import { ClassNameProp } from "../../../types/base-props"
+import { type ClassNameProp } from "../../../types/base-props"
 import { cn } from "../../../utils/cn"
 
 export namespace SelectGroup {

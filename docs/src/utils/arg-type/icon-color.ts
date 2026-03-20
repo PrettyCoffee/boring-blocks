@@ -1,4 +1,4 @@
-import { IconProps } from "boring-blocks"
+import { type IconProps } from "boring-blocks"
 
 import { baseArgType } from "./base-arg-type"
 

@@ -12,6 +12,10 @@ export default defineConfig(
   {
     rules: {
       "@typescript-eslint/no-namespace": "off",
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        { fixStyle: "inline-type-imports", prefer: "type-imports" },
+      ],
     },
   },
 

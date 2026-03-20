@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { Meta, StoryObj } from "@storybook/react-vite"
+import { type Meta, type StoryObj } from "@storybook/react-vite"
 import { Select } from "boring-blocks"
 import { action } from "storybook/actions"
 

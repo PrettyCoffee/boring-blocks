@@ -1,9 +1,9 @@
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 
 import { createSlice } from "@yaasl/react"
 
-import { AlertKind } from "../../../types/alert"
-import { ButtonProps } from "../button"
+import { type AlertKind } from "../../../types/alert"
+import { type ButtonProps } from "../button"
 
 const defaultDurations: Record<AlertKind, number> = {
   info: 5000,

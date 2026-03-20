@@ -1,15 +1,15 @@
 import { type PropsWithChildren } from "react"
 
-import { cva, VariantProps } from "class-variance-authority"
+import { cva, type VariantProps } from "class-variance-authority"
 
-import { Icon, IconProps } from "./icon"
-import { TitleTooltip, TitleTooltipProps } from "./tooltip"
-import { interactive, InteractiveProps } from "../../styles/interactive"
-import { IconProp } from "../../types/base-props"
+import { Icon, type IconProps } from "./icon"
+import { TitleTooltip, type TitleTooltipProps } from "./tooltip"
+import { interactive, type InteractiveProps } from "../../styles/interactive"
+import { type IconProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
 import {
   ButtonPrimitive,
-  ButtonPrimitiveProps,
+  type ButtonPrimitiveProps,
 } from "../primitive/button-primitive"
 import { ErrorBoundary } from "../utility/error-boundary"
 

@@ -4,13 +4,13 @@ import { keyframes } from "goober"
 
 import { XIcon } from "../../icons"
 import { Icon } from "../icon"
-import { ToastDataProps } from "./toaster-data"
+import { type ToastDataProps } from "./toaster-data"
 import { alert } from "../../../styles/alert"
 import { hstack } from "../../../styles/stack"
 import { surface } from "../../../styles/surface"
 import { animate } from "../../../utils/animate"
 import { cn } from "../../../utils/cn"
-import { Button, ButtonProps } from "../button"
+import { Button, type ButtonProps } from "../button"
 import { IconButton } from "../icon-button"
 
 interface ExtendedToastProps extends ToastDataProps {

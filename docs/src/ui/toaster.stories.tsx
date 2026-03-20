@@ -1,5 +1,5 @@
-import { Meta, StoryObj } from "@storybook/react-vite"
-import { showToast, Button, Toaster, ToastProps } from "boring-blocks"
+import { type Meta, type StoryObj } from "@storybook/react-vite"
+import { showToast, Button, Toaster, type ToastProps } from "boring-blocks"
 
 import { argType } from "../utils/arg-type"
 

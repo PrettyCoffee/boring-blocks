@@ -1,10 +1,10 @@
-import { PropsWithChildren, ReactNode } from "react"
+import { type PropsWithChildren, type ReactNode } from "react"
 
-import { Placement } from "@floating-ui/react"
+import { type Placement } from "@floating-ui/react"
 
 import { surface } from "../../../styles/surface"
 import { zIndex } from "../../../styles/z-index"
-import { ClassNameProp } from "../../../types/base-props"
+import { type ClassNameProp } from "../../../types/base-props"
 import { cn } from "../../../utils/cn"
 import { TooltipPrimitive } from "../../primitive/tooltip-primitive"
 import { ErrorBoundary } from "../../utility/error-boundary"

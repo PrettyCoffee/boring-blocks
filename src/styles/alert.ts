@@ -3,9 +3,9 @@ import {
   BadgeCheckIcon,
   BadgeInfoIcon,
   BadgeXIcon,
-  LucideIcon,
+  type LucideIcon,
 } from "../components/icons"
-import { AlertKind } from "../types/alert"
+import { type AlertKind } from "../types/alert"
 
 interface AlertStyle {
   icon: LucideIcon

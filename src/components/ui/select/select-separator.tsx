@@ -1,6 +1,6 @@
 import { Select as Primitive } from "@base-ui/react/select"
 
-import { ClassNameProp } from "../../../types/base-props"
+import { type ClassNameProp } from "../../../types/base-props"
 import { cn } from "../../../utils/cn"
 
 export namespace SelectSeparator {
