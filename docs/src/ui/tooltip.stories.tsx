@@ -23,7 +23,7 @@ const meta = {
   },
   args: {
     placement: "cursor",
-    trigger: <Button>Trigger</Button>,
+    trigger: <Button onClick={() => null}>Trigger</Button>,
     children: "Tooltip",
   },
 } satisfies Meta<typeof Tooltip>
@@ -31,9 +31,16 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Standard: Story = {}
+export const Standard: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.hover(canvas.getByRole("button"))
+  },
+}
 
 export const Placements: Story = {
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.hover(canvas.getByRole("button", { name: "top" }))
+  },
   render: (args, { viewMode }) => (
     <div
       className={cn(
