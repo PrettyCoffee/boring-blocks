@@ -16,16 +16,16 @@ const meta = {
   },
   argTypes: {
     value: argType.disabled(),
-    onChange: argType.callback(),
     caption: argType.string(),
     placeholder: argType.string(),
     alignItemWithTrigger: argType.boolean(),
     clearOption: argType.boolean(),
+    onChange: argType.callback(),
   },
   args: {
-    onChange: action("Select.Root.onChange"),
     placeholder: "No option",
     clearOption: true,
+    onChange: action("Select.Root.onChange"),
   },
 } satisfies Meta<typeof Select.Root>
 
