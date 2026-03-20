@@ -5,6 +5,7 @@ export * from "./components/ui/icon"
 export * from "./components/ui/icon-button"
 export * from "./components/ui/select"
 export * from "./components/ui/spinner"
+export * from "./components/ui/text-input"
 export * from "./components/ui/toaster"
 export * from "./components/ui/tooltip"
 
