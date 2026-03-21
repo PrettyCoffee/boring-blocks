@@ -2,8 +2,12 @@ import { type CSSProperties } from "react"
 
 import { thenable } from "./thenable"
 import { ease } from "../styles/ease"
+import { type Resolve } from "../types/resolve"
 
-type AnimatableElement = HTMLElement | SVGSVGElement
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {}
+
+type AnimatableElement = HTMLElement | SVGElement
 
 const toKebabCase = (text: string) =>
   text.replaceAll(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
@@ -95,7 +99,7 @@ const animateStep = (step: Step) => {
 
 const animateSteps = (steps: Step[]) => {
   const tasks = steps.map(animateStep)
-  return Object.assign(Promise.all(tasks), {
+  return Object.assign(Promise.all(tasks).then(noop), {
     cancel: () => {
       tasks.forEach(task => task.cancel())
     },
@@ -142,7 +146,7 @@ const convertSteps = (steps: AnimateStep[]) => {
   })
 }
 
-export const animate = (steps: AnimateStep[]) => {
+const animateFn = (steps: AnimateStep[]) => {
   if (prefersReducedMotion()) {
     return noMotionSteps(...convertSteps(steps))
   }
@@ -154,3 +158,24 @@ export const animate = (steps: AnimateStep[]) => {
   void runner.then(resetTransitionStyles)
   return runner
 }
+
+const states = <
+  TStates extends Record<string, CSSProperties>,
+  TShared extends CSSProperties = {},
+>(
+  states: TStates & { shared?: TShared }
+) => {
+  const { shared, ...rest } = states
+  type FinalState = Resolve<{
+    [Name in keyof typeof rest]: Resolve<(typeof rest)[Name] & TShared>
+  }>
+
+  if (!shared) return rest as unknown as FinalState
+  return Object.fromEntries(
+    Object.entries(rest).map(([name, state]) => [name, { ...shared, ...state }])
+  ) as {
+    [Name in keyof typeof rest]: (typeof rest)[Name] & TShared
+  }
+}
+
+export const animate = Object.assign(animateFn, { states })
