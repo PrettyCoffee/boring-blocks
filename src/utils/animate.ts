@@ -148,7 +148,7 @@ const convertSteps = (steps: AnimateStep[]) => {
   })
 }
 
-const animateFn = (steps: AnimateStep[]) => {
+const animateFn = (steps: AnimateStep[], repeat: "once" | "loop" = "once") => {
   if (prefersReducedMotion()) {
     return noMotionSteps(...convertSteps(steps))
   }
@@ -156,9 +156,32 @@ const animateFn = (steps: AnimateStep[]) => {
   const resetTransitionStyles = createTransitionReset(steps)
   prepareTransition(steps)
 
-  const runner = animateSteps(convertSteps(steps))
-  void runner.then(resetTransitionStyles)
-  return runner
+  let runner = animateSteps(convertSteps(steps))
+  if (repeat === "once") {
+    resetTransitionStyles()
+    return runner
+  }
+
+  let canceled = false
+  let resolveFn: () => void
+  const promise = new Promise<void>(resolve => (resolveFn = resolve))
+
+  const run = () => {
+    if (canceled) return resolveFn()
+
+    runner = animateSteps(convertSteps(steps))
+    void runner.then(run)
+  }
+
+  void runner.then(run)
+
+  return Object.assign(promise, {
+    cancel: () => {
+      canceled = true
+      runner.cancel()
+      resetTransitionStyles()
+    },
+  })
 }
 
 const states = <
