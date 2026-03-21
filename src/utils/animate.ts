@@ -7,8 +7,6 @@ import { type Resolve } from "../types/resolve"
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {}
 
-const noDuplicates = <T>(values: T[]) => [...new Set(values)]
-
 type AnimatableElement = HTMLElement | SVGElement
 
 const toKebabCase = (text: string) =>
@@ -17,6 +15,41 @@ const toKebabCase = (text: string) =>
 const applyStyles = (element: AnimatableElement, styles: CSSProperties) => {
   Object.entries(styles).forEach(([name, value]) => {
     element.style.setProperty(toKebabCase(name), String(value))
+  })
+}
+
+const WILL_CHANGE_MAP: Partial<Record<keyof CSSProperties, string>> = {
+  transform: "transform",
+  scale: "transform",
+  rotate: "transform",
+  translate: "transform",
+  x: "transform",
+  y: "transform",
+  opacity: "opacity",
+  filter: "filter",
+  backdropFilter: "backdrop-filter",
+  clipPath: "clip-path",
+}
+
+const getWillChange = (element: AnimatableElement) =>
+  element.style.willChange.split(/\s*,\s*/).filter(Boolean)
+
+const applyWillChange = (steps: Step[]) => {
+  const changing = new Map<AnimatableElement, Set<string>>()
+
+  for (const step of steps) {
+    const properties =
+      changing.get(step.element) ?? new Set(getWillChange(step.element))
+
+    Object.keys(step.styles)
+      .flatMap(key => WILL_CHANGE_MAP[key as keyof CSSProperties] ?? [])
+      .forEach(key => properties.add(key))
+
+    changing.set(step.element, properties)
+  }
+
+  changing.forEach((properties, element) => {
+    applyStyles(element, { willChange: [...properties].join(",") })
   })
 }
 
@@ -40,10 +73,7 @@ interface Step {
 type TransitionStyles = Required<
   Pick<
     CSSProperties,
-    | "transitionTimingFunction"
-    | "transitionDuration"
-    | "transitionProperty"
-    | "willChange"
+    "transitionTimingFunction" | "transitionDuration" | "transitionProperty"
   >
 >
 
@@ -67,10 +97,6 @@ const applyStepStyles = ({ element, styles, transition }: Step) => {
     transitionTimingFunction: `cubic-bezier(${ease[transition.ease].join(",")})`,
     transitionDuration: `${transition.duration}ms`,
     transitionProperty: "all",
-    willChange: noDuplicates([
-      ...element.style.willChange.split(/\s*,\s*/).filter(Boolean),
-      ...Object.keys(styles).map(toKebabCase),
-    ]).join(","),
   }
 
   applyStyles(element, transitionStyles)
@@ -109,23 +135,26 @@ const animateSteps = (steps: Step[]) => {
 }
 
 // Initialize all transition styles to make sure e.g. height can be transitioned
-const prepareTransition = (steps: AnimateStep[]) => {
-  steps.forEach(([element, changingStyles]) => {
-    applyStyles(element, { transitionDuration: "0ms" })
-    const styles = window.getComputedStyle(element)
+const prepareTransition = (steps: Step[]) => {
+  steps.forEach(step => {
+    applyStyles(step.element, { transitionDuration: "0ms" })
+    const styles = window.getComputedStyle(step.element)
     const initStyles = Object.fromEntries(
-      Object.keys(changingStyles).map(name => [
+      Object.keys(step.styles).map(name => [
         name,
         styles.getPropertyValue(name),
       ])
     )
-    applyStyles(element, initStyles)
+    applyStyles(step.element, initStyles)
   })
+
+  applyWillChange(steps)
 }
 
-const createTransitionReset = (steps: AnimateStep[]) => {
-  const transitionReset = steps.map(([element]) => {
-    const styles: TransitionStyles = {
+const createTransitionReset = (steps: Step[]) => {
+  const elements = new Set(steps.map(({ element }) => element))
+  const transitionReset = [...elements].map(element => {
+    const styles: TransitionStyles & { willChange: string } = {
       transitionTimingFunction: element.style.transitionTimingFunction,
       transitionDuration: element.style.transitionDuration,
       transitionProperty: element.style.transitionProperty,
@@ -148,15 +177,19 @@ const convertSteps = (steps: AnimateStep[]) => {
   })
 }
 
-const animateFn = (steps: AnimateStep[], repeat: "once" | "loop" = "once") => {
+const animateFn = (
+  stepsArg: AnimateStep[],
+  repeat: "once" | "loop" = "once"
+) => {
+  const steps = convertSteps(stepsArg)
   if (prefersReducedMotion()) {
-    return noMotionSteps(...convertSteps(steps))
+    return noMotionSteps(...steps)
   }
 
   const resetTransitionStyles = createTransitionReset(steps)
   prepareTransition(steps)
 
-  let runner = animateSteps(convertSteps(steps))
+  let runner = animateSteps(steps)
   if (repeat === "once") {
     resetTransitionStyles()
     return runner
@@ -169,7 +202,7 @@ const animateFn = (steps: AnimateStep[], repeat: "once" | "loop" = "once") => {
   const run = () => {
     if (canceled) return resolveFn()
 
-    runner = animateSteps(convertSteps(steps))
+    runner = animateSteps(steps)
     void runner.then(run)
   }
 
