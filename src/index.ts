@@ -1,5 +1,6 @@
 export * from "./components/ui/alert-badge"
 export * from "./components/ui/button"
+export * from "./components/ui/card"
 export * from "./components/ui/context-info"
 export * from "./components/ui/file-input"
 export * from "./components/ui/icon"

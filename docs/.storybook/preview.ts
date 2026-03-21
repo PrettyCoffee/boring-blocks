@@ -32,6 +32,8 @@ const preview = {
           "Buttons",
           "Inputs",
           "Floating",
+          "Feedback",
+          "Layout",
         ],
       },
     },

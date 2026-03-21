@@ -1,0 +1,37 @@
+import { type PropsWithChildren, type ReactNode } from "react"
+
+import { surface } from "../../styles/surface"
+import { type ClassNameProp } from "../../types/base-props"
+import { cn } from "../../utils/cn"
+
+interface CardProps extends ClassNameProp {
+  title: ReactNode | string
+  description: ReactNode | string
+  Headline?: "h2" | "h3" | "div"
+}
+
+export const Card = ({
+  title,
+  description,
+  children,
+  Headline = "div",
+  className,
+}: PropsWithChildren<CardProps>) => (
+  <div className="p-2">
+    <div
+      className={cn(
+        surface({ look: "card", size: "lg" }),
+        "p-4 pt-2",
+        className
+      )}
+    >
+      <Headline className="mb-1 font-bold text-text-priority">{title}</Headline>
+      {description && (
+        <p className={cn("text-sm text-text-gentle", children && "mb-4")}>
+          {description}
+        </p>
+      )}
+      {children}
+    </div>
+  </div>
+)
