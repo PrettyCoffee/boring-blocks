@@ -7,6 +7,8 @@ import { type Resolve } from "../types/resolve"
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {}
 
+const noDuplicates = <T>(values: T[]) => [...new Set(values)]
+
 type AnimatableElement = HTMLElement | SVGElement
 
 const toKebabCase = (text: string) =>
@@ -65,10 +67,10 @@ const applyStepStyles = ({ element, styles, transition }: Step) => {
     transitionTimingFunction: `cubic-bezier(${ease[transition.ease].join(",")})`,
     transitionDuration: `${transition.duration}ms`,
     transitionProperty: "all",
-    willChange: [
+    willChange: noDuplicates([
       ...element.style.willChange.split(/\s*,\s*/).filter(Boolean),
       ...Object.keys(styles).map(toKebabCase),
-    ].join(","),
+    ]).join(","),
   }
 
   applyStyles(element, transitionStyles)
