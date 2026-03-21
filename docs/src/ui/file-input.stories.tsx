@@ -8,7 +8,6 @@ const meta = {
   title: "Inputs/FileInput",
   component: FileInput,
   argTypes: {
-    icon: argType.disabled(),
     label: argType.string(),
     alert: argType.disabled(),
     onChange: argType.callback(),
