@@ -44,11 +44,16 @@ const ScrollButton = ({ side, ...props }: { side: "top" | "bottom" }) => (
   <div
     {...props}
     className={cn(
-      "absolute inset-x-0 z-1 h-6 cursor-default bg-max p-1 hover:[&_svg]:text-highlight",
+      "absolute inset-x-0 z-1 h-6 cursor-default p-1 hover:[&_svg]:text-highlight",
       side === "top" ? "top-0" : "bottom-0"
     )}
   >
-    <div className="grid size-full place-content-center rounded-sm [*:hover>&]:bg-max-invert/10">
+    <div
+      className={cn(
+        surface({ look: "overlay" }),
+        "grid size-full place-content-center rounded-md [*:hover>&]:bgl-layer/10"
+      )}
+    >
       <Icon icon={side === "top" ? ChevronUpIcon : ChevronDownIcon} size="sm" />
     </div>
   </div>

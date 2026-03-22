@@ -1,11 +1,11 @@
 import { cva } from "class-variance-authority"
 
-export const surface = cva("border", {
+export const surface = cva("outline-1 -outline-offset-1", {
   variants: {
     look: {
-      card: "rounded-lg border-stroke-muted bg-background shade-low",
+      card: "rounded-lg bg-background shade-low outline-max-invert/5",
       overlay:
-        "border-text-gentle/25 text-text shade-low backdrop-blur-md bgl-base-max",
+        "text-text shade-low outline-max-invert/10 backdrop-blur-xs bgl-base-invert/75",
     },
     size: {
       md: "rounded-md p-2",
