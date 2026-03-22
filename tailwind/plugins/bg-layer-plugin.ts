@@ -83,10 +83,10 @@ export const bgLayerPlugin = plugin.withOptions<BgLayerPluginOptions | void>(
       // convert bgl-layer-default/20 to bgl-layer/20
       api.addUtilities(
         Object.fromEntries(
-          Object.entries(transparencies.defaults).map(([name, value]) => {
-            const className = name.replace("default/", ".bgl-layer/")
-            return [className, { [layer1Var]: value }]
-          })
+          Object.entries(transparencies.defaults).flatMap(([name, value]) => [
+            [name.replace("default/", ".bgl-layer/"), { [layer1Var]: value }],
+            [name.replace("default/", ".bgl-base/"), { [baseVar]: value }],
+          ])
         )
       )
 
