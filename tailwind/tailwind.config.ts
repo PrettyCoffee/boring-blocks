@@ -14,8 +14,8 @@ export default {
     themeVarsPlugin({ theme, strategy: "replace" }),
     bgLayerPlugin({
       colors: {
-        default: theme.read("color.background.invert"),
-        invert: theme.read("color.background.default"),
+        default: theme.read("color.max.invert"),
+        invert: theme.read("color.max.default"),
       },
     }),
     shadowPlugin({
