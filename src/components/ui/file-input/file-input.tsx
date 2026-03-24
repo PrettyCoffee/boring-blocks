@@ -62,7 +62,7 @@ export const FileInput = ({
       <FileInputPrimitive
         {...props}
         onDragStart={files =>
-          files.some(file => !file.isValidType)
+          files.length === 0 || files.some(file => !file.isValidType)
             ? setDragging("invalid")
             : setDragging("valid")
         }

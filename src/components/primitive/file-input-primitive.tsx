@@ -57,13 +57,14 @@ const getFiles = (event: DragOrChangeEvent) => {
 const isValidFileType = (file?: File, accept?: string) => {
   if (!accept || !file) return true
 
+  const mimeType = (file.type || "").toLowerCase()
+  if (!mimeType) return false
+
+  const fileName = file.name.toLowerCase()
   const types = accept
     .split(",")
     .map(type => type.trim().toLowerCase())
     .filter(Boolean)
-
-  const fileName = file.name.toLowerCase()
-  const mimeType = (file.type || "").toLowerCase()
 
   return types.some(type => {
     const isExtension = type.startsWith(".")
