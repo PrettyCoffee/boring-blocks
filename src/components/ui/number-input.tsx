@@ -1,10 +1,7 @@
 import { type ChangeEvent, type HTMLProps, useState } from "react"
 
-import { Icon } from "./icon"
-import { TitleTooltip } from "./tooltip"
-import { alert as alertStyles } from "../../styles/alert"
-import { hstack } from "../../styles/stack"
-import { type AlertKind } from "../../types/alert"
+import { type InputAlert, InputAlertIcon } from "./fragments/input-alert-icon"
+import { InputBorder } from "./fragments/input-border"
 import { clamp } from "../../utils/clamp"
 import { cn } from "../../utils/cn"
 import { mergeRefs } from "../../utils/merge-refs"
@@ -56,7 +53,6 @@ export interface NumberInputProps extends Pick<
   | "ref"
   | "placeholder"
   | "id"
-  | "style"
   | "className"
   | "disabled"
   | "onKeyDown"
@@ -72,7 +68,7 @@ export interface NumberInputProps extends Pick<
   unit?: string
   max?: number
   min?: number
-  alert?: { kind: AlertKind; text: string }
+  alert?: InputAlert
 }
 export const NumberInput = ({
   ref,
@@ -84,7 +80,6 @@ export const NumberInput = ({
   max,
   min,
   alert,
-  style,
   ...props
 }: NumberInputProps) => {
   const [internal, setInternal] = useState(String(value ?? ""))
@@ -101,18 +96,10 @@ export const NumberInput = ({
   }
 
   return (
-    <div
-      className={cn(
-        hstack({ inline: true, align: "center", justify: "center" }),
-        "relative h-10 w-max rounded-md",
-        "border border-stroke-muted invalid:border-alert-error",
-        alert
-          ? alertStyles[alert.kind].border
-          : "hover:border-stroke [&:has(*:focus-visible)]:border-stroke-focus",
-        className
-      )}
+    <InputBorder
+      alert={alert?.kind}
+      className={cn("w-max", className)}
       style={{
-        ...style,
         // @ts-expect-error ts(2353)
         "--unit-width": `${unitWidth}px`,
         "--digits": `${digitsWidth}px`,
@@ -134,7 +121,7 @@ export const NumberInput = ({
         onBlur={() => setInternal(String(value ?? ""))}
         placeholder={placeholder}
         className={cn(
-          "h-10 flex-1 bg-transparent px-3 text-end text-sm text-text outline-none placeholder:text-text-gentle",
+          "h-10 flex-1 bg-transparent px-3 text-end text-sm text-text outline-none placeholder:text-text-muted",
           "w-[calc(var(--digits)+var(--unit-width)+theme(width.4)+theme(width.4))] pr-[calc(var(--unit-width)+theme(width.4))]",
           alert &&
             "w-[calc(var(--digits)+var(--unit-width)+theme(width.4)+theme(width.1))] pr-[calc(var(--unit-width)+theme(width.1))]",
@@ -152,17 +139,7 @@ export const NumberInput = ({
         {unit}
       </span>
 
-      {alert && (
-        <TitleTooltip title={alert.text}>
-          <span className="grid size-10 shrink-0 place-content-center">
-            <Icon
-              icon={alertStyles[alert.kind].icon}
-              color={alert.kind}
-              size="sm"
-            />
-          </span>
-        </TitleTooltip>
-      )}
-    </div>
+      {alert && <InputAlertIcon alert={alert} />}
+    </InputBorder>
   )
 }

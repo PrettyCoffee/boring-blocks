@@ -10,10 +10,9 @@ import {
 import { Icon } from "./icon"
 import { cn } from "../../utils/cn"
 import { SearchIcon, XIcon } from "../icons"
+import { InputAlertIcon } from "./fragments/input-alert-icon"
+import { InputBorder } from "./fragments/input-border"
 import { IconButton } from "./icon-button"
-import { TitleTooltip } from "./tooltip"
-import { alert as alertStyles } from "../../styles/alert"
-import { hstack } from "../../styles/stack"
 import { type AlertKind } from "../../types/alert"
 import { type ClassNameProp, type DisableProp } from "../../types/base-props"
 import { mergeRefs } from "../../utils/merge-refs"
@@ -40,25 +39,15 @@ export const TextInput = ({
   ref,
   alert,
   onChange,
-  className,
   type = "text",
+  className,
   ...props
 }: TextInputProps) => {
   const textRef = useRef<HTMLInputElement>(null)
   const isSearch = type === "search"
 
   return (
-    <div
-      className={cn(
-        hstack({ inline: true, align: "center", justify: "center" }),
-        "relative h-10 w-full rounded-md",
-        "border border-stroke-muted invalid:border-alert-error",
-        alert
-          ? alertStyles[alert.kind].border
-          : "hover:border-stroke [&:has(*:focus-visible)]:border-stroke-focus",
-        className
-      )}
-    >
+    <InputBorder alert={alert?.kind} className={className}>
       {isSearch && (
         <span className="pointer-events-none absolute inset-y-0 left-0 grid size-10 shrink-0 place-content-center">
           <Icon icon={SearchIcon} size="sm" color="muted" />
@@ -94,17 +83,7 @@ export const TextInput = ({
         </span>
       )}
 
-      {alert && (
-        <TitleTooltip title={alert.text}>
-          <span className="grid size-10 shrink-0 place-content-center">
-            <Icon
-              icon={alertStyles[alert.kind].icon}
-              color={alert.kind}
-              size="sm"
-            />
-          </span>
-        </TitleTooltip>
-      )}
-    </div>
+      {alert && <InputAlertIcon alert={alert} />}
+    </InputBorder>
   )
 }
