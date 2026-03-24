@@ -85,6 +85,10 @@ export default defineConfig(({ command }) => ({
           outFile: "index-utils",
           path: resolve(__dirname, "./src/index-utils.ts"),
         },
+        "src/index-icons": {
+          outFile: "index-icons",
+          path: resolve(__dirname, "./src/index-icons.ts"),
+        },
       },
     }),
   ],
