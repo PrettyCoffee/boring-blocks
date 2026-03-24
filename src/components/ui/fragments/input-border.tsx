@@ -22,7 +22,7 @@ export const InputBorder = ({
     {...props}
     className={cn(
       hstack({ inline: true, align: "center", justify: "center" }),
-      "relative h-10 w-full rounded-md border",
+      "relative h-10 w-full rounded-md border in-[table_tr:not(:hover),[role='grid']_[role='row']:not(:hover)]:border-transparent",
       alert && ["warn", "error"].includes(alert)
         ? alertStyles[alert].border
         : "border-stroke-muted hover:border-stroke [&:has(*:focus-visible)]:border-stroke-focus",

@@ -25,7 +25,7 @@ const Trigger = ({ placeholder, caption, className }: TriggerProps) => (
       <Button
         className={cn(
           maxWidth,
-          "justify-between gap-2 truncate border border-stroke-muted data-placeholder:text-text-muted",
+          "justify-between gap-2 truncate border border-stroke-muted in-[table_tr:not(:hover),[role='grid']_[role='row']:not(:hover)]:border-transparent data-placeholder:text-text-muted",
           "[&_svg]:transition [&_svg]:duration-400 [&_svg]:ease-bounce data-[state='open']:[&_svg]:rotate-180",
           className
         )}
