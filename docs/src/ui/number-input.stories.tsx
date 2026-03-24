@@ -49,7 +49,7 @@ const ControlledStory = ({
   onChange,
   ...props
 }: NumberInputProps) => {
-  const [value, setValue] = useState<number | null>(initialValue ?? null)
+  const [value, setValue] = useState(initialValue)
   return (
     <NumberInput
       {...props}

@@ -34,7 +34,7 @@ const parseNumber = (
   const number = Number.parseFloat(string)
 
   if (Number.isNaN(number)) {
-    return { string, number: null }
+    return { string, number: undefined }
   }
 
   const clamped = clamp(number, min, max)
@@ -44,7 +44,7 @@ const parseNumber = (
 
   return {
     string,
-    number: Number.parseFloat(string) || null,
+    number: Number.parseFloat(string) || undefined,
   }
 }
 
@@ -61,9 +61,9 @@ export interface NumberInputProps extends Pick<
   | "onFocus"
   | "onBlur"
 > {
-  value?: number | null
+  value?: number | undefined
   onChange?: (
-    value: number | null,
+    value: number | undefined,
     event: ChangeEvent<HTMLInputElement>
   ) => void
   unit?: string
