@@ -52,7 +52,7 @@ const ScrollButton = ({ side, ...props }: { side: "top" | "bottom" }) => (
     <div
       className={cn(
         surface({ look: "overlay" }),
-        "grid size-full place-content-center rounded-md [*:hover>&]:bgl-layer/10"
+        "grid size-full place-content-center rounded-md outline-1 [*:hover>&]:bgl-layer/10"
       )}
     >
       <Icon icon={side === "top" ? ChevronUpIcon : ChevronDownIcon} size="sm" />

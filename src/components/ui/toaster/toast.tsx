@@ -101,8 +101,8 @@ export const Toast = ({
       ref={ref}
       className={cn(
         surface({ look: "overlay", size: "md" }),
-        "relative my-1 w-screen max-w-96 overflow-hidden border-2 p-1",
-        alert[kind].borderGentle
+        "relative my-1 w-screen max-w-96 overflow-hidden p-1",
+        alert[kind].outline
       )}
     >
       <div className={hstack({})}>
