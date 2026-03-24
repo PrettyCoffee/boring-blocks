@@ -3,6 +3,7 @@ import { type PropsWithChildren, type ReactNode } from "react"
 import { surface } from "../../styles/surface"
 import { type ClassNameProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 interface CardProps extends ClassNameProp {
   title: ReactNode | string
@@ -17,21 +18,25 @@ export const Card = ({
   Headline = "div",
   className,
 }: PropsWithChildren<CardProps>) => (
-  <div className="p-2">
-    <div
-      className={cn(
-        surface({ look: "card", size: "lg" }),
-        "p-4 pt-2",
-        className
-      )}
-    >
-      <Headline className="mb-1 font-bold text-text-priority">{title}</Headline>
-      {description && (
-        <p className={cn("text-sm text-text-gentle", children && "mb-4")}>
-          {description}
-        </p>
-      )}
-      {children}
+  <ErrorBoundary>
+    <div className="p-2">
+      <div
+        className={cn(
+          surface({ look: "card", size: "lg" }),
+          "p-4 pt-2",
+          className
+        )}
+      >
+        <Headline className="mb-1 font-bold text-text-priority">
+          {title}
+        </Headline>
+        {description && (
+          <p className={cn("text-sm text-text-gentle", children && "mb-4")}>
+            {description}
+          </p>
+        )}
+        {children}
+      </div>
     </div>
-  </div>
+  </ErrorBoundary>
 )

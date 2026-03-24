@@ -5,6 +5,7 @@ import { InputBorder } from "./fragments/input-border"
 import { clamp } from "../../utils/clamp"
 import { cn } from "../../utils/cn"
 import { mergeRefs } from "../../utils/merge-refs"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 // TODO: Extract shared code with TextInput (i.e. InputBorder, InputAlertIcon, InputBaseProps)
 
@@ -96,50 +97,52 @@ export const NumberInput = ({
   }
 
   return (
-    <InputBorder
-      alert={alert?.kind}
-      className={cn("w-max", className)}
-      style={{
-        // @ts-expect-error ts(2353)
-        "--unit-width": `${unitWidth}px`,
-        "--digits": `${digitsWidth}px`,
-      }}
-    >
-      <input
-        {...props}
-        ref={mergeRefs(ref, element => {
-          if (!element) return
-          setDigitsWidth(
-            Math.max(
-              meassureText(placeholder, element),
-              meassureText(internal, element)
-            )
-          )
-        })}
-        value={internal}
-        onChange={handleChange}
-        onBlur={() => setInternal(String(value ?? ""))}
-        placeholder={placeholder}
-        className={cn(
-          "h-10 flex-1 bg-transparent px-3 text-end text-sm text-text outline-none placeholder:text-text-muted",
-          "w-[calc(var(--digits)+var(--unit-width)+theme(width.4)+theme(width.4))] pr-[calc(var(--unit-width)+theme(width.4))]",
-          alert &&
-            "w-[calc(var(--digits)+var(--unit-width)+theme(width.4)+theme(width.1))] pr-[calc(var(--unit-width)+theme(width.1))]",
-          className
-        )}
-      />
-
-      <span
-        ref={element => {
-          if (!element) return
-          setUnitWidth(meassureText(unit ?? "", element))
+    <ErrorBoundary>
+      <InputBorder
+        alert={alert?.kind}
+        className={cn("w-max", className)}
+        style={{
+          // @ts-expect-error ts(2353)
+          "--unit-width": `${unitWidth}px`,
+          "--digits": `${digitsWidth}px`,
         }}
-        className="pointer-events-none absolute top-1/2 left-[calc(var(--digits)+theme(width.4)+theme(width.1))] -translate-y-1/2 text-sm text-text-muted"
       >
-        {unit}
-      </span>
+        <input
+          {...props}
+          ref={mergeRefs(ref, element => {
+            if (!element) return
+            setDigitsWidth(
+              Math.max(
+                meassureText(placeholder, element),
+                meassureText(internal, element)
+              )
+            )
+          })}
+          value={internal}
+          onChange={handleChange}
+          onBlur={() => setInternal(String(value ?? ""))}
+          placeholder={placeholder}
+          className={cn(
+            "h-10 flex-1 bg-transparent px-3 text-end text-sm text-text outline-none placeholder:text-text-muted",
+            "w-[calc(var(--digits)+var(--unit-width)+theme(width.4)+theme(width.4))] pr-[calc(var(--unit-width)+theme(width.4))]",
+            alert &&
+              "w-[calc(var(--digits)+var(--unit-width)+theme(width.4)+theme(width.1))] pr-[calc(var(--unit-width)+theme(width.1))]",
+            className
+          )}
+        />
 
-      {alert && <InputAlertIcon alert={alert} />}
-    </InputBorder>
+        <span
+          ref={element => {
+            if (!element) return
+            setUnitWidth(meassureText(unit ?? "", element))
+          }}
+          className="pointer-events-none absolute top-1/2 left-[calc(var(--digits)+theme(width.4)+theme(width.1))] -translate-y-1/2 text-sm text-text-muted"
+        >
+          {unit}
+        </span>
+
+        {alert && <InputAlertIcon alert={alert} />}
+      </InputBorder>
+    </ErrorBoundary>
   )
 }

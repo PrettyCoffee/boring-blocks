@@ -12,7 +12,7 @@ const defaultDurations: Record<AlertKind, number> = {
   error: 0,
 }
 
-export interface ToastAction extends Pick<
+interface ToastAction extends Pick<
   ButtonProps,
   "look" | "onClick" | "icon" | "href"
 > {

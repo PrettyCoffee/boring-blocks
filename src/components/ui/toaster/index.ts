@@ -1,2 +1,2 @@
 export { Toaster } from "./toaster"
-export * from "./toaster-data"
+export { showToast, type ToastProps } from "./toaster-data"

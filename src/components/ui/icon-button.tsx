@@ -4,6 +4,7 @@ import { Button, type ButtonProps } from "./button"
 import { Icon, type IconProps } from "./icon"
 import { type StyleProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
+import { ErrorBoundary } from "../utility/error-boundary"
 import { VisuallyHidden } from "../utility/visually-hidden"
 
 const iconButton = cva("shrink-0", {
@@ -40,13 +41,15 @@ export const IconButton = ({
   iconColor = "current",
   ...delegated
 }: IconButtonProps) => (
-  <Button
-    {...(delegated as ButtonProps)}
-    look={look}
-    className={cn(iconButton({ size }), className)}
-    title={hideTitle ? undefined : title}
-  >
-    <VisuallyHidden>{title}</VisuallyHidden>
-    <Icon icon={icon} size="sm" color={iconColor} filled={filled} />
-  </Button>
+  <ErrorBoundary>
+    <Button
+      {...(delegated as ButtonProps)}
+      look={look}
+      className={cn(iconButton({ size }), className)}
+      title={hideTitle ? undefined : title}
+    >
+      <VisuallyHidden>{title}</VisuallyHidden>
+      <Icon icon={icon} size="sm" color={iconColor} filled={filled} />
+    </Button>
+  </ErrorBoundary>
 )

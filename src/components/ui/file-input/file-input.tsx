@@ -12,6 +12,7 @@ import { FileInputPrimitive } from "../../primitive/file-input-primitive"
 import { Icon } from "../icon"
 import { TitleTooltip } from "../tooltip"
 import { UploadIcon as AnimatedUploadIcon } from "./upload-icon"
+import { ErrorBoundary } from "../../utility/error-boundary"
 
 const fileInput = cva(
   cn(
@@ -58,27 +59,29 @@ export const FileInput = ({
   const [dragging, setDragging] = useState<DraggingState>("idle")
 
   return (
-    <TitleTooltip title={alert?.text}>
-      <FileInputPrimitive
-        {...props}
-        onDragStart={files =>
-          files.length === 0 || files.some(file => !file.isValidType)
-            ? setDragging("invalid")
-            : setDragging("valid")
-        }
-        onDragEnd={() => setDragging("idle")}
-        onChange={(files, event) => {
-          onChange?.(files, event)
-          setDragging("accepted")
-        }}
-        className={cn(fileInput({ dragging, alert: alert?.kind }), className)}
-      >
-        <AnimatedUploadIcon status={dragging} />
-        {label}
-        {alert && (
-          <Icon icon={alertStyles[alert.kind].icon} color={alert.kind} />
-        )}
-      </FileInputPrimitive>
-    </TitleTooltip>
+    <ErrorBoundary>
+      <TitleTooltip title={alert?.text}>
+        <FileInputPrimitive
+          {...props}
+          onDragStart={files =>
+            files.length === 0 || files.some(file => !file.isValidType)
+              ? setDragging("invalid")
+              : setDragging("valid")
+          }
+          onDragEnd={() => setDragging("idle")}
+          onChange={(files, event) => {
+            onChange?.(files, event)
+            setDragging("accepted")
+          }}
+          className={cn(fileInput({ dragging, alert: alert?.kind }), className)}
+        >
+          <AnimatedUploadIcon status={dragging} />
+          {label}
+          {alert && (
+            <Icon icon={alertStyles[alert.kind].icon} color={alert.kind} />
+          )}
+        </FileInputPrimitive>
+      </TitleTooltip>
+    </ErrorBoundary>
   )
 }

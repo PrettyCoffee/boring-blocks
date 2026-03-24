@@ -3,6 +3,7 @@ import { type VariantProps, cva } from "class-variance-authority"
 import { type ClassNameProp, type IconProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
 import { type LucideProps } from "../icons"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 const icon = cva("inline-block shrink-0", {
   variants: {
@@ -44,7 +45,7 @@ export type IconProps = Pick<LucideProps, "strokeWidth" | "ref"> &
 
 export const Icon = ({
   ref,
-  icon: Icon,
+  icon: IconComp,
   className,
   strokeWidth,
   color,
@@ -52,11 +53,13 @@ export const Icon = ({
   size,
   ...delegated
 }: IconProps) => (
-  <Icon
-    ref={ref}
-    className={cn(icon({ color, filled, size }), className)}
-    absoluteStrokeWidth={strokeWidth != null}
-    strokeWidth={strokeWidth}
-    {...delegated}
-  />
+  <ErrorBoundary>
+    <IconComp
+      ref={ref}
+      className={cn(icon({ color, filled, size }), className)}
+      absoluteStrokeWidth={strokeWidth != null}
+      strokeWidth={strokeWidth}
+      {...delegated}
+    />
+  </ErrorBoundary>
 )

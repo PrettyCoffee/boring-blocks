@@ -16,6 +16,7 @@ import { IconButton } from "./icon-button"
 import { type AlertKind } from "../../types/alert"
 import { type ClassNameProp, type DisableProp } from "../../types/base-props"
 import { mergeRefs } from "../../utils/merge-refs"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 type InputProps = HTMLProps<HTMLInputElement>
 
@@ -47,43 +48,45 @@ export const TextInput = ({
   const isSearch = type === "search"
 
   return (
-    <InputBorder alert={alert?.kind} className={className}>
-      {isSearch && (
-        <span className="pointer-events-none absolute inset-y-0 left-0 grid size-10 shrink-0 place-content-center">
-          <Icon icon={SearchIcon} size="sm" color="muted" />
-        </span>
-      )}
-
-      <input
-        ref={mergeRefs(ref, textRef)}
-        {...props}
-        type={type}
-        onChange={event => onChange?.(event.currentTarget.value, event)}
-        className={cn(
-          "h-10 w-full flex-1 bg-transparent px-3 text-sm text-text outline-none placeholder:text-text-gentle",
-          isSearch && "pl-10",
-          (isSearch || alert) && "pr-0"
+    <ErrorBoundary>
+      <InputBorder alert={alert?.kind} className={className}>
+        {isSearch && (
+          <span className="pointer-events-none absolute inset-y-0 left-0 grid size-10 shrink-0 place-content-center">
+            <Icon icon={SearchIcon} size="sm" color="muted" />
+          </span>
         )}
-      />
 
-      {isSearch && !!props.value && (
-        <span className="grid size-10 shrink-0 place-content-center [:not(:hover,:focus-within)>&]:opacity-0">
-          <IconButton
-            hideTitle
-            // TODO: Translate title
-            title="Clear text field"
-            icon={XIcon}
-            size="sm"
-            onClick={event => {
-              onChange?.("", event)
-              textRef.current?.focus()
-            }}
-            className="rounded-sm"
-          />
-        </span>
-      )}
+        <input
+          ref={mergeRefs(ref, textRef)}
+          {...props}
+          type={type}
+          onChange={event => onChange?.(event.currentTarget.value, event)}
+          className={cn(
+            "h-10 w-full flex-1 bg-transparent px-3 text-sm text-text outline-none placeholder:text-text-gentle",
+            isSearch && "pl-10",
+            (isSearch || alert) && "pr-0"
+          )}
+        />
 
-      {alert && <InputAlertIcon alert={alert} />}
-    </InputBorder>
+        {isSearch && !!props.value && (
+          <span className="grid size-10 shrink-0 place-content-center [:not(:hover,:focus-within)>&]:opacity-0">
+            <IconButton
+              hideTitle
+              // TODO: Translate title
+              title="Clear text field"
+              icon={XIcon}
+              size="sm"
+              onClick={event => {
+                onChange?.("", event)
+                textRef.current?.focus()
+              }}
+              className="rounded-sm"
+            />
+          </span>
+        )}
+
+        {alert && <InputAlertIcon alert={alert} />}
+      </InputBorder>
+    </ErrorBoundary>
   )
 }

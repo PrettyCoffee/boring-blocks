@@ -2,6 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { type ClassNameProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 const divider = cva("block shrink-0", {
   variants: {
@@ -31,5 +32,10 @@ export const Divider = ({
   className,
   ...props
 }: DividerProps) => (
-  <span className={cn(divider({ orientation, color }), className)} {...props} />
+  <ErrorBoundary>
+    <span
+      className={cn(divider({ orientation, color }), className)}
+      {...props}
+    />
+  </ErrorBoundary>
 )

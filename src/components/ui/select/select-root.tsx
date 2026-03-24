@@ -11,6 +11,7 @@ import { Button } from "../button"
 import { Icon } from "../icon"
 import { SelectOption } from "./select-option"
 import { SelectSeparator } from "./select-separator"
+import { ErrorBoundary } from "../../utility/error-boundary"
 
 const maxWidth = cn("max-w-80")
 
@@ -138,16 +139,18 @@ export const SelectRoot = ({
   children,
   className,
 }: PropsWithChildren<SelectRoot.Props>) => (
-  <Primitive.Root<string> value={value} onValueChange={onChange}>
-    <Trigger
-      caption={caption}
-      placeholder={placeholder}
-      className={className}
-    />
-    <Content alignItemWithTrigger={alignItemWithTrigger}>
-      {clearOption && <ClearOption caption={placeholder} />}
-      {children}
-    </Content>
-  </Primitive.Root>
+  <ErrorBoundary>
+    <Primitive.Root<string> value={value} onValueChange={onChange}>
+      <Trigger
+        caption={caption}
+        placeholder={placeholder}
+        className={className}
+      />
+      <Content alignItemWithTrigger={alignItemWithTrigger}>
+        {clearOption && <ClearOption caption={placeholder} />}
+        {children}
+      </Content>
+    </Primitive.Root>
+  </ErrorBoundary>
 )
 SelectRoot.displayName = "Select.Root"

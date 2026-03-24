@@ -5,6 +5,7 @@ import { css, keyframes } from "goober"
 
 import { type ClassNameProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 const strokeOffset = keyframes`
   0% { stroke-dasharray: 0 150; stroke-dashoffset: 0; }
@@ -58,32 +59,34 @@ export const Spinner = ({
   }, [defer])
 
   return (
-    <div
-      className={cn(
-        "inline-flex place-content-center",
-        centered ? "size-full" : sizes[size],
-        className
-      )}
-    >
-      {defer ? null : (
-        <svg
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          className={cn(spinner({ size, color }))}
-        >
-          <g className="origin-center animate-spin duration-1000">
-            <circle
-              className={cn(circle)}
-              cx="12"
-              cy="12"
-              r="9.5"
-              fill="none"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </g>
-        </svg>
-      )}
-    </div>
+    <ErrorBoundary>
+      <div
+        className={cn(
+          "inline-flex place-content-center",
+          centered ? "size-full" : sizes[size],
+          className
+        )}
+      >
+        {defer ? null : (
+          <svg
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            className={cn(spinner({ size, color }))}
+          >
+            <g className="origin-center animate-spin duration-1000">
+              <circle
+                className={cn(circle)}
+                cx="12"
+                cy="12"
+                r="9.5"
+                fill="none"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </g>
+          </svg>
+        )}
+      </div>
+    </ErrorBoundary>
   )
 }

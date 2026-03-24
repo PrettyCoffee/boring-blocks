@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { type VariantProps, cva } from "class-variance-authority"
 
 import { cn } from "../../utils/cn"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 const alertBadge = cva(
   [
@@ -46,10 +47,12 @@ export const AlertBadge = ({
   const kind = kindProp ?? safeKind
 
   return (
-    <span
-      className={cn(
-        alertBadge({ kind, hidden: hidden ?? kindProp == null, ...props })
-      )}
-    />
+    <ErrorBoundary>
+      <span
+        className={cn(
+          alertBadge({ kind, hidden: hidden ?? kindProp == null, ...props })
+        )}
+      />
+    </ErrorBoundary>
   )
 }

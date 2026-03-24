@@ -8,6 +8,7 @@ import { Icon } from "./icon"
 import { hstack, vstack } from "../../styles/stack"
 import { type IconProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 const animationOptions = "2.5s infinite ease-in-out"
 
@@ -94,47 +95,49 @@ export const ContextInfo = ({
 }: PropsWithChildren<ContextInfoProps>) => {
   const buttons = !buttonsProp ? [] : [buttonsProp].flat()
   return (
-    <div className={cn(vstack({ align: "center", gap: 4 }), "py-4")}>
-      <div
-        className={cn(
-          hstack({ align: "center", justify: "center" }),
-          "relative mb-4 size-20"
-        )}
-      >
-        <Icon
-          icon={icon}
-          color="gentle"
-          className={cn(
-            "absolute size-18",
-            animateIcon === "float" && floatIcon,
-            animateIcon === "rotate" && rotateIcon
-          )}
-        />
+    <ErrorBoundary>
+      <div className={cn(vstack({ align: "center", gap: 4 }), "py-4")}>
         <div
           className={cn(
-            "absolute -bottom-4 rounded-[50%] bg-[black]",
-            animateIcon === "float" && floatShadow,
-            animateIcon === "rotate" && rotateShadow
+            hstack({ align: "center", justify: "center" }),
+            "relative mb-4 size-20"
           )}
-        />
+        >
+          <Icon
+            icon={icon}
+            color="gentle"
+            className={cn(
+              "absolute size-18",
+              animateIcon === "float" && floatIcon,
+              animateIcon === "rotate" && rotateIcon
+            )}
+          />
+          <div
+            className={cn(
+              "absolute -bottom-4 rounded-[50%] bg-[black]",
+              animateIcon === "float" && floatShadow,
+              animateIcon === "rotate" && rotateShadow
+            )}
+          />
+        </div>
+        <span className="block max-w-80 text-center font-bold text-text-gentle">
+          {label}
+        </span>
+        {children && (
+          <div className={cn(vstack({ gap: 2 }), "text-text-gentle")}>
+            {children}
+          </div>
+        )}
+        {buttons.length > 0 && (
+          <div className={cn(hstack({ gap: 2 }))}>
+            {buttons.map(({ caption, ...props }) => (
+              <Button key={caption} {...props}>
+                {caption}
+              </Button>
+            ))}
+          </div>
+        )}
       </div>
-      <span className="block max-w-80 text-center font-bold text-text-gentle">
-        {label}
-      </span>
-      {children && (
-        <div className={cn(vstack({ gap: 2 }), "text-text-gentle")}>
-          {children}
-        </div>
-      )}
-      {buttons.length > 0 && (
-        <div className={cn(hstack({ gap: 2 }))}>
-          {buttons.map(({ caption, ...props }) => (
-            <Button key={caption} {...props}>
-              {caption}
-            </Button>
-          ))}
-        </div>
-      )}
-    </div>
+    </ErrorBoundary>
   )
 }
