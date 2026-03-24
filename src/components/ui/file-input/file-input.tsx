@@ -17,7 +17,7 @@ const fileInput = cva(
   cn(
     focusWithinOutline,
     hstack({ inline: true, gap: 4, align: "center", justify: "center" }),
-    "relative cursor-pointer rounded-md border-2 border-dashed border-stroke p-6",
+    "relative cursor-pointer rounded-md border-2 border-dashed border-stroke-muted p-6",
     interactive({ look: "flat" })
   ),
   {
@@ -25,7 +25,7 @@ const fileInput = cva(
       dragging: {
         idle: "",
         invalid: cn(interactive({ look: "destructive" }), "border-2"),
-        valid: "border-highlight",
+        valid: "border-stroke",
         accepted: "[svg]:text-alert-success",
       },
       alert: {
