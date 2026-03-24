@@ -95,13 +95,13 @@ const RotateText = styled.span`
   display: inline-block;
   rotate: 90deg;
   font: inherit;
-  transform-origin: 0.5rem 0.75rem;
+  transform-origin: 0.5rem 0.5rem;
 `
 export const CategoryDemo = ({ name }: DemoProps) => {
   const color = theme.read(name)
   const border = `1px solid currentColor`
   return (
-    <DemoBase style={{ border, color, width: "2.5rem" }}>
+    <DemoBase style={{ border, color, width: "1.8rem" }}>
       <RotateText>{splitName(name).at(-1)}</RotateText>
     </DemoBase>
   )
