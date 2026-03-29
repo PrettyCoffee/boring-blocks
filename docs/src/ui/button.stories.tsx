@@ -62,7 +62,7 @@ export const TitleTooltip: Story = { args: { title: "Title tooltip" } }
 
 export const Variants: Story = {
   render: args => (
-    <div className="inline-grid grid-cols-[auto_auto_auto_auto] items-center gap-1">
+    <div className="inline-grid grid-cols-[auto_auto_auto_auto_auto] items-center gap-1">
       {kinds.map(look => (
         <Fragment key={look}>
           <span className="mr-2 text-text-gentle">{look}:</span>
@@ -74,6 +74,13 @@ export const Variants: Story = {
           </Button>
           <Button {...args} look={look} disabled>
             Disabled
+          </Button>
+          <Button
+            {...(args as {})}
+            look={look}
+            href="https://github.com/PrettyCoffee/boring-blocks"
+          >
+            Link
           </Button>
         </Fragment>
       ))}

@@ -1,17 +1,21 @@
 import { type PropsWithChildren } from "react"
 
-import { cva, type VariantProps } from "class-variance-authority"
+import { cva } from "class-variance-authority"
 
 import { Icon, type IconProps } from "./icon"
 import { TitleTooltip, type TitleTooltipProps } from "./tooltip"
 import { interactive, type InteractiveProps } from "../../styles/interactive"
 import { type IconProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
+import { ExternalLink } from "../icons"
 import {
   ButtonPrimitive,
   type ButtonPrimitiveProps,
 } from "../primitive/button-primitive"
 import { ErrorBoundary } from "../utility/error-boundary"
+
+const isExternalLink = (href?: string) =>
+  href && URL.canParse(href) && !href.includes(window.location.origin)
 
 const button = cva(
   "relative inline-flex shrink-0 items-center justify-center rounded-md text-sm font-medium whitespace-nowrap",
@@ -29,13 +33,18 @@ const button = cva(
 )
 
 export type ButtonProps = ButtonPrimitiveProps &
-  VariantProps<typeof button> &
-  InteractiveProps &
   IconProp & {
+    /** Style (and importance) of the button. Defaults to "flat". */
+    look?: NonNullable<InteractiveProps["look"]>
+    /** Display the button as (usually temporarily) activated */
+    active?: boolean
+    /** Size of the button */
+    size?: "md" | "sm"
     /** Title tooltip to briefly describe the element / an action */
     title?: string
     /** Position of the title tooltip. Will follow the cursor by default. */
     titleSide?: TitleTooltipProps["side"]
+    /** Color of the displayed icon */
     iconColor?: IconProps["color"]
   }
 
@@ -43,7 +52,7 @@ export const Button = ({
   className,
   children,
   size,
-  look,
+  look = "flat",
   active,
   disabled,
   title,
@@ -71,7 +80,26 @@ export const Button = ({
             className="mr-2"
           />
         ) : null}
+
         {children}
+
+        {isExternalLink(props.href) && (
+          <Icon
+            icon={ExternalLink}
+            className="absolute top-1 right-1 size-2.5!"
+            color={
+              (
+                {
+                  key: "invert",
+                  flat: "muted",
+                  link: "muted",
+                  ghost: "default",
+                  destructive: "error",
+                } as const
+              )[look]
+            }
+          />
+        )}
       </ButtonPrimitive>
     </TitleTooltip>
   </ErrorBoundary>

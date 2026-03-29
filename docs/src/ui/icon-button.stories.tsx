@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { IconButton, type IconButtonProps } from "boring-blocks"
+import { GithubIcon } from "boring-blocks/icons"
 import { Fragment } from "react/jsx-runtime"
 
 import { argType } from "../utils/arg-type"
@@ -27,6 +28,7 @@ const meta = {
     disabled: argType.boolean(),
     title: argType.string(),
     titleSide: argType.enum("select", titleSides),
+    hideTitle: argType.boolean(),
     active: argType.boolean(),
     look: argType.enum("select", kinds),
     size: argType.enum("radio", ["md", "sm"]),
@@ -59,13 +61,20 @@ export const Standard: Story = {}
 
 export const Variants: Story = {
   render: args => (
-    <div className="inline-grid grid-cols-[auto_auto_auto_auto] items-center gap-1">
+    <div className="inline-grid grid-cols-[auto_auto_auto_auto_auto] items-center gap-1">
       {kinds.map(look => (
         <Fragment key={look}>
           <span className="mr-2 text-text-gentle">{look}:</span>
           <IconButton {...args} look={look} title="Default" />
           <IconButton {...args} look={look} title="Active" active />
           <IconButton {...args} look={look} title="Disabled" disabled />
+          <IconButton
+            {...(args as {})}
+            look={look}
+            href="https://github.com/PrettyCoffee/boring-blocks"
+            icon={GithubIcon}
+            title="External Link"
+          />
         </Fragment>
       ))}
     </div>
