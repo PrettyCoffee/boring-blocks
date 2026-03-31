@@ -1,6 +1,7 @@
 import { type Meta, type StoryObj } from "@storybook/react-vite"
 import { Card } from "boring-blocks"
 
+import { Placeholder } from "../fragments/placeholder"
 import { argType } from "../utils/arg-type"
 
 const meta = {
@@ -27,16 +28,7 @@ export const Default: Story = {
   name: "Card",
   render: args => (
     <Card {...args} className="max-w-sm">
-      <svg
-        className="h-40 w-full stroke-stroke/50"
-        strokeLinecap="round"
-        fill="transparent"
-        strokeWidth={2}
-      >
-        <rect width="100%" height="100%" />
-        <line x1="10%" y1="10%" x2="90%" y2="90%" />
-        <line x1="10%" y1="90%" x2="90%" y2="10%" />
-      </svg>
+      <Placeholder />
     </Card>
   ),
 }
