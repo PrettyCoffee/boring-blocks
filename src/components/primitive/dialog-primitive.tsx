@@ -1,4 +1,11 @@
-import { type PropsWithChildren, useMemo, type HTMLProps } from "react"
+import {
+  type PropsWithChildren,
+  useMemo,
+  type HTMLProps,
+  useState,
+  useId,
+  useLayoutEffect,
+} from "react"
 
 import {
   useFloating,
@@ -9,7 +16,6 @@ import {
   FloatingPortal,
   FloatingFocusManager,
   FloatingOverlay,
-  useId,
 } from "@floating-ui/react"
 
 import { createContext } from "../../utils/create-context"
@@ -21,9 +27,8 @@ interface DialogOptions {
 }
 
 const useDialog = ({ onClose }: DialogOptions = {}) => {
-  const id = useId()
-  const titleId = `${id}-dialog-title`
-  const descriptionId = `${id}-dialog-description`
+  const [labelId, setLabelId] = useState<string>()
+  const [descriptionId, setDescriptionId] = useState<string>()
 
   const floating = useFloating({
     open: true,
@@ -43,17 +48,19 @@ const useDialog = ({ onClose }: DialogOptions = {}) => {
       interactions.getFloatingProps({
         ...props,
         ref: mergeRefs(floating.context.refs.setFloating, props?.ref),
-        "aria-labelledby": titleId,
+        "aria-labelledby": labelId,
         "aria-describedby": descriptionId,
       })
 
     return {
       floating,
-      titleId,
+      labelId,
       descriptionId,
+      setLabelId,
+      setDescriptionId,
       getFloatingProps,
     }
-  }, [interactions, titleId, descriptionId, floating])
+  }, [interactions, labelId, descriptionId, floating])
 }
 
 const DialogPrimitiveContext =
@@ -91,9 +98,17 @@ const DialogPrimitiveTitle = ({
   children,
   ...props
 }: HTMLProps<HTMLHeadingElement>) => {
-  const { titleId } = DialogPrimitiveContext.useRequiredValue()
+  const { setLabelId } = DialogPrimitiveContext.useRequiredValue()
+  const id = useId()
+
+  // Only set `aria-labelledby` if this component is used
+  useLayoutEffect(() => {
+    setLabelId(id)
+    return () => setLabelId(undefined)
+  }, [id, setLabelId])
+
   return (
-    <h2 {...props} id={titleId}>
+    <h2 {...props} id={id}>
       {children}
     </h2>
   )
@@ -103,9 +118,17 @@ const DialogPrimitiveDescription = ({
   children,
   ...props
 }: HTMLProps<HTMLParagraphElement>) => {
-  const { descriptionId } = DialogPrimitiveContext.useRequiredValue()
+  const { setDescriptionId } = DialogPrimitiveContext.useRequiredValue()
+  const id = useId()
+
+  // Only set `aria-describedby` if this component is used
+  useLayoutEffect(() => {
+    setDescriptionId(id)
+    return () => setDescriptionId(undefined)
+  }, [id, setDescriptionId])
+
   return (
-    <p {...props} id={descriptionId}>
+    <p {...props} id={id}>
       {children}
     </p>
   )
