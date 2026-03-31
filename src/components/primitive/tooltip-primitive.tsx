@@ -1,4 +1,4 @@
-import { type Dispatch, type PropsWithChildren, useState } from "react"
+import { type Dispatch, type PropsWithChildren, useMemo, useState } from "react"
 
 import {
   flip,
@@ -63,47 +63,54 @@ export const useTooltip = ({
     placement: config.placement,
   })
 
-  const { context, refs, floatingStyles } = floating
-
   const interactions = useInteractions([
-    useClientPoint(context, { enabled: followCursor === true }),
-    useHover(context),
-    useFocus(context),
-    useDismiss(context),
-    useRole(context, { role: "tooltip" }),
+    useClientPoint(floating.context, { enabled: followCursor === true }),
+    useHover(floating.context),
+    useFocus(floating.context),
+    useDismiss(floating.context),
+    useRole(floating.context, { role: "tooltip" }),
   ])
 
-  const transition = useTransitionStyles(context, {
+  const transition = useTransitionStyles(floating.context, {
     initial: { opacity: 0, transform: "scale(0.75)" },
     open: { opacity: 1, transform: "scale(1)" },
     close: { opacity: 0, transform: "scale(0.75)" },
     duration: 150,
   })
 
-  const getTriggerProps: typeof interactions.getReferenceProps = props =>
-    interactions.getReferenceProps({
+  return useMemo(() => {
+    const getTriggerProps: typeof interactions.getReferenceProps = props =>
+      interactions.getReferenceProps({
+        ...props,
+        ref: floating.refs.setReference,
+      })
+
+    const getFloatingProps: typeof interactions.getFloatingProps = props =>
+      interactions.getFloatingProps({
+        ...props,
+        ref: floating.refs.setFloating,
+        style: { ...floating.floatingStyles, ...props?.style },
+      })
+
+    const getTransitionProps: typeof interactions.getFloatingProps = props => ({
       ...props,
-      ref: refs.setReference,
+      style: { ...transition.styles, ...props?.style },
     })
 
-  const getFloatingProps: typeof interactions.getFloatingProps = props =>
-    interactions.getFloatingProps({
-      ...props,
-      ref: refs.setFloating,
-      style: { ...floatingStyles, ...props?.style },
-    })
-
-  const getTransitionProps: typeof interactions.getFloatingProps = props => ({
-    ...props,
-    style: { ...transition.styles, ...props?.style },
-  })
-
-  return {
-    isMounted: transition.isMounted,
-    getTriggerProps,
-    getFloatingProps,
-    getTransitionProps,
-  }
+    return {
+      isMounted: transition.isMounted,
+      getTriggerProps,
+      getFloatingProps,
+      getTransitionProps,
+    }
+  }, [
+    floating.floatingStyles,
+    floating.refs.setFloating,
+    floating.refs.setReference,
+    interactions,
+    transition.isMounted,
+    transition.styles,
+  ])
 }
 
 const Context = createContext<ReturnType<typeof useTooltip>>("Tooltip")
