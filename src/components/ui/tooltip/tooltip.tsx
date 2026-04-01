@@ -26,14 +26,22 @@ export const Tooltip = ({
     >
       <TooltipPrimitive.Trigger>{trigger}</TooltipPrimitive.Trigger>
       <TooltipPrimitive.Content
-        outerClassName={zIndex.tooltip}
-        innerClassName={cn(
-          surface({ look: "overlay", size: "md" }),
-          "pointer-events-none overflow-hidden px-3 py-1.5 text-sm",
-          className
+        duration={150}
+        className={cn(
+          zIndex.tooltip,
+          "*:duration-150 *:fill-mode-forwards",
+          "data-close:*:animate-out data-close:*:fade-out-0 data-close:*:zoom-out-50 data-open:*:animate-in data-open:*:fade-in-0 data-open:*:zoom-in-50"
         )}
       >
-        {children}
+        <div
+          className={cn(
+            surface({ look: "overlay", size: "md" }),
+            "pointer-events-none overflow-hidden px-3 py-1.5 text-sm",
+            className
+          )}
+        >
+          {children}
+        </div>
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Root>
   </ErrorBoundary>

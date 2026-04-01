@@ -14,8 +14,10 @@ import {
   useInteractions,
   useRole,
   useTransitionStyles,
+  type UseTransitionStylesProps,
 } from "@floating-ui/react"
 
+import { type ClassNameProp } from "../../types/base-props"
 import { createContext } from "../../utils/create-context"
 import { Slot } from "../utility/slot"
 
@@ -70,13 +72,6 @@ export const useTooltip = ({
     useRole(floating.context, { role: "tooltip" }),
   ])
 
-  const transition = useTransitionStyles(floating.context, {
-    initial: { opacity: 0, transform: "scale(0.75)" },
-    open: { opacity: 1, transform: "scale(1)" },
-    close: { opacity: 0, transform: "scale(0.75)" },
-    duration: 150,
-  })
-
   return useMemo(() => {
     const getTriggerProps: typeof interactions.getReferenceProps = props =>
       interactions.getReferenceProps({
@@ -91,25 +86,12 @@ export const useTooltip = ({
         style: { ...floating.floatingStyles, ...props?.style },
       })
 
-    const getTransitionProps: typeof interactions.getFloatingProps = props => ({
-      ...props,
-      style: { ...transition.styles, ...props?.style },
-    })
-
     return {
-      isMounted: transition.isMounted,
+      floating,
       getTriggerProps,
       getFloatingProps,
-      getTransitionProps,
     }
-  }, [
-    floating.floatingStyles,
-    floating.refs.setFloating,
-    floating.refs.setReference,
-    interactions,
-    transition.isMounted,
-    transition.styles,
-  ])
+  }, [floating, interactions])
 }
 
 const Context = createContext<ReturnType<typeof useTooltip>>("Tooltip")
@@ -143,24 +125,26 @@ const TooltipTrigger = ({ children }: PropsWithChildren) => {
 
 const TooltipContent = ({
   children,
-  outerClassName,
-  innerClassName,
-}: PropsWithChildren<{ innerClassName?: string; outerClassName?: string }>) => {
-  const { getFloatingProps, getTransitionProps, isMounted } =
-    Context.useRequiredValue()
+  duration,
+  className,
+}: PropsWithChildren<
+  ClassNameProp & {
+    duration?: UseTransitionStylesProps["duration"]
+  }
+>) => {
+  const { getFloatingProps, floating } = Context.useRequiredValue()
+  const transition = useTransitionStyles(floating.context, { duration })
 
-  if (!isMounted) return null
-
+  if (!transition.isMounted) return null
   return (
     <FloatingPortal>
-      <div {...getFloatingProps({ className: outerClassName })}>
-        <div
-          {...getTransitionProps({
-            className: innerClassName,
-          })}
-        >
-          {children}
-        </div>
+      <div
+        {...getFloatingProps()}
+        className={className}
+        data-open={floating.context.open ? "true" : undefined}
+        data-close={!floating.context.open ? "true" : undefined}
+      >
+        {children}
       </div>
     </FloatingPortal>
   )
