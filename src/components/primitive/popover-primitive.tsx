@@ -21,9 +21,11 @@ import {
   FloatingFocusManager,
   useId,
   useTransitionStyles,
+  type UseTransitionStylesProps,
 } from "@floating-ui/react"
 
 import { useValue } from "../../hooks/use-value"
+import { type ClassNameProp } from "../../types/base-props"
 import { createContext } from "../../utils/create-context"
 import { mergeRefs } from "../../utils/merge-refs"
 import { Slot } from "../utility/slot"
@@ -66,13 +68,6 @@ export const usePopover = ({
     useRole(floating.context, { role: "dialog" }),
   ])
 
-  const transition = useTransitionStyles(floating.context, {
-    initial: { opacity: 0, transform: "scale(0.5)" },
-    open: { opacity: 1, transform: "scale(1)" },
-    close: { opacity: 0, transform: "scale(0.5)" },
-    duration: 150,
-  })
-
   return useMemo(() => {
     const getTriggerProps: typeof interactions.getReferenceProps = props =>
       interactions.getReferenceProps({
@@ -89,13 +84,7 @@ export const usePopover = ({
         style: { ...floating.context.floatingStyles, ...props?.style },
       })
 
-    const getTransitionProps: typeof interactions.getFloatingProps = props => ({
-      ...props,
-      style: { ...transition.styles, ...props?.style },
-    })
-
     return {
-      isMounted: transition.isMounted,
       floating,
       labelId,
       descriptionId,
@@ -103,13 +92,10 @@ export const usePopover = ({
       setDescriptionId,
       getTriggerProps,
       getFloatingProps,
-      getTransitionProps,
     }
   }, [
     floating,
     interactions,
-    transition.isMounted,
-    transition.styles,
     descriptionId,
     labelId,
     setDescriptionId,
@@ -139,24 +125,28 @@ const PopoverPrimitiveTrigger = (props: HTMLProps<HTMLElement>) => {
 
 const PopoverPrimitiveContent = ({
   children,
-  outerClassName,
-  innerClassName,
-}: PropsWithChildren<{
-  innerClassName?: string
-  outerClassName?: string
-}>) => {
-  const { getFloatingProps, getTransitionProps, isMounted, floating } =
-    PopoverContext.useRequiredValue()
+  duration,
+  className,
+}: PropsWithChildren<
+  ClassNameProp & {
+    duration?: UseTransitionStylesProps["duration"]
+  }
+>) => {
+  const { getFloatingProps, floating } = PopoverContext.useRequiredValue()
+  const transition = useTransitionStyles(floating.context, { duration })
 
-  if (!isMounted) return null
-
+  if (!transition.isMounted) return null
   return (
     <FloatingPortal preserveTabOrder>
       <FloatingFocusManager context={floating.context} modal={false}>
-        <div {...getFloatingProps({ className: outerClassName })}>
-          <div {...getTransitionProps({ className: innerClassName })}>
-            {children}
-          </div>
+        <div
+          {...getFloatingProps()}
+          className={className}
+          data-side={floating.context.placement.split("-")[0]}
+          data-open={floating.context.open ? "true" : undefined}
+          data-close={!floating.context.open ? "true" : undefined}
+        >
+          {children}
         </div>
       </FloatingFocusManager>
     </FloatingPortal>
