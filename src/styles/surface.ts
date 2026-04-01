@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority"
 
-export const surface = cva("outline-2 -outline-offset-1", {
+export const surface = cva("outline-[1.5px] outline-offset-[-.5px]", {
   variants: {
     look: {
       card: "rounded-lg bg-background shade-low outline-max-invert/5",

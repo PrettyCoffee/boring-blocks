@@ -27,8 +27,10 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   name: "Card",
   render: args => (
-    <Card {...args} className="max-w-sm">
-      <Placeholder />
-    </Card>
+    <div className="size-full bg-linear-135 from-category-blue/15 to-category-pink/15 py-4">
+      <Card {...args} className="mx-auto max-w-sm">
+        <Placeholder />
+      </Card>
+    </div>
   ),
 }
