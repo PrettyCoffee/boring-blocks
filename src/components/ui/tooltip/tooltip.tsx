@@ -9,12 +9,6 @@ import { cn } from "../../../utils/cn"
 import { TooltipPrimitive } from "../../primitive/tooltip-primitive"
 import { ErrorBoundary } from "../../utility/error-boundary"
 
-const tooltipStyles = cn(
-  surface({ look: "overlay", size: "md" }),
-  "pointer-events-none overflow-hidden px-3 py-1.5 text-sm",
-  zIndex.tooltip
-)
-
 export interface TooltipProps extends ClassNameProp {
   trigger: ReactNode
   placement?: "cursor" | Placement
@@ -32,7 +26,12 @@ export const Tooltip = ({
     >
       <TooltipPrimitive.Trigger>{trigger}</TooltipPrimitive.Trigger>
       <TooltipPrimitive.Content
-        className={cn(zIndex.tooltip, tooltipStyles, className)}
+        outerClassName={zIndex.tooltip}
+        innerClassName={cn(
+          surface({ look: "overlay", size: "md" }),
+          "pointer-events-none overflow-hidden px-3 py-1.5 text-sm",
+          className
+        )}
       >
         {children}
       </TooltipPrimitive.Content>

@@ -16,7 +16,6 @@ import {
   useTransitionStyles,
 } from "@floating-ui/react"
 
-import { type ClassNameProp } from "../../types/base-props"
 import { createContext } from "../../utils/create-context"
 import { Slot } from "../utility/slot"
 
@@ -144,8 +143,9 @@ const TooltipTrigger = ({ children }: PropsWithChildren) => {
 
 const TooltipContent = ({
   children,
-  className,
-}: PropsWithChildren<ClassNameProp>) => {
+  outerClassName,
+  innerClassName,
+}: PropsWithChildren<{ innerClassName?: string; outerClassName?: string }>) => {
   const { getFloatingProps, getTransitionProps, isMounted } =
     Context.useRequiredValue()
 
@@ -153,10 +153,10 @@ const TooltipContent = ({
 
   return (
     <FloatingPortal>
-      <div {...getFloatingProps({})}>
+      <div {...getFloatingProps({ className: outerClassName })}>
         <div
           {...getTransitionProps({
-            className,
+            className: innerClassName,
           })}
         >
           {children}
