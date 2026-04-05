@@ -25,6 +25,12 @@ export const interactive = cva("cursor-pointer bgl-layer/0", {
       look: ["ghost", "flat", "link"],
       className: "border-highlight text-highlight",
     },
+    {
+      active: true,
+      disabled: false,
+      look: ["key"],
+      className: "bgl-base-highlight",
+    },
   ],
   defaultVariants: {
     look: "flat",
