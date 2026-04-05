@@ -1,7 +1,5 @@
 import { type PropsWithChildren, type ReactNode } from "react"
 
-import { type Placement } from "@floating-ui/react"
-
 import { surface } from "../../../styles/surface"
 import { zIndex } from "../../../styles/z-index"
 import { type ClassNameProp } from "../../../types/base-props"
@@ -11,11 +9,13 @@ import { ErrorBoundary } from "../../utility/error-boundary"
 
 export interface TooltipProps extends ClassNameProp {
   trigger: ReactNode
-  placement?: "cursor" | Placement
+  placement?: TooltipPrimitive.Root.Props["placement"] | "cursor"
+  offset?: TooltipPrimitive.Root.Props["offset"]
 }
 
 export const Tooltip = ({
   placement = "cursor",
+  offset,
   trigger,
   children,
   className,
@@ -23,6 +23,7 @@ export const Tooltip = ({
   <ErrorBoundary>
     <TooltipPrimitive.Root
       {...(placement === "cursor" ? { followCursor: true } : { placement })}
+      offset={offset}
     >
       <TooltipPrimitive.Trigger>{trigger}</TooltipPrimitive.Trigger>
       <TooltipPrimitive.Content

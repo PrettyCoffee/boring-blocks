@@ -1,4 +1,10 @@
-import { type Dispatch, type PropsWithChildren, useMemo, useState } from "react"
+import {
+  type ComponentProps,
+  type Dispatch,
+  type PropsWithChildren,
+  useMemo,
+  useState,
+} from "react"
 
 import {
   flip,
@@ -96,16 +102,16 @@ export const useTooltip = ({
 
 const Context = createContext<ReturnType<typeof useTooltip>>("Tooltip")
 
-interface TooltipRootProps extends Pick<
+interface TooltipPrimitiveRootProps extends Pick<
   UseTooltipProps,
   "followCursor" | "placement" | "offset"
 > {}
-const TooltipRoot = ({
+const TooltipPrimitiveRoot = ({
   followCursor,
   placement,
   offset,
   children,
-}: PropsWithChildren<TooltipRootProps>) => {
+}: PropsWithChildren<TooltipPrimitiveRootProps>) => {
   const [open, setOpen] = useState(false)
   const tooltip = useTooltip({
     open,
@@ -118,12 +124,12 @@ const TooltipRoot = ({
   return <Context value={tooltip}>{children}</Context>
 }
 
-const TooltipTrigger = ({ children }: PropsWithChildren) => {
+const TooltipPrimitiveTrigger = ({ children }: PropsWithChildren) => {
   const { getTriggerProps } = Context.useRequiredValue()
   return <Slot {...getTriggerProps()}>{children}</Slot>
 }
 
-const TooltipContent = ({
+const TooltipPrimitiveContent = ({
   children,
   duration,
   className,
@@ -150,8 +156,13 @@ const TooltipContent = ({
   )
 }
 
+export namespace TooltipPrimitive {
+  export namespace Root {
+    export type Props = ComponentProps<typeof TooltipPrimitiveRoot>
+  }
+}
 export const TooltipPrimitive = {
-  Root: TooltipRoot,
-  Trigger: TooltipTrigger,
-  Content: TooltipContent,
+  Root: TooltipPrimitiveRoot,
+  Trigger: TooltipPrimitiveTrigger,
+  Content: TooltipPrimitiveContent,
 }
