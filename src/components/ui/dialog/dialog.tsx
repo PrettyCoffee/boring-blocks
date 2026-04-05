@@ -1,11 +1,5 @@
-import {
-  type PropsWithChildren,
-  type ReactNode,
-  useEffect,
-  useState,
-} from "react"
+import { type PropsWithChildren, type ReactNode } from "react"
 
-import { animate } from "../../../index-utils"
 import { hstack, vstack } from "../../../styles/stack"
 import { surface } from "../../../styles/surface"
 import { zIndex } from "../../../styles/z-index"
@@ -15,13 +9,6 @@ import { XIcon } from "../../icons"
 import { DialogPrimitive } from "../../primitive/dialog-primitive"
 import { Button, type ButtonProps } from "../button"
 import { IconButton } from "../icon-button"
-
-const transition = animate.states({
-  overlayShow: { opacity: 1, backdropFilter: "blur(var(--blur-sm)" },
-  overlayHide: { opacity: 0, backdropFilter: "blur(0)" },
-  contentShow: { opacity: 1, scale: "1" },
-  contentHide: { opacity: 0, scale: "0.5" },
-})
 
 interface DialogAction extends Pick<ButtonProps, "look" | "disabled"> {
   /** Caption displayed inside the button */
@@ -94,92 +81,61 @@ export const Dialog = ({
   confirm,
   cancel,
   className,
-}: PropsWithChildren<DialogProps>) => {
-  const [overlayRef, setOverlayRef] = useState<HTMLDivElement | null>(null)
-  const [contentRef, setContentRef] = useState<HTMLDivElement | null>(null)
+}: PropsWithChildren<DialogProps>) => (
+  <DialogPrimitive.Root onClose={onClose} closeDuration={100}>
+    <DialogPrimitive.Overlay
+      className={cn(
+        "fixed inset-0 size-full transition-all duration-200",
+        "starting:data-open:bg-transparent starting:data-open:backdrop-blur-none",
+        "data-open:bg-background-page/50 data-open:backdrop-blur-sm",
+        "data-close:bg-transparent data-close:backdrop-blur-none data-close:duration-100",
+        zIndex.dialog
+      )}
+    />
 
-  useEffect(() => {
-    if (!overlayRef || !contentRef) return
-
-    const anim = animate([
-      [overlayRef, transition.overlayHide],
-      [overlayRef, transition.overlayShow, { duration: 200 }],
-      [contentRef, transition.contentHide, { at: 0 }],
-      [contentRef, transition.contentShow, { duration: 200 }],
-    ])
-
-    return () => {
-      anim.cancel()
-    }
-  }, [contentRef, overlayRef])
-
-  const close = () => {
-    if (!overlayRef || !contentRef) return
-
-    void animate([
-      [overlayRef, transition.overlayShow],
-      [overlayRef, transition.overlayHide, { duration: 100 }],
-      [contentRef, transition.contentShow, { at: 0 }],
-      [contentRef, transition.contentHide, { duration: 100 }],
-    ]).then(onClose)
-  }
-
-  return (
-    <DialogPrimitive.Root onClose={close}>
-      <DialogPrimitive.Overlay
-        ref={element => {
-          setOverlayRef(prev => prev ?? element)
-        }}
+    <DialogPrimitive.Content
+      className={cn(
+        vstack({}),
+        surface({ look: "overlay", size: "lg" }),
+        "fixed inset-1/2 h-max w-96 -translate-1/2 p-0 shade-medium transition-all duration-200",
+        "starting:data-open:scale-50 starting:data-open:opacity-0",
+        "data-open:scale-100 data-open:opacity-100",
+        "data-close:scale-50 data-close:opacity-0 data-close:duration-100",
+        zIndex.dialog,
+        className
+      )}
+    >
+      <DialogPrimitive.Title
         className={cn(
-          "fixed inset-0 size-full bg-background-page/50 backdrop-blur-sm",
-          zIndex.dialog
-        )}
-      />
-
-      <DialogPrimitive.Content
-        ref={element => {
-          setContentRef(prev => prev ?? element)
-        }}
-        className={cn(
-          vstack({}),
-          surface({ look: "overlay", size: "lg" }),
-          "fixed inset-1/2 h-max w-96 -translate-1/2 p-0 shade-medium",
-          zIndex.dialog,
-          className
+          hstack({ align: "center" }),
+          "h-12 truncate pr-12 pl-4 text-xl text-text-priority"
         )}
       >
-        <DialogPrimitive.Title
-          className={cn(
-            hstack({ align: "center" }),
-            "h-12 truncate pr-12 pl-4 text-xl text-text-priority"
-          )}
-        >
-          <span className="truncate">{title}</span>
-        </DialogPrimitive.Title>
+        <span className="truncate">{title}</span>
+      </DialogPrimitive.Title>
 
-        {description && (
-          <DialogPrimitive.Description className="px-4 pb-4 text-sm text-text-gentle">
-            {description}
-          </DialogPrimitive.Description>
-        )}
+      {description && (
+        <DialogPrimitive.Description className="px-4 pb-4 text-sm text-text-gentle">
+          {description}
+        </DialogPrimitive.Description>
+      )}
 
-        {children && (
-          <div className="flex-1 overflow-auto px-4 pb-4">{children}</div>
-        )}
+      {children && (
+        <div className="flex-1 overflow-auto px-4 pb-4">{children}</div>
+      )}
 
-        <DialogActions confirm={confirm} cancel={cancel} onClose={close} />
+      <DialogActions confirm={confirm} cancel={cancel} onClose={close} />
 
-        <DialogPrimitive.Close>
-          <IconButton
-            // TODO: Translate title
-            title="Close"
-            className="absolute top-1 right-1"
-            hideTitle
-            icon={XIcon}
-            onClick={cancel?.onClick}
-          />
-        </DialogPrimitive.Close>
-      </DialogPrimitive.Content>
-    </DialogPrimitive.Root>
-  )
-}
+      <DialogPrimitive.Close>
+        <IconButton
+          // TODO: Translate title
+          title="Close"
+          className="absolute top-1 right-1"
+          hideTitle
+          icon={XIcon}
+          onClick={cancel?.onClick}
+        />
+      </DialogPrimitive.Close>
+    </DialogPrimitive.Content>
+  </DialogPrimitive.Root>
+)

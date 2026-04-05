@@ -24,16 +24,25 @@ import { Slot } from "../utility/slot"
 
 interface DialogOptions {
   onClose?: () => void
+  closeDuration?: number
 }
 
-const useDialog = ({ onClose }: DialogOptions = {}) => {
+const useDialog = ({ onClose, closeDuration }: DialogOptions = {}) => {
+  const [open, setOpen] = useState(true)
   const [labelId, setLabelId] = useState<string>()
   const [descriptionId, setDescriptionId] = useState<string>()
 
   const floating = useFloating({
-    open: true,
+    open,
     onOpenChange: open => {
-      if (!open) onClose?.()
+      setOpen(open)
+      if (onClose && !open) {
+        if (closeDuration) {
+          window.setTimeout(onClose, closeDuration)
+        } else {
+          onClose()
+        }
+      }
     },
   })
 
@@ -68,9 +77,9 @@ const DialogPrimitiveContext =
 
 const DialogPrimitiveRoot = ({
   children,
-  onClose,
+  ...options
 }: PropsWithChildren<DialogOptions>) => {
-  const dialog = useDialog({ onClose })
+  const dialog = useDialog(options)
   return (
     <DialogPrimitiveContext.Provider value={dialog}>
       <FloatingPortal>{children}</FloatingPortal>
@@ -78,18 +87,34 @@ const DialogPrimitiveRoot = ({
   )
 }
 
-const DialogPrimitiveOverlay = (props: HTMLProps<HTMLDivElement>) => (
-  <FloatingOverlay {...props} lockScroll />
-)
+const DialogPrimitiveOverlay = (props: HTMLProps<HTMLDivElement>) => {
+  const { floating } = DialogPrimitiveContext.useRequiredValue()
+  return (
+    <FloatingOverlay
+      {...props}
+      lockScroll
+      data-open={floating.context.open ? "true" : undefined}
+      data-close={!floating.context.open ? "true" : undefined}
+    />
+  )
+}
 
 const DialogPrimitiveContent = ({
   children,
   ...props
 }: HTMLProps<HTMLDivElement>) => {
-  const context = DialogPrimitiveContext.useRequiredValue()
+  const { floating, getFloatingProps } =
+    DialogPrimitiveContext.useRequiredValue()
+
   return (
-    <FloatingFocusManager context={context.floating.context}>
-      <div {...context.getFloatingProps(props)}>{children}</div>
+    <FloatingFocusManager context={floating.context}>
+      <div
+        {...getFloatingProps(props)}
+        data-open={floating.context.open ? "true" : undefined}
+        data-close={!floating.context.open ? "true" : undefined}
+      >
+        {children}
+      </div>
     </FloatingFocusManager>
   )
 }
