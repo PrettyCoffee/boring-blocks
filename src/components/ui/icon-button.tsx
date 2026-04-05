@@ -23,7 +23,7 @@ export interface IconButtonProps
   extends
     VariantProps<typeof iconButton>,
     Pick<IconProps, "icon" | "filled">,
-    Omit<ButtonProps, "look" | "icon">,
+    Omit<ButtonProps, "look" | "icon" | "size">,
     StyleProp {
   title: string
   look?: Exclude<ButtonProps["look"], "link">
