@@ -80,7 +80,6 @@ export const TextInput = ({
                 onChange?.("", event)
                 textRef.current?.focus()
               }}
-              className="rounded-sm"
             />
           </span>
         )}

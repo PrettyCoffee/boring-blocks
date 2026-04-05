@@ -25,12 +25,12 @@ const isExternalLink = (href?: string) =>
   href && URL.canParse(href) && !href.includes(window.location.origin)
 
 const button = cva(
-  "relative inline-flex shrink-0 items-center justify-center rounded-md text-sm font-medium whitespace-nowrap",
+  "relative inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap",
   {
     variants: {
       size: {
-        md: "h-10 px-3",
-        sm: "h-8 px-2",
+        md: "h-10 rounded-md px-3",
+        sm: "h-8 rounded-sm px-2",
       },
     },
     defaultVariants: {
