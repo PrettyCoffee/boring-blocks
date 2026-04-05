@@ -35,7 +35,7 @@ const PopoverContent = ({
 
 export namespace Popover {
   export namespace Root {
-    export type Props = Partial<PopoverPrimitive.Options>
+    export type Props = Partial<PopoverPrimitive.Root.Props>
   }
   export namespace Content {
     export type Props = ClassNameProp

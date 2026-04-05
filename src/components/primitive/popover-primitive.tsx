@@ -4,6 +4,7 @@ import {
   useLayoutEffect,
   type PropsWithChildren,
   type HTMLProps,
+  type ComponentProps,
 } from "react"
 
 import {
@@ -30,12 +31,19 @@ import { createContext } from "../../utils/create-context"
 import { mergeRefs } from "../../utils/merge-refs"
 import { Slot } from "../utility/slot"
 
+interface PopoverOptions {
+  placement: Placement
+  open?: boolean
+  initialOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
 export const usePopover = ({
   placement,
   open: controlledOpen,
   initialOpen,
   onOpenChange,
-}: PopoverPrimitive.Options) => {
+}: PopoverOptions) => {
   const [labelId, setLabelId] = useState<string | undefined>()
   const [descriptionId, setDescriptionId] = useState<string | undefined>()
 
@@ -109,7 +117,7 @@ const PopoverContext =
 const PopoverPrimitiveRoot = ({
   children,
   ...options
-}: PropsWithChildren<PopoverPrimitive.Options>) => {
+}: PropsWithChildren<PopoverOptions>) => {
   const popover = usePopover({ ...options })
   return (
     <PopoverContext.Provider value={popover}>
@@ -118,19 +126,17 @@ const PopoverPrimitiveRoot = ({
   )
 }
 
-const PopoverPrimitiveTrigger = (props: HTMLProps<HTMLElement>) => {
+const PopoverPrimitiveTrigger = ({ children, ...props }: PropsWithChildren) => {
   const { getTriggerProps } = PopoverContext.useRequiredValue()
-  return <Slot {...getTriggerProps(props)} />
+  return <Slot {...getTriggerProps(props)}>{children}</Slot>
 }
 
 const PopoverPrimitiveContent = ({
   children,
   duration,
-  className,
+  ...props
 }: PropsWithChildren<
-  ClassNameProp & {
-    duration?: UseTransitionStylesProps["duration"]
-  }
+  ClassNameProp & Pick<UseTransitionStylesProps, "duration">
 >) => {
   const { getFloatingProps, floating } = PopoverContext.useRequiredValue()
   const transition = useTransitionStyles(floating.context, { duration })
@@ -140,8 +146,7 @@ const PopoverPrimitiveContent = ({
     <FloatingPortal preserveTabOrder>
       <FloatingFocusManager context={floating.context} modal={false}>
         <div
-          {...getFloatingProps()}
-          className={className}
+          {...getFloatingProps(props)}
           data-side={floating.context.placement.split("-")[0]}
           data-open={floating.context.open ? "true" : undefined}
           data-close={!floating.context.open ? "true" : undefined}
@@ -188,28 +193,16 @@ const PopoverPrimitiveDescription = (
   return <p {...props} id={id} />
 }
 
-const PopoverPrimitiveClose = ({
-  onClick,
-  ...props
-}: HTMLProps<HTMLElement>) => {
+const PopoverPrimitiveClose = ({ ...props }: PropsWithChildren) => {
   const { floating } = PopoverContext.useRequiredValue()
   return (
-    <Slot
-      {...props}
-      onClick={event => {
-        onClick?.(event)
-        floating.context.onOpenChange(false)
-      }}
-    />
+    <Slot {...props} onClick={() => floating.context.onOpenChange(false)} />
   )
 }
 
 export namespace PopoverPrimitive {
-  export interface Options {
-    placement: Placement
-    open?: boolean
-    initialOpen?: boolean
-    onOpenChange?: (open: boolean) => void
+  export namespace Root {
+    export type Props = ComponentProps<typeof PopoverPrimitiveRoot>
   }
 }
 
