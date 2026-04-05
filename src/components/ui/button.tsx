@@ -1,4 +1,11 @@
-import { type PropsWithChildren } from "react"
+import {
+  type ComponentProps,
+  type PropsWithChildren,
+  type ReactElement,
+  type ReactNode,
+  cloneElement,
+  isValidElement,
+} from "react"
 
 import { cva } from "class-variance-authority"
 
@@ -48,6 +55,71 @@ export type ButtonProps = ButtonPrimitiveProps &
     iconColor?: IconProps["color"]
   }
 
+const ButtonContent = ({
+  icon,
+  iconColor,
+  size,
+  href,
+  look,
+  children,
+}: PropsWithChildren<
+  Pick<ButtonProps, "icon" | "iconColor" | "size" | "href" | "look">
+>) => (
+  <>
+    {icon ? (
+      <Icon
+        color={iconColor}
+        icon={icon}
+        size={size === "sm" ? "xs" : "sm"}
+        className="mr-2"
+      />
+    ) : null}
+
+    {children}
+
+    {isExternalLink(href) && (
+      <Icon
+        icon={ExternalLink}
+        className="absolute top-1 right-1 size-2.5!"
+        color={
+          (
+            {
+              key: "invert",
+              flat: "muted",
+              link: "muted",
+              ghost: "default",
+              destructive: "error",
+            } as const
+          )[look!]
+        }
+      />
+    )}
+  </>
+)
+
+const injectChildren = (
+  asChild: boolean | undefined,
+  children: ReactNode,
+  content: ReactElement<ComponentProps<typeof ButtonContent>>
+) => {
+  const contentWithChildren = (children: ReactNode) =>
+    cloneElement(content, { ...content.props, children })
+
+  if (!asChild) return contentWithChildren(children)
+
+  if (isValidElement<PropsWithChildren>(children)) {
+    return cloneElement(children, {
+      ...children.props,
+      children: contentWithChildren(children.props.children),
+    })
+  }
+
+  console.warn(
+    "Using Button with asChild prop, but child is not a single react element."
+  )
+  return null
+}
+
 export const Button = ({
   className,
   children,
@@ -60,47 +132,34 @@ export const Button = ({
   icon,
   iconColor = "current",
   ...props
-}: PropsWithChildren<ButtonProps>) => (
-  <ErrorBoundary>
-    <TitleTooltip title={title} side={titleSide}>
-      <ButtonPrimitive
-        {...props}
-        disabled={disabled}
-        className={cn(
-          button({ size }),
-          interactive({ look, active, disabled }),
-          className
-        )}
-      >
-        {icon ? (
-          <Icon
-            color={iconColor}
-            icon={icon}
-            size={size === "sm" ? "xs" : "sm"}
-            className="mr-2"
-          />
-        ) : null}
+}: PropsWithChildren<ButtonProps>) => {
+  const content = (
+    <ButtonContent
+      href={props.href}
+      look={look}
+      size={size}
+      icon={icon}
+      iconColor={iconColor}
+    />
+  )
 
-        {children}
+  const child = injectChildren(props.asChild, children, content)
 
-        {isExternalLink(props.href) && (
-          <Icon
-            icon={ExternalLink}
-            className="absolute top-1 right-1 size-2.5!"
-            color={
-              (
-                {
-                  key: "invert",
-                  flat: "muted",
-                  link: "muted",
-                  ghost: "default",
-                  destructive: "error",
-                } as const
-              )[look]
-            }
-          />
-        )}
-      </ButtonPrimitive>
-    </TitleTooltip>
-  </ErrorBoundary>
-)
+  return (
+    <ErrorBoundary>
+      <TitleTooltip title={title} side={titleSide}>
+        <ButtonPrimitive
+          {...props}
+          disabled={disabled}
+          className={cn(
+            button({ size }),
+            interactive({ look, active, disabled }),
+            className
+          )}
+        >
+          {child}
+        </ButtonPrimitive>
+      </TitleTooltip>
+    </ErrorBoundary>
+  )
+}

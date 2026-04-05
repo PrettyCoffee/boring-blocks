@@ -26,6 +26,7 @@ const meta = {
   argTypes: {
     ref: argType.disabled(),
     children: argType.string(),
+    asChild: argType.boolean(),
     disabled: argType.boolean(),
     title: argType.string(),
     titleSide: argType.enum("select", titleSides),
@@ -44,6 +45,7 @@ const meta = {
   },
   args: {
     children: "Button",
+    asChild: undefined,
     look: "flat",
     size: "md",
     active: false,
@@ -59,6 +61,15 @@ type Story = StoryObj<typeof meta>
 
 export const Standard: Story = {}
 export const TitleTooltip: Story = { args: { title: "Title tooltip" } }
+
+export const AsChild: Story = {
+  args: { asChild: true },
+  render: args => (
+    <Button {...args}>
+      <h2>Dis a heading?</h2>
+    </Button>
+  ),
+}
 
 export const Variants: Story = {
   render: args => (

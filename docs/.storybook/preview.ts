@@ -49,7 +49,6 @@ const preview = {
   },
 
   argTypes: {
-    asChild: argType.hidden(),
     className: argType.hidden(),
     children: argType.hidden(),
     style: argType.hidden(),

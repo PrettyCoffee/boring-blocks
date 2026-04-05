@@ -2,8 +2,8 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { Button, type ButtonProps } from "./button"
 import { Icon, type IconProps } from "./icon"
-import { type StyleProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
+import { type ButtonPrimitiveProps } from "../primitive/button-primitive"
 import { ErrorBoundary } from "../utility/error-boundary"
 import { VisuallyHidden } from "../utility/visually-hidden"
 
@@ -19,16 +19,14 @@ const iconButton = cva("shrink-0", {
   },
 })
 
-export interface IconButtonProps
-  extends
-    VariantProps<typeof iconButton>,
-    Pick<IconProps, "icon" | "filled">,
-    Omit<ButtonProps, "look" | "icon" | "size">,
-    StyleProp {
-  title: string
-  look?: Exclude<ButtonProps["look"], "link">
-  hideTitle?: boolean
-}
+export type IconButtonProps = ButtonPrimitiveProps<"button" | "link"> &
+  Omit<ButtonProps, "look" | "icon" | "size" | keyof ButtonPrimitiveProps> &
+  VariantProps<typeof iconButton> &
+  Pick<IconProps, "icon" | "filled"> & {
+    title: string
+    look?: Exclude<ButtonProps["look"], "link">
+    hideTitle?: boolean
+  }
 
 export const IconButton = ({
   icon,
