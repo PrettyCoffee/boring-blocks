@@ -6,6 +6,7 @@ import { DialogProvider } from "boring-blocks"
 import { css, Global, styled } from "storybook/theming"
 
 import { useDarkMode } from "../addons/dark-mode"
+import { useThemeOptions } from "../addons/theme-options"
 
 const CanvasLayout = styled.div<{ background?: string }>(({ background }) => [
   css`
@@ -37,16 +38,15 @@ const getCanvasBackground = (
   return storyBackground || "white"
 }
 export const CanvasDecorator: Decorator = (Story, context) => {
+  useThemeOptions() // load theme options atom to apply styles
+
   const isDarkMode = useDarkMode()
   const background = getCanvasBackground(context, isDarkMode)
   const { viewMode } = context
   const isDocsPage = viewMode === "docs"
-  const theme = isDarkMode ? "dark" : "light"
+
   return (
-    <CanvasLayout
-      className={theme}
-      background={isDocsPage ? background : undefined}
-    >
+    <CanvasLayout background={isDocsPage ? background : undefined}>
       <Story />
       <DialogProvider />
       {!isDocsPage && <Global styles={{ ":root": { background } }} />}
