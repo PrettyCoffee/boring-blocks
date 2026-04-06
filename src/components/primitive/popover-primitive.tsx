@@ -35,7 +35,7 @@ interface PopoverOptions {
   placement: Placement
   open?: boolean
   initialOpen?: boolean
-  onOpenChange?: (open: boolean) => void
+  onOpenChange?: (open: boolean, event: Event) => void
 }
 
 export const usePopover = ({

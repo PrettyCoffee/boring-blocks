@@ -1,11 +1,15 @@
 import {
-  type SetStateAction,
   useCallback,
   useState,
   type Dispatch,
+  type SyntheticEvent,
 } from "react"
 
 import { useLatest } from "./use-latest"
+
+type AnyEvent = Event | SyntheticEvent
+
+type Updater<TPrev, TValue> = TValue | ((prev: TPrev) => TValue)
 
 export interface ValueProps<TValue> {
   value?: TValue
@@ -13,19 +17,27 @@ export interface ValueProps<TValue> {
   onChange?: Dispatch<TValue>
 }
 
-interface UseValueProps<TValue> {
+interface UseValueProps<
+  TValue,
+  TChangeValue extends TValue,
+  TChangeEvent extends AnyEvent | undefined,
+> {
   controlledValue: TValue | undefined
   initialValue: TValue | undefined
   defaultValue: TValue
-  onChange: Dispatch<TValue> | undefined
+  onChange?: (value: TChangeValue, event: TChangeEvent) => void | undefined
 }
 
-export const useValue = <TValue>({
+export const useValue = <
+  TValue,
+  TChangeValue extends TValue,
+  TChangeEvent extends AnyEvent | undefined = undefined,
+>({
   controlledValue,
   initialValue,
   defaultValue,
   onChange,
-}: UseValueProps<TValue>) => {
+}: UseValueProps<TValue, TChangeValue, TChangeEvent>) => {
   const [internalState, setInternalState] = useState(
     initialValue ?? defaultValue
   )
@@ -37,11 +49,14 @@ export const useValue = <TValue>({
   const lastValue = useLatest(value)
 
   const handleChange = useCallback(
-    (next: SetStateAction<TValue>) => {
+    (
+      next: Updater<TValue, TChangeValue>,
+      ...[event]: TChangeEvent extends AnyEvent ? [TChangeEvent] : []
+    ) => {
       const nextValue =
         next instanceof Function ? next(lastValue.current) : next
       if (!isControlled) setInternalState(nextValue)
-      onChange?.(nextValue)
+      onChange?.(nextValue, event as TChangeEvent)
     },
     [isControlled, onChange, lastValue]
   )
