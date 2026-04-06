@@ -33,12 +33,12 @@ const shrinkTimeBar = keyframes`
 const enterAnimation = (element?: HTMLElement | null) => {
   if (!element) return
 
-  const hidden = { opacity: 0, scale: 0.5 }
-  const visible = { opacity: 1, scale: 1 }
+  const hidden = { opacity: 0, scale: 1.25, height: 0 }
+  const visible = { opacity: 1, scale: 1, height: element.scrollHeight + "px" }
 
   return animate([
     [element, hidden],
-    [element, visible, { duration: 150, ease: "out" }],
+    [element, visible, { duration: 200, ease: "out" }],
   ])
 }
 

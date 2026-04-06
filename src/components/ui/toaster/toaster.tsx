@@ -19,7 +19,7 @@ export const Toaster = () => {
             zIndex.toast
           )}
         >
-          {toasts.map(toast => (
+          {toasts.toReversed().map(toast => (
             <Toast
               key={toast.id}
               {...toast}
