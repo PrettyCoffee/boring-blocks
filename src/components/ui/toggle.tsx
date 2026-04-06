@@ -40,14 +40,14 @@ export const Toggle = ({
         disabled={disabled}
         className={cn(
           toggleTransition,
-          "inline-block h-6 w-10 shrink-0 cursor-pointer rounded-xl bg-background-button/25 p-0.5",
+          "inline-block h-6 w-10 shrink-0 cursor-pointer rounded-lg bg-background-button/25 p-0.5",
           "data-checked:bg-highlight/50"
         )}
       >
         <TogglePrimitive.Thumb
           className={cn(
             toggleTransition,
-            "inline-block size-5 rounded-xl bg-background-page/75",
+            "inline-block size-5 rounded-lg bg-background-page/75",
             "data-checked:translate-x-2 data-unchecked:-translate-x-2"
           )}
         />

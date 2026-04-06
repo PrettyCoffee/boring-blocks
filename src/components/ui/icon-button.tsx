@@ -1,4 +1,4 @@
-import { cva, type VariantProps } from "class-variance-authority"
+import { cva } from "class-variance-authority"
 
 import { Button, type ButtonProps } from "./button"
 import { Icon, type IconProps } from "./icon"
@@ -20,8 +20,7 @@ const iconButton = cva("shrink-0", {
 })
 
 export type IconButtonProps = ButtonPrimitiveProps<"button" | "link"> &
-  Omit<ButtonProps, "look" | "icon" | "size" | keyof ButtonPrimitiveProps> &
-  VariantProps<typeof iconButton> &
+  Omit<ButtonProps, "look" | "icon" | keyof ButtonPrimitiveProps> &
   Pick<IconProps, "icon" | "filled"> & {
     title: string
     look?: Exclude<ButtonProps["look"], "link">
@@ -45,6 +44,7 @@ export const IconButton = ({
       look={look}
       className={cn(iconButton({ size }), className)}
       title={hideTitle ? undefined : title}
+      size={size}
     >
       <VisuallyHidden>{title}</VisuallyHidden>
       <Icon icon={icon} size="sm" color={iconColor} filled={filled} />

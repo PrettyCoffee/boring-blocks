@@ -40,7 +40,7 @@ const colors = {
 
 const tokens = createTokens()
   .addVariant("light", {
-    radius: 12,
+    radius: 8,
     color: {
       accent: colors.accent[500],
       shadow: colors.neutral[300],
@@ -97,7 +97,7 @@ const tokens = createTokens()
     },
   })
   .addVariant("dark", {
-    radius: 12,
+    radius: 8,
     color: {
       accent: colors.accent[300],
       shadow: colors.black,
@@ -158,11 +158,11 @@ export const theme = createTheme({
   tokens,
   getTheme: get => ({
     borderRadius: {
-      "2xl": get("radius", "calc(<var> / 8 * 1rem)"), // 1rem
-      xl: get("radius", "calc(<var> / 10.666 * 1rem)"), // 0.75rem
-      lg: get("radius", "calc(<var> / 16 * 1rem)"), // 0.5rem
-      md: get("radius", "calc(<var> / 21.333 * 1rem)"), // 0.375rem
-      sm: get("radius", "calc(<var> / 32 * 1rem)"), // 0.25rem
+      "2xl": get("radius", "calc(<var> / 16 * 1rem + 1rem)"), // 1.5rem
+      xl: get("radius", "calc(<var> / 16 * 1rem + 0.5rem)"), // 1rem
+      lg: get("radius", "calc(<var> / 16 * 1rem + 0.25rem)"), // 0.75rem
+      md: get("radius", "calc(<var> / 16 * 1rem)"), // 0.5rem (with radius = 8)
+      sm: get("radius", "calc(<var> / 16 * 1rem - 0.125rem)"), // 0.375rem
       full: "9999px",
       none: "0px",
     },

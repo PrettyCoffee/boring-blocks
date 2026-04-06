@@ -129,7 +129,7 @@ export const ThemeOptionToolbar = () => {
           <RangeControl
             name="radius"
             min={0}
-            max={24}
+            max={16}
             value={radius}
             onChange={value => {
               themeOptions.set(prev => ({ ...prev, radius: value ?? 0 }))
