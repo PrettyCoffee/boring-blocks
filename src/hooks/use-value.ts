@@ -5,6 +5,8 @@ import {
   type Dispatch,
 } from "react"
 
+import { useLatest } from "./use-latest"
+
 export interface ValueProps<TValue> {
   value?: TValue
   initialValue?: TValue
@@ -32,13 +34,16 @@ export const useValue = <TValue>({
   const isControlled = useState(controlledValue !== undefined)[0]
   const value = isControlled ? (controlledValue as TValue) : internalState
 
+  const lastValue = useLatest(value)
+
   const handleChange = useCallback(
     (next: SetStateAction<TValue>) => {
-      const nextValue = next instanceof Function ? next(value) : next
+      const nextValue =
+        next instanceof Function ? next(lastValue.current) : next
       if (!isControlled) setInternalState(nextValue)
       onChange?.(nextValue)
     },
-    [isControlled, onChange, value]
+    [isControlled, onChange, lastValue]
   )
 
   return [value, handleChange] as const
