@@ -6,6 +6,8 @@ import {
   useState,
 } from "react"
 
+import "../../types/react.d"
+
 import { InputBorder } from "./fragments/input-border"
 import { hstack } from "../../styles/stack"
 import { cn } from "../../utils/cn"
