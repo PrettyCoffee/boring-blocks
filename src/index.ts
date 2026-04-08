@@ -19,6 +19,7 @@ export * from "./components/ui/toaster"
 export * from "./components/ui/toggle"
 export * from "./components/ui/tooltip"
 
+export * from "./components/utility/animate-height"
 export * from "./components/utility/error-boundary"
 export * from "./components/utility/slot"
 
