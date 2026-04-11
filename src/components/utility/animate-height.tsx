@@ -66,7 +66,6 @@ export interface AnimateHeightProps
   extends ClassNameProp, RefProp<HTMLDivElement> {
   height?: number | string
   duration?: number
-  delay?: number
 
   onTransitionStart?: TransitionEventHandler<HTMLDivElement>
   onTransitionEnd?: TransitionEventHandler<HTMLDivElement>
@@ -76,7 +75,6 @@ export const AnimateHeight = ({
   children,
   height: heightProp = "auto",
   duration: durationProp = 0,
-  delay: delayProp = 0,
   className,
   ...rest
 }: PropsWithChildren<AnimateHeightProps>) => {
@@ -95,18 +93,12 @@ export const AnimateHeight = ({
     return () => resizeObserver.disconnect()
   }, [heightProp, updateHeight])
 
-  const sharedStyles: CSSProperties = {
+  const styles: CSSProperties = {
     height,
     overflow: "hidden",
+    transitionProperty: "height",
+    transitionDuration: prefersReducedMotion() ? "0.1ms" : durationProp + "ms",
   }
-  const styles: CSSProperties = prefersReducedMotion()
-    ? { ...sharedStyles, transitionDuration: 0.1 + "ms" }
-    : {
-        ...sharedStyles,
-        transitionProperty: "height",
-        transitionDelay: delayProp + "ms",
-        transitionDuration: durationProp + "ms",
-      }
 
   return (
     <div

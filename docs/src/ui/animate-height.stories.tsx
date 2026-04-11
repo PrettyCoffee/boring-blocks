@@ -11,7 +11,6 @@ const meta = {
   title: "Utility/AnimateHeight",
   component: AnimateHeight,
   argTypes: {
-    delay: argType.number(),
     duration: argType.number(),
     height: argType.enum("radio", ["auto", 100, 200, 300]),
     onTransitionStart: argType.callback(),
