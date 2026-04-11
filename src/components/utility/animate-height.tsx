@@ -1,17 +1,23 @@
 import {
-  type CSSProperties,
   type PropsWithChildren,
   type TransitionEventHandler,
   useEffect,
   useLayoutEffect,
   useReducer,
   useRef,
+  useState,
 } from "react"
 
 import { Slot } from "./slot"
-import { type RefProp, type ClassNameProp } from "../../types/base-props"
-import { cn } from "../../utils/cn"
+import {
+  type RefProp,
+  type ClassNameProp,
+  type StyleProp,
+} from "../../types/base-props"
 import { mergeRefs } from "../../utils/merge-refs"
+
+const isZeroHeight = (height: number | string) =>
+  typeof height === "number" ? height === 0 : /^0+([a-z%]+)$/.test(height)
 
 const prefersReducedMotion = () =>
   window.matchMedia("(prefers-reduced-motion)").matches
@@ -63,7 +69,7 @@ const useHeight = () => {
 }
 
 export interface AnimateHeightProps
-  extends ClassNameProp, RefProp<HTMLDivElement> {
+  extends ClassNameProp, StyleProp, RefProp<HTMLDivElement> {
   height?: number | string
   duration?: number
 
@@ -75,9 +81,12 @@ export const AnimateHeight = ({
   children,
   height: heightProp = "auto",
   duration: durationProp = 0,
-  className,
+  style,
+  onTransitionStart,
+  onTransitionEnd,
   ...rest
 }: PropsWithChildren<AnimateHeightProps>) => {
+  const [isAnimating, setIsAnimating] = useState(false)
   const [height, updateHeight] = useHeight()
   const contentRef = useRef<HTMLElement | null>(null)
 
@@ -93,21 +102,37 @@ export const AnimateHeight = ({
     return () => resizeObserver.disconnect()
   }, [heightProp, updateHeight])
 
-  const styles: CSSProperties = {
-    height,
-    overflow: "hidden",
-    transitionProperty: "height",
-    transitionDuration: prefersReducedMotion() ? "0.1ms" : durationProp + "ms",
-  }
-
   return (
     <div
       ref={mergeRefs(ref, container => updateHeight({ container }))}
-      style={styles}
-      className={cn(className, "overflow-hidden")}
+      style={{
+        ...style,
+        height,
+        overflow: "hidden",
+        transitionProperty: "height",
+        transitionDuration: prefersReducedMotion()
+          ? "0.1ms"
+          : durationProp + "ms",
+      }}
+      // eslint-disable-next-line react/no-unknown-property -- plugin is outdated
+      onTransitionStart={event => {
+        setIsAnimating(true)
+        onTransitionStart?.(event)
+      }}
+      onTransitionEnd={event => {
+        setIsAnimating(false)
+        onTransitionEnd?.(event)
+      }}
       {...rest}
     >
-      <Slot ref={contentRef}>{children}</Slot>
+      <Slot
+        ref={contentRef}
+        style={
+          isZeroHeight(height ?? "") && !isAnimating ? { display: "none" } : {}
+        }
+      >
+        {children}
+      </Slot>
     </div>
   )
 }
