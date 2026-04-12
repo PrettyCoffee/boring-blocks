@@ -34,15 +34,13 @@ export const BoxOnly: Story = {
 export const SingleLineLabel: Story = {
   render: args => (
     <div className="max-w-96">
-      <Checkbox {...args} initialChecked>
-        Checked with label
-      </Checkbox>
-      <Checkbox {...args} initialChecked="indeterminate">
-        Indeterminate with label
-      </Checkbox>
-      <Checkbox {...args} initialChecked={false}>
-        Unchecked with label
-      </Checkbox>
+      <Checkbox {...args} initialChecked label="Checked with label" />
+      <Checkbox
+        {...args}
+        initialChecked="indeterminate"
+        label="Indeterminate with label"
+      />
+      <Checkbox {...args} initialChecked={false} label="Unchecked with label" />
     </div>
   ),
 }
@@ -53,15 +51,17 @@ const longLabel =
 export const MultiLineLabel: Story = {
   render: args => (
     <div className="max-w-96">
-      <Checkbox {...args} initialChecked>
-        Checked with {longLabel}
-      </Checkbox>
-      <Checkbox {...args} initialChecked="indeterminate">
-        Indeterminate with {longLabel}
-      </Checkbox>
-      <Checkbox {...args} initialChecked={false}>
-        Unchecked with {longLabel}
-      </Checkbox>
+      <Checkbox {...args} initialChecked label={`Checked with ${longLabel}`} />
+      <Checkbox
+        {...args}
+        initialChecked="indeterminate"
+        label={`Indeterminate with ${longLabel}`}
+      />
+      <Checkbox
+        {...args}
+        initialChecked={false}
+        label={`Unchecked with ${longLabel}`}
+      />
     </div>
   ),
 }

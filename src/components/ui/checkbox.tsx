@@ -2,13 +2,13 @@ import { type PropsWithChildren, type ChangeEvent, useState } from "react"
 
 import { css, keyframes } from "goober"
 
-import { CheckIcon, MinusIcon } from "../icons"
 import { Icon } from "./icon"
 import { focusWithinOutline } from "../../styles/focus-within-outline"
 import { interactive } from "../../styles/interactive"
 import { hstack } from "../../styles/stack"
 import { type RefProp, type ClassNameProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
+import { CheckIcon, MinusIcon } from "../icons"
 import { SelectionBoxPrimitive } from "../primitive/selection-box-primitive"
 import { AnimateHeight } from "../utility/animate-height"
 
@@ -18,7 +18,7 @@ const CheckboxLabel = ({
   <AnimateHeight duration={150}>
     <div
       className={cn(
-        "relative line-clamp-3 text-text transition-colors duration-200 ease-out [[data-checked]~*_&]:line-clamp-1 [[data-checked]~*_&]:text-text-muted [[data-checked]~*_&]:delay-100"
+        "relative line-clamp-3 text-sm text-text transition-colors duration-200 ease-out [[data-checked]~*_&]:line-clamp-1 [[data-checked]~*_&]:text-text-muted [[data-checked]~*_&]:delay-100"
       )}
     >
       <span
@@ -62,6 +62,7 @@ export interface CheckboxProps
   extends ClassNameProp, RefProp<HTMLInputElement> {
   value?: string
   name?: string
+  label?: string
   checked?: SelectionBoxPrimitive.CheckedState
   initialChecked?: SelectionBoxPrimitive.CheckedState
   onCheckedChange?: (
@@ -73,9 +74,9 @@ export interface CheckboxProps
 export const Checkbox = ({
   onCheckedChange,
   className,
-  children,
+  label,
   ...props
-}: PropsWithChildren<CheckboxProps>) => {
+}: CheckboxProps) => {
   const [didChange, setDidChange] = useState(false)
 
   return (
@@ -84,7 +85,7 @@ export const Checkbox = ({
         interactive({ look: "flat" }),
         hstack({ gap: 3 }),
         "relative min-h-10 min-w-10 shrink-0 rounded-md",
-        children && "py-2 pr-3 pl-11",
+        label && "py-2.5 pr-3 pl-11",
         focusWithinOutline,
         className
       )}
@@ -121,7 +122,7 @@ export const Checkbox = ({
         }
       </SelectionBoxPrimitive>
 
-      {children && <CheckboxLabel>{children}</CheckboxLabel>}
+      {label && <CheckboxLabel>{label}</CheckboxLabel>}
     </label>
   )
 }
