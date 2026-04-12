@@ -10,6 +10,27 @@ import { hstack } from "../../styles/stack"
 import { type ClassNameProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
 import { SelectionBoxPrimitive } from "../primitive/selection-box-primitive"
+import { AnimateHeight } from "../utility/animate-height"
+
+const CheckboxLabel = ({
+  children,
+}: PropsWithChildren<Pick<CheckboxProps, "checked">>) => (
+  <AnimateHeight duration={150}>
+    <div
+      className={cn(
+        "relative line-clamp-3 text-text transition-colors duration-200 ease-out [[data-checked]~*_&]:line-clamp-1 [[data-checked]~*_&]:text-text-muted [[data-checked]~*_&]:delay-100"
+      )}
+    >
+      <span
+        className={cn(
+          "absolute -inset-x-1 top-1/2 h-px origin-left -translate-y-1/2 rounded-full bg-text-gentle shade-low",
+          "scale-x-0 transition-transform duration-200 ease-out [[data-checked]~*_&]:scale-x-100 [[data-checked]~*_&]:delay-100"
+        )}
+      />
+      {children}
+    </div>
+  </AnimateHeight>
+)
 
 const wiggle = keyframes`
   0% {
@@ -59,9 +80,9 @@ export const Checkbox = ({
     <label
       className={cn(
         interactive({ look: "flat" }),
-        hstack({ gap: 3, align: "center" }),
-        "h-10 shrink-0 rounded-md pl-2",
-        !children ? "pr-2" : "pr-3",
+        hstack({ gap: 3 }),
+        "relative min-h-10 min-w-10 shrink-0 rounded-md",
+        children && "py-2 pr-3 pl-11",
         focusWithinOutline,
         className
       )}
@@ -75,7 +96,7 @@ export const Checkbox = ({
           onCheckedChange?.(checked, event)
         }}
         className={cn(
-          "inline-grid size-6 shrink-0 place-content-center rounded-sm border border-stroke/50 [:hover>&]:border-stroke",
+          "absolute top-2 left-2 inline-grid size-6 shrink-0 place-content-center rounded-sm border border-stroke/50 shade-low [:hover>&]:border-stroke",
           className
         )}
       >
@@ -100,17 +121,7 @@ export const Checkbox = ({
         }
       </SelectionBoxPrimitive>
 
-      {children && (
-        <div
-          className={cn(
-            "text-text transition-colors duration-200 ease-out [[data-checked]~&]:text-text-muted [[data-checked]~&]:delay-100",
-            "relative before:absolute before:-inset-x-1 before:top-1/2 before:h-px before:origin-left before:-translate-y-1/2 before:rounded-full before:bg-text-gentle before:shade-low",
-            "before:scale-x-0 before:transition-transform before:duration-200 before:ease-out [[data-checked]~&]:before:scale-x-100 [[data-checked]~&]:before:delay-100"
-          )}
-        >
-          {children}
-        </div>
-      )}
+      {children && <CheckboxLabel>{children}</CheckboxLabel>}
     </label>
   )
 }

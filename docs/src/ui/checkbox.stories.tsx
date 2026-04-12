@@ -19,7 +19,7 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
+export const BoxOnly: Story = {
   render: args => (
     <div className={cn(hstack({ wrap: true }))}>
       <Checkbox {...args} initialChecked />
@@ -29,9 +29,9 @@ export const Default: Story = {
   ),
 }
 
-export const WithLabel: Story = {
+export const SingleLineLabel: Story = {
   render: args => (
-    <div className="w-max">
+    <div className="max-w-96">
       <Checkbox {...args} initialChecked>
         Checked with label
       </Checkbox>
@@ -40,6 +40,25 @@ export const WithLabel: Story = {
       </Checkbox>
       <Checkbox {...args} initialChecked={false}>
         Unchecked with label
+      </Checkbox>
+    </div>
+  ),
+}
+
+const longLabel =
+  "a very long label that will cause the text to overflow the component and end up in ellipsis if everything is styled correctly. This part here shouldn't be visible."
+
+export const MultiLineLabel: Story = {
+  render: args => (
+    <div className="max-w-96">
+      <Checkbox {...args} initialChecked>
+        Checked with {longLabel}
+      </Checkbox>
+      <Checkbox {...args} initialChecked="indeterminate">
+        Indeterminate with {longLabel}
+      </Checkbox>
+      <Checkbox {...args} initialChecked={false}>
+        Unchecked with {longLabel}
       </Checkbox>
     </div>
   ),
