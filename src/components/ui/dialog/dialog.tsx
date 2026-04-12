@@ -33,41 +33,38 @@ export interface DialogProps extends ClassNameProp {
 const DialogActions = ({
   confirm,
   cancel,
-  onClose,
-}: Pick<DialogProps, "confirm" | "cancel" | "onClose">) => {
+}: Pick<DialogProps, "confirm" | "cancel">) => {
   if (!confirm && !cancel) return null
 
   return (
     <div className={cn(hstack({ gap: 2, wrap: true }), "px-4 pb-4")}>
       {confirm && (
-        <Button
-          look={confirm.look ?? "key"}
-          disabled={confirm.disabled}
-          onClick={() => {
-            onClose?.()
-            confirm.onClick?.()
-          }}
-        >
-          {
-            // TODO: Translate caption
-            confirm.caption ?? "Confirm"
-          }
-        </Button>
+        <DialogPrimitive.Close>
+          <Button
+            look={confirm.look ?? "key"}
+            disabled={confirm.disabled}
+            onClick={confirm.onClick}
+          >
+            {
+              // TODO: Translate caption
+              confirm.caption ?? "Confirm"
+            }
+          </Button>
+        </DialogPrimitive.Close>
       )}
       {cancel && (
-        <Button
-          look={cancel.look ?? "flat"}
-          disabled={cancel.disabled}
-          onClick={() => {
-            onClose?.()
-            cancel.onClick?.()
-          }}
-        >
-          {
-            // TODO: Translate caption
-            cancel.caption ?? "Cancel"
-          }
-        </Button>
+        <DialogPrimitive.Close>
+          <Button
+            look={cancel.look ?? "flat"}
+            disabled={cancel.disabled}
+            onClick={cancel.onClick}
+          >
+            {
+              // TODO: Translate caption
+              cancel.caption ?? "Cancel"
+            }
+          </Button>
+        </DialogPrimitive.Close>
       )}
     </div>
   )
@@ -124,7 +121,7 @@ export const Dialog = ({
         <div className="flex-1 overflow-auto px-4 pb-4">{children}</div>
       )}
 
-      <DialogActions confirm={confirm} cancel={cancel} onClose={close} />
+      <DialogActions confirm={confirm} cancel={cancel} />
 
       <DialogPrimitive.Close>
         <IconButton
