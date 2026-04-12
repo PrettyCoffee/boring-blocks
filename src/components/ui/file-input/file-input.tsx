@@ -3,7 +3,7 @@ import { useState } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { alert as alertStyles } from "../../../styles/alert"
-import { focusWithinOutline } from "../../../styles/focus-within-outline"
+import { focusOutline } from "../../../styles/focus-outline"
 import { interactive } from "../../../styles/interactive"
 import { hstack } from "../../../styles/stack"
 import { type Alert } from "../../../types/alert"
@@ -16,7 +16,7 @@ import { ErrorBoundary } from "../../utility/error-boundary"
 
 const fileInput = cva(
   cn(
-    focusWithinOutline,
+    focusOutline.within,
     hstack({ inline: true, gap: 4, align: "center", justify: "center" }),
     "relative cursor-pointer rounded-md border-2 border-dashed border-stroke-muted p-6",
     interactive({ look: "flat" })

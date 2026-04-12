@@ -2,7 +2,7 @@ import { type PropsWithChildren, type ChangeEvent, useState } from "react"
 
 import { css, keyframes } from "goober"
 
-import { focusWithinOutline } from "../../../styles/focus-within-outline"
+import { focusOutline } from "../../../styles/focus-outline"
 import { interactive } from "../../../styles/interactive"
 import { hstack } from "../../../styles/stack"
 import { type RefProp, type ClassNameProp } from "../../../types/base-props"
@@ -87,7 +87,7 @@ export const Checkbox = ({
         interactive({ look: "flat" }),
         hstack({ gap: 3 }),
         "relative min-h-10 min-w-10 shrink-0 rounded-md",
-        focusWithinOutline,
+        focusOutline.within,
         label && labelStyles.layout,
         className
       )}

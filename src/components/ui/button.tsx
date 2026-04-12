@@ -11,6 +11,7 @@ import { cva } from "class-variance-authority"
 
 import { Icon, type IconProps } from "./icon"
 import { TitleTooltip, type TitleTooltipProps } from "./tooltip"
+import { focusOutline } from "../../styles/focus-outline"
 import { interactive, type InteractiveProps } from "../../styles/interactive"
 import { type IconProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
@@ -25,7 +26,10 @@ const isExternalLink = (href?: string) =>
   href && URL.canParse(href) && !href.includes(window.location.origin)
 
 const button = cva(
-  "relative inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap",
+  cn(
+    focusOutline.local,
+    "relative inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap"
+  ),
   {
     variants: {
       size: {
