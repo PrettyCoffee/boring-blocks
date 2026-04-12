@@ -3,7 +3,7 @@ import { type ChangeEvent, type Dispatch, type KeyboardEvent } from "react"
 import { css } from "goober"
 
 import { Checkbox, type CheckboxProps } from "./checkbox"
-import { labelStyles } from "./label-layout"
+import { labelStyles } from "./label-styles"
 import { cn } from "../../../utils/cn"
 import { InputBorder } from "../fragments/input-border"
 

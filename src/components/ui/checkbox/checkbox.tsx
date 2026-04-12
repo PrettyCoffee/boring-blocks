@@ -11,7 +11,7 @@ import { CheckIcon, MinusIcon } from "../../icons"
 import { SelectionBoxPrimitive } from "../../primitive/selection-box-primitive"
 import { AnimateHeight } from "../../utility/animate-height"
 import { Icon } from "../icon"
-import { labelStyles } from "./label-layout"
+import { labelStyles } from "./label-styles"
 
 const CheckboxLabel = ({
   children,
