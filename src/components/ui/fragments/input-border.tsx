@@ -11,11 +11,15 @@ export interface NumberInputProps extends Pick<
   "ref" | "style" | "className"
 > {
   alert?: AlertKind
+  hoverClassName?: string
+  focusVisibleClassName?: string
 }
 export const InputBorder = ({
   alert,
   className,
   children,
+  hoverClassName = cn("hover:border-stroke"),
+  focusVisibleClassName = cn("[&:has(*:focus-visible)]:border-stroke-focus"),
   ...props
 }: PropsWithChildren<NumberInputProps>) => (
   <div
@@ -25,7 +29,7 @@ export const InputBorder = ({
       "relative h-10 w-full rounded-md border in-[table_tr:not(:hover),[role='grid']_[role='row']:not(:hover)]:border-transparent",
       alert && ["warn", "error"].includes(alert)
         ? alertStyles[alert].border
-        : "border-stroke-muted hover:border-stroke [&:has(*:focus-visible)]:border-stroke-focus",
+        : [`border-stroke-muted`, hoverClassName, focusVisibleClassName],
       className
     )}
   >

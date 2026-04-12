@@ -2,15 +2,16 @@ import { type PropsWithChildren, type ChangeEvent, useState } from "react"
 
 import { css, keyframes } from "goober"
 
-import { Icon } from "./icon"
-import { focusWithinOutline } from "../../styles/focus-within-outline"
-import { interactive } from "../../styles/interactive"
-import { hstack } from "../../styles/stack"
-import { type RefProp, type ClassNameProp } from "../../types/base-props"
-import { cn } from "../../utils/cn"
-import { CheckIcon, MinusIcon } from "../icons"
-import { SelectionBoxPrimitive } from "../primitive/selection-box-primitive"
-import { AnimateHeight } from "../utility/animate-height"
+import { focusWithinOutline } from "../../../styles/focus-within-outline"
+import { interactive } from "../../../styles/interactive"
+import { hstack } from "../../../styles/stack"
+import { type RefProp, type ClassNameProp } from "../../../types/base-props"
+import { cn } from "../../../utils/cn"
+import { CheckIcon, MinusIcon } from "../../icons"
+import { SelectionBoxPrimitive } from "../../primitive/selection-box-primitive"
+import { AnimateHeight } from "../../utility/animate-height"
+import { Icon } from "../icon"
+import { labelStyles } from "./label-layout"
 
 const CheckboxLabel = ({
   children,
@@ -18,12 +19,13 @@ const CheckboxLabel = ({
   <AnimateHeight duration={150}>
     <div
       className={cn(
+        labelStyles.text,
         "relative line-clamp-3 text-sm text-text transition-colors duration-200 ease-out [[data-checked]~*_&]:line-clamp-1 [[data-checked]~*_&]:text-text-muted [[data-checked]~*_&]:delay-100"
       )}
     >
       <span
         className={cn(
-          "absolute -inset-x-1 top-1/2 h-px origin-left -translate-y-1/2 rounded-full bg-text-gentle shade-low",
+          "absolute -inset-x-1 top-2.5 h-px origin-left -translate-y-1/2 rounded-full bg-text-gentle shade-low",
           "scale-x-0 transition-transform duration-200 ease-out [[data-checked]~*_&]:scale-x-100 [[data-checked]~*_&]:delay-100"
         )}
       />
@@ -85,8 +87,8 @@ export const Checkbox = ({
         interactive({ look: "flat" }),
         hstack({ gap: 3 }),
         "relative min-h-10 min-w-10 shrink-0 rounded-md",
-        label && "py-2.5 pr-3 pl-11",
         focusWithinOutline,
+        label && labelStyles.layout,
         className
       )}
     >
