@@ -41,7 +41,6 @@ const meta = {
     Trigger: Popover.Trigger,
     Content: Popover.Content,
   },
-  tags: ["autodocs"],
   argTypes: {
     placement: argType.enum("select", placements),
     initialOpen: argType.disabled(),
@@ -57,7 +56,8 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Standard: Story = {
+export const Default: Story = {
+  name: "Popover",
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole("button"))
   },

@@ -25,9 +25,8 @@ export default meta
 
 type Story = StoryObj<typeof ContextInfo>
 
-export const Default: Story = {}
-
-export const Buttons: Story = {
+export const Default: Story = {
+  name: "ContextInfo",
   render: args => (
     <ContextInfo
       {...args}

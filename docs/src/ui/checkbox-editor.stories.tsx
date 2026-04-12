@@ -47,6 +47,7 @@ interface ListItem {
 }
 
 export const Default: Story = {
+  name: "CheckboxEditor",
   render: function Default(args: CheckboxEditorProps) {
     const [editable, setEditable] = useState(true)
     const [list, setList] = useState<ListItem[]>([

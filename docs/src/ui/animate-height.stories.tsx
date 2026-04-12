@@ -38,6 +38,7 @@ const demoHeights: Record<
   "%": { defautlValue: 50, values: [0, 25, 50, 75, 100] },
 }
 export const Default: Story = {
+  name: "AnimateHeight",
   argTypes: { height: argType.disabled() },
   render: args => {
     const [selectedType, setSelectedType] = useState("number")

@@ -22,7 +22,6 @@ const kinds = [
 const meta = {
   title: "Buttons/Button",
   component: Button,
-  tags: ["autodocs"],
   argTypes: {
     ref: argType.disabled(),
     children: argType.string(),
@@ -59,7 +58,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Standard: Story = {}
+export const Default: Story = {}
 export const TitleTooltip: Story = { args: { title: "Title tooltip" } }
 
 export const AsChild: Story = {

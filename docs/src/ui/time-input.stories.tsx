@@ -51,4 +51,7 @@ const ControlledStory = ({
   )
 }
 
-export const Default: Story = { render: ControlledStory }
+export const Default: Story = {
+  name: "TimeInput",
+  render: ControlledStory,
+}

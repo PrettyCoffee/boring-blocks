@@ -22,7 +22,6 @@ const kinds = [
 const meta = {
   title: "Buttons/IconButton",
   component: IconButton,
-  tags: ["autodocs"],
   argTypes: {
     ref: argType.disabled(),
     disabled: argType.boolean(),
@@ -57,9 +56,8 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Standard: Story = {}
-
-export const Variants: Story = {
+export const Default: Story = {
+  name: "IconButton",
   render: args => (
     <div className="inline-grid grid-cols-[auto_auto_auto_auto_auto] items-center gap-1">
       {kinds.map(look => (

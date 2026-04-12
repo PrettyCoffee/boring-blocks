@@ -15,7 +15,6 @@ const placements: TooltipProps["placement"][] = [
 const meta = {
   title: "Floating/Tooltip",
   component: Tooltip,
-  tags: ["autodocs"],
   argTypes: {
     placement: argType.enum("select", placements),
     trigger: argType.disabled(),
@@ -31,13 +30,8 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Standard: Story = {
-  play: async ({ canvas, userEvent }) => {
-    await userEvent.hover(canvas.getByRole("button"))
-  },
-}
-
-export const Placements: Story = {
+export const Default: Story = {
+  name: "Tooltip",
   play: async ({ canvas, userEvent }) => {
     await userEvent.hover(canvas.getByRole("button", { name: "top" }))
   },

@@ -10,7 +10,6 @@ import { darkTheme, lightTheme } from "./themes"
 import { argType } from "../src/utils/arg-type"
 
 const preview = {
-  tags: ["autodocs"],
   decorators: [CanvasDecorator],
 
   parameters: {

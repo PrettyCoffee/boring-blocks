@@ -9,7 +9,6 @@ const iconSizes: IconProps["size"][] = ["xs", "sm", "md", "lg", "xl"] as const
 const meta = {
   title: "Primitives/Icon",
   component: Icon,
-  tags: ["autodocs"],
   argTypes: {
     ref: argType.disabled(),
 
@@ -31,9 +30,8 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Standard: Story = {}
-
-export const Variants: Story = {
+export const Default: Story = {
+  name: "Icon",
   render: args => (
     <div
       className="inline-grid gap-x-2 gap-y-1"
