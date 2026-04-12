@@ -7,7 +7,7 @@ import { Icon } from "./icon"
 import { focusWithinOutline } from "../../styles/focus-within-outline"
 import { interactive } from "../../styles/interactive"
 import { hstack } from "../../styles/stack"
-import { type ClassNameProp } from "../../types/base-props"
+import { type RefProp, type ClassNameProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
 import { SelectionBoxPrimitive } from "../primitive/selection-box-primitive"
 import { AnimateHeight } from "../utility/animate-height"
@@ -58,7 +58,10 @@ const checkAnimation = css`
   animation: 300ms ${wiggle} ease-out;
 `
 
-export interface CheckboxProps extends ClassNameProp {
+export interface CheckboxProps
+  extends ClassNameProp, RefProp<HTMLInputElement> {
+  value?: string
+  name?: string
   checked?: SelectionBoxPrimitive.CheckedState
   initialChecked?: SelectionBoxPrimitive.CheckedState
   onCheckedChange?: (
@@ -68,11 +71,10 @@ export interface CheckboxProps extends ClassNameProp {
 }
 
 export const Checkbox = ({
-  checked,
-  initialChecked,
   onCheckedChange,
   className,
   children,
+  ...props
 }: PropsWithChildren<CheckboxProps>) => {
   const [didChange, setDidChange] = useState(false)
 
@@ -88,16 +90,14 @@ export const Checkbox = ({
       )}
     >
       <SelectionBoxPrimitive
+        {...props}
         type="checkbox"
-        checked={checked}
-        initialChecked={initialChecked}
         onCheckedChange={(checked, event) => {
           setDidChange(true)
           onCheckedChange?.(checked, event)
         }}
         className={cn(
-          "absolute top-2 left-2 inline-grid size-6 shrink-0 place-content-center rounded-sm border border-stroke/50 shade-low [:hover>&]:border-stroke",
-          className
+          "absolute top-2 left-2 inline-grid size-6 shrink-0 place-content-center rounded-sm border border-stroke/50 shade-low [:hover>&]:border-stroke"
         )}
       >
         {checked =>

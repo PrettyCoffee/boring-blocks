@@ -11,6 +11,8 @@ const meta = {
     checked: argType.disabled(),
     initialChecked: argType.disabled(),
     onCheckedChange: argType.callback(),
+    name: argType.string(),
+    value: argType.string(),
   },
   args: {},
 } satisfies Meta<typeof Checkbox>
