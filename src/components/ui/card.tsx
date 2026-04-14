@@ -19,24 +19,20 @@ export const Card = ({
   className,
 }: PropsWithChildren<CardProps>) => (
   <ErrorBoundary>
-    <div className="p-2">
-      <div
-        className={cn(
-          surface({ look: "card", size: "lg" }),
-          "p-4 pt-2",
-          className
-        )}
-      >
-        <Headline className="mb-1 font-bold text-text-priority">
-          {title}
-        </Headline>
-        {description && (
-          <p className={cn("text-sm text-text-gentle", children && "mb-4")}>
-            {description}
-          </p>
-        )}
-        {children}
-      </div>
+    <div
+      className={cn(
+        surface({ look: "card", size: "lg" }),
+        "p-4 pt-2",
+        className
+      )}
+    >
+      <Headline className="mb-1 font-bold text-text-priority">{title}</Headline>
+      {description && (
+        <p className={cn("text-sm text-text-gentle", children && "mb-4")}>
+          {description}
+        </p>
+      )}
+      {children}
     </div>
   </ErrorBoundary>
 )
