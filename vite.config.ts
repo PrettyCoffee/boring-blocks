@@ -1,20 +1,17 @@
-import { resolve } from "node:path"
+import { resolve, parse } from "node:path"
 
 import react from "@vitejs/plugin-react"
 import { defineConfig, type Plugin } from "vite"
 
-const isLocalPath = (id: string) => {
-  const fileSystemRoot = __dirname.split(/[\\/]/)[0] + "/" // e.g. "C:/" on windows or "/" on unix-based systems
-  return [".", "/", fileSystemRoot].some(prefix =>
-    id.replaceAll("\\", "/").startsWith(prefix)
+const normalSlash = (path: string) => path.replaceAll("\\", "/")
+const fileSystemRoot = parse(__dirname).root
+const isLocalPath = (id: string) =>
+  [".", "/", fileSystemRoot].some(root =>
+    normalSlash(id).startsWith(normalSlash(root))
   )
-}
-interface LibBundlePluginOptions {
-  /** Define which entrypoints exist for the module */
+interface LibBundleOptions {
   entries: Record<string, { path: string; outFile: string }>
-  /** Disable the plugin in specific contexts (e.g. when running vitest) */
   disabled?: boolean
-  /** Define modules which should be bundled with the package and not be shared with the installing UI */
   includeInBundle?: (string | RegExp)[]
 }
 
@@ -22,21 +19,17 @@ const libBundle = ({
   disabled,
   entries,
   includeInBundle = [],
-}: LibBundlePluginOptions): Plugin => {
-  if (disabled) return { name: "lib-bundle-plugin" }
+}: LibBundleOptions): Plugin => {
+  if (disabled) return { name: "lib-bundle" }
   const shouldBundle = (id: string) => {
     const forceBundling = includeInBundle.some(pattern =>
       typeof pattern === "string" ? id.startsWith(pattern) : pattern.test(id)
     )
-    // explicitly bundle modules which match the includeInBundle patterns
-    if (forceBundling) return true
-
-    // otherwise only transform local source code, dependencies are installed and bundled by UIs
-    return isLocalPath(id)
+    return forceBundling || isLocalPath(id)
   }
 
   return {
-    name: "lib-bundle-plugin",
+    name: "lib-bundle",
     enforce: "pre",
     config: config => {
       config.build ??= {}
@@ -44,8 +37,8 @@ const libBundle = ({
       config.build.minify ??= false
       config.build.copyPublicDir ??= false
 
-      config.build.rollupOptions = {
-        ...config.build.rollupOptions,
+      config.build.rolldownOptions = {
+        ...config.build.rolldownOptions,
         external: id => !shouldBundle(id),
       }
 
