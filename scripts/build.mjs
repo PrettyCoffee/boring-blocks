@@ -33,5 +33,5 @@ await run("vite build")
 
 printHeadline("🛠️ Transpiling types")
 await run(
-  "tsc -p ./tsconfig.lib.json --outDir ./dist --noEmit false --declaration --emitDeclarationOnly"
+  "tsc -p ./tsconfig.lib.json --rootDir ./src --outDir ./dist --noEmit false --declaration --emitDeclarationOnly"
 )

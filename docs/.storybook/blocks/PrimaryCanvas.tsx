@@ -1,9 +1,9 @@
 // @ts-ignore -- We need to import React for JSX support in Storybook internals
-import React from "react"
+import React, { type ComponentProps } from "react"
 
 import { useOf, Canvas } from "@storybook/addon-docs/blocks"
 
-type CanvasProps = Parameters<typeof Canvas>[0]
+type CanvasProps = ComponentProps<typeof Canvas>
 interface PrimaryCanvasProps extends Pick<CanvasProps, "sourceState"> {}
 
 export const PrimaryCanvas = ({ ...canvasProps }: PrimaryCanvasProps) => {
