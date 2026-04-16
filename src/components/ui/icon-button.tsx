@@ -7,7 +7,7 @@ import { type ButtonPrimitiveProps } from "../primitive/button-primitive"
 import { ErrorBoundary } from "../utility/error-boundary"
 import { VisuallyHidden } from "../utility/visually-hidden"
 
-const iconButton = cva("shrink-0", {
+const iconButton = cva("shrink-0 p-0", {
   variants: {
     size: {
       md: "size-10",

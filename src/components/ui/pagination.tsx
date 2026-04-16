@@ -59,7 +59,7 @@ const PaginationButtons = ({
       key={pageIndex}
       active={page === pageIndex}
       onClick={() => onPageChange?.(pageIndex)}
-      className="w-10"
+      className="w-10 p-0"
     >
       {pageIndex + 1}
     </Button>
