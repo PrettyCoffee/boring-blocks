@@ -1,6 +1,7 @@
 import {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type PropsWithChildren,
@@ -11,6 +12,7 @@ import { css } from "goober"
 import { useThrottle } from "../../hooks/use-throttle"
 import { type ClassNameProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
+import { createContext } from "../../utils/create-context"
 
 const COLUMN_WIDTH = "--masonry-column-width" as string
 const MASONRY_TRANSITION = "--masonry-transition-duration" as string
@@ -103,6 +105,8 @@ const getChildrenColumns = (
   }, columns)
 }
 
+const Context = createContext<{ updateLayout: () => void }>("Masonry")
+
 interface MasonryGridProps {
   minColumnWidth: number
   gap?: number
@@ -124,7 +128,7 @@ const MasonryGrid = ({
 
   const [didMount, setDidMount] = useState(false)
 
-  const updateGrid = useCallback(
+  const updateLayout = useCallback(
     (grid: HTMLElement) =>
       throttle(() => {
         const columnWidth = getColumnWidth(grid, minColumnWidth, gap)
@@ -143,34 +147,43 @@ const MasonryGrid = ({
 
   useEffect(() => {
     if (!gridRef.current) return
-    updateGrid(gridRef.current)
+    updateLayout(gridRef.current)
     // Only enable transitions after first render is flushed
     window.queueMicrotask(() => setDidMount(true))
-  }, [updateGrid])
+  }, [updateLayout])
 
   useEffect(() => {
     if (!gridRef.current) return
 
     const observer = new ResizeObserver(() => {
       if (!gridRef.current) return
-      updateGrid(gridRef.current)
+      updateLayout(gridRef.current)
     })
     observer.observe(gridRef.current)
     return () => {
       observer.disconnect()
     }
-  }, [updateGrid])
+  }, [updateLayout])
 
   return (
-    <div
-      ref={gridRef}
-      className={gridClass}
-      style={{
-        [MASONRY_TRANSITION]: !didMount ? "0ms" : `${transitionDuration}ms`,
-      }}
+    <Context
+      value={useMemo(
+        () => ({
+          updateLayout: () => gridRef.current && updateLayout(gridRef.current),
+        }),
+        [updateLayout]
+      )}
     >
-      {children}
-    </div>
+      <div
+        ref={gridRef}
+        className={gridClass}
+        style={{
+          [MASONRY_TRANSITION]: !didMount ? "0ms" : `${transitionDuration}ms`,
+        }}
+      >
+        {children}
+      </div>
+    </Context>
   )
 }
 
@@ -197,4 +210,5 @@ const MasonryItem = ({
 export const Masonry = {
   Grid: MasonryGrid,
   Item: MasonryItem,
+  useContext: Context.useRequiredValue,
 }
