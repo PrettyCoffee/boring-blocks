@@ -25,7 +25,7 @@ const createThrottle = (delay: number) => {
     if (remaining <= 0) {
       callFn()
     } else {
-      timeout = setTimeout(callFn, remaining)
+      timeout = window.setTimeout(callFn, remaining)
     }
   }
 

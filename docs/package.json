@@ -8,16 +8,16 @@
     "build": "storybook build -o dist"
   },
   "dependencies": {
-    "@faker-js/faker": "10.3.0",
-    "@storybook/addon-docs": "10.2.17",
+    "@faker-js/faker": "10.4.0",
+    "@storybook/addon-docs": "10.3.5",
     "@storybook/icons": "2.0.1",
     "@yaasl/react": "0.15.0-alpha.1",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "storybook": "10.2.17"
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "storybook": "10.3.5"
   },
   "devDependencies": {
-    "@storybook/react-vite": "10.2.17",
+    "@storybook/react-vite": "10.3.5",
     "vite-tsconfig-paths": "6.1.1"
   }
 }

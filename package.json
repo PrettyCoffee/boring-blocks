@@ -54,28 +54,28 @@
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
-    "lucide-react": "^0.577.0",
+    "lucide-react": "^1.8.0",
     "tailwind-merge": "^3.5.0",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@base-ui/react": "1.3.0",
+    "@base-ui/react": "1.4.0",
     "@floating-ui/react": "0.27.19",
     "@floating-ui/react-dom": "2.1.8",
     "@pretty-cozy/eslint-config": "0.9.0",
-    "@tailwindcss/vite": "4.2.1",
-    "@types/node": "24.12.0",
+    "@tailwindcss/vite": "4.2.2",
+    "@types/node": "24.12.2",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "@vitejs/plugin-react": "5.1.4",
+    "@vitejs/plugin-react": "5.2.0",
     "@yaasl/react": "0.15.0-alpha.1",
     "eslint": "9.39.4",
-    "eslint-plugin-storybook": "10.2.17",
+    "eslint-plugin-storybook": "10.3.5",
     "goober": "2.1.18",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "tailwindcss": "4.2.1",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "tailwindcss": "4.2.2",
     "typescript": "5.9.3",
-    "vite": "7.3.1"
+    "vite": "7.3.2"
   }
 }
