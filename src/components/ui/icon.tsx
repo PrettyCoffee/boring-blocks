@@ -59,6 +59,8 @@ export const Icon = ({
       className={cn(icon({ color, filled, size }), className)}
       absoluteStrokeWidth={strokeWidth != null}
       strokeWidth={strokeWidth}
+      data-icon={IconComp.displayName}
+      role="img"
       {...delegated}
     />
   </ErrorBoundary>

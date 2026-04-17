@@ -1,6 +1,7 @@
 import prettyCozy from "@pretty-cozy/eslint-config"
 import { defineConfig, globalIgnores } from "eslint/config"
 import storybook from "eslint-plugin-storybook"
+import testingLibrary from "eslint-plugin-testing-library"
 
 const storybookConfig = defineConfig({
   basePath: "./docs",
@@ -52,6 +53,10 @@ export default defineConfig(
   globalIgnores(["dist", "node_modules", "!./docs/.storybook"]),
 
   storybookConfig,
+  {
+    files: ["tests", "src/**/*.test.*"],
+    extends: [testingLibrary.configs["flat/react"]],
+  },
 
   {
     rules: {

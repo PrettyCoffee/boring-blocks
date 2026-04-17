@@ -1,3 +1,5 @@
+import "vitest/config"
+
 import { resolve, parse } from "node:path"
 
 import react from "@vitejs/plugin-react"
@@ -85,4 +87,14 @@ export default defineConfig(({ command }) => ({
       },
     }),
   ],
+  resolve: { tsconfigPaths: true },
+  test: {
+    dir: "src",
+    include: ["**/*.test.*"],
+    setupFiles: ["tests/test-setup.ts"],
+    environment: "happy-dom",
+    isolate: false,
+    pool: "threads",
+    watch: false,
+  },
 }))
