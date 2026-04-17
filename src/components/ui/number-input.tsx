@@ -7,8 +7,6 @@ import { cn } from "../../utils/cn"
 import { mergeRefs } from "../../utils/merge-refs"
 import { ErrorBoundary } from "../utility/error-boundary"
 
-// TODO: Extract shared code with TextInput (i.e. InputBorder, InputAlertIcon, InputBaseProps)
-
 const meassureText = (text: string, reference: HTMLElement) => {
   const element = document.createElement("span")
   element.style.font = window.getComputedStyle(reference).font
