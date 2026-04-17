@@ -1,0 +1,12 @@
+{
+  "extends": ["./tsconfig.lib.json"],
+  "compilerOptions": {
+    "tsBuildInfoFile": "../../node_modules/.tmp/tsconfig.npm.tsbuildinfo",
+    "rootDir": "src",
+    "outDir": "dist",
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true
+  },
+  "include": ["src/index.ts", "src/index-icons.ts", "src/index-utils.ts"]
+}

@@ -32,6 +32,4 @@ printHeadline("🛠️ Bundling javascript")
 await run("vite build")
 
 printHeadline("🛠️ Transpiling types")
-await run(
-  "tsc -p ./tsconfig.lib.json --rootDir ./src --outDir ./dist --noEmit false --declaration --emitDeclarationOnly"
-)
+await run("tsc -p ./tsconfig.npm.json")
