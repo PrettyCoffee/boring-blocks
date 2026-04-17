@@ -10,10 +10,25 @@ import "../../types/react.d"
 
 import { InputBorder } from "./fragments/input-border"
 import { hstack } from "../../styles/stack"
+import { clamp } from "../../utils/clamp"
 import { cn } from "../../utils/cn"
-import { type ParsedTime, timeHelpers } from "../../utils/time-helpers"
 
-const getNumbers = (value = "") => value.replaceAll(/[^\d]+/g, "").slice(0, 4)
+const getNumbers = (value: Temporal.PlainTime | string = "") => {
+  if (value instanceof Temporal.PlainTime) {
+    const hours = value.hour.toString().padStart(2, "0")
+    const minutes = value.minute.toString().padStart(2, "0")
+    return `${hours}${minutes}`
+  }
+  return value.replaceAll(/[^\d]+/g, "").slice(0, 4)
+}
+
+const parseNumbers = (value: string) => {
+  const numbers = getNumbers(value)
+  return {
+    hours: clamp(Number(numbers.slice(0, 2)), 0, 23),
+    minutes: clamp(Number(numbers.slice(2, 4)), 0, 59),
+  }
+}
 
 const padTime = (value: string) => {
   const nums = getNumbers(value)
@@ -31,31 +46,34 @@ const padTime = (value: string) => {
   }
 }
 
-const clampTime = ({ hours, minutes }: ParsedTime): ParsedTime => {
-  if (hours > 23) return { hours: 23, minutes: 59 }
-  if (minutes > 59) return { hours, minutes: 59 }
-  return { hours, minutes }
+const stringToTime = (numbers: string) => {
+  const { hours, minutes } = parseNumbers(padTime(numbers))
+  return new Temporal.PlainTime(hours, minutes)
 }
 
 const forceTime = (value: string) => {
   const padded = padTime(value)
-  const parsed = timeHelpers.toParsed(padded)
-  const time = clampTime(parsed)
-  return timeHelpers.fromParsed(time)
+  return stringToTime(padded)
 }
 
-const nextQuarter = (timeString: string) => {
-  const { hours, minutes } = timeHelpers.toParsed(timeString)
-  const snapped = minutes - (minutes % 15) + 15
-  const fullMinutes = hours * 60 + snapped
-  return forceTime(timeHelpers.fromMinutes(fullMinutes))
+const nextQuarter = (time: Temporal.PlainTime) => {
+  const toNextQuarter = 15 - (time.minute % 15)
+  const duration = new Temporal.Duration(0, 0, 0, 0, 0, toNextQuarter)
+  const newTime = time.add(duration)
+
+  const max = new Temporal.PlainTime(23, 59)
+  const didOverflow = Temporal.PlainTime.compare(time, newTime) === 1
+  return didOverflow ? max : newTime
 }
 
-const prevQuarter = (timeString: string) => {
-  const { hours, minutes } = timeHelpers.toParsed(timeString)
-  const snapped = minutes - (minutes % 15 || 15)
-  const fullMinutes = Math.max(hours * 60 + snapped, 0)
-  return forceTime(timeHelpers.fromMinutes(fullMinutes))
+const prevQuarter = (time: Temporal.PlainTime) => {
+  const toPrevQuarter = time.minute % 15 || 15
+  const duration = new Temporal.Duration(0, 0, 0, 0, 0, toPrevQuarter)
+  const newTime = time.subtract(duration)
+
+  const min = new Temporal.PlainTime(0, 0)
+  const didOverflow = Temporal.PlainTime.compare(time, newTime) === -1
+  return didOverflow ? min : newTime
 }
 
 type InputProps = HTMLProps<HTMLInputElement>
@@ -69,19 +87,21 @@ export interface TimeInputProps extends Pick<
   | "disabled"
   | "ref"
 > {
-  value?: string
+  value?: Temporal.PlainTime
   onChange?: (
-    value: string,
+    value: Temporal.PlainTime,
     event: ChangeEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement>
   ) => void
 }
+
+const defaultValue = new Temporal.PlainTime()
 
 export const TimeInput = ({
   onKeyDown,
   onChange,
   onFocus,
   onBlur,
-  value,
+  value = defaultValue,
   className,
   ...props
 }: TimeInputProps) => {
@@ -104,7 +124,7 @@ export const TimeInput = ({
       start === 5 ? value.slice(0, 3) + value.slice(4) : value.slice(0, 4)
 
     setText(inserted)
-    onChange?.(forceTime(inserted), event)
+    onChange?.(stringToTime(inserted), event)
     target.value = inserted
     target.setSelectionRange(start, start)
   }
@@ -115,11 +135,12 @@ export const TimeInput = ({
     const key = event.key
     if (key.length === 1) {
       const isNumber = /\d/.test(event.key)
-      if (!isNumber) return event.preventDefault()
+      if (!isNumber && !event.ctrlKey) event.preventDefault()
       return
     }
+
     if (key === "ArrowUp") {
-      const time = nextQuarter(value ?? "")
+      const time = nextQuarter(value)
       onChange?.(time, event)
       setText(getNumbers(time))
       event.preventDefault()
@@ -127,7 +148,7 @@ export const TimeInput = ({
       return
     }
     if (key === "ArrowDown") {
-      const time = prevQuarter(value ?? "")
+      const time = prevQuarter(value)
       onChange?.(time, event)
       setText(getNumbers(time))
       event.preventDefault()
