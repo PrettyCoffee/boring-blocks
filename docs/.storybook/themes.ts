@@ -23,7 +23,7 @@ const shared = {
   fontCode: "Fira Code",
 
   brandTitle: `Boring Blocks (v${version})`,
-  brandUrl: "./",
+  brandUrl: "https://github.com/PrettyCoffee/boring-blocks",
   brandTarget: "_self",
   brandImage: "./boring-blocks.webp",
 }
