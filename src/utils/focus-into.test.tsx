@@ -1,6 +1,6 @@
 import { type Ref } from "react"
 
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 
 import { render, screen } from "test"
 
@@ -138,11 +138,12 @@ describe("Test focusInto", () => {
 
   it("should prefer checked radio buttons", () => {
     const element: Ref<HTMLInputElement> = { current: null }
+    const props = { type: "radio", name: "group", onChange: vi.fn() }
     render(
       <div ref={element}>
-        <input type="radio" name="group" value="1" />
-        <input type="radio" name="group" value="2" checked />
-        <input type="radio" name="group" value="3" />
+        <input {...props} value="1" />
+        <input {...props} value="2" checked />
+        <input {...props} value="3" />
       </div>
     )
 

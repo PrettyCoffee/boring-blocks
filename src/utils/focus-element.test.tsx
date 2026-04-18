@@ -1,6 +1,6 @@
 import { type Ref } from "react"
 
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
 
 import { render, screen } from "test"
 
@@ -16,7 +16,7 @@ describe("Test focusElement", () => {
 
   it("should select a selectable element", () => {
     const element: Ref<HTMLInputElement> = { current: null }
-    render(<input type="text" ref={element} value="value" />)
+    render(<input type="text" ref={element} value="value" onChange={vi.fn()} />)
     focusElement(element.current)
     expect(screen.getByRole("textbox")).toHaveFocus()
     expect(screen.getByRole("textbox")).toHaveSelection("value")
