@@ -1,7 +1,7 @@
 import { focusElement } from "./focus-element"
 
 const focusableSelector = [
-  "[contentEditable=true]",
+  "[contenteditable]:not([contenteditable='false'])",
   "[tabindex]",
   "a[href]",
   "area[href]",
@@ -10,6 +10,9 @@ const focusableSelector = [
   "input:not([disabled])",
   "select:not([disabled])",
   "textarea:not([disabled])",
+  "audio[controls]",
+  "video[controls]",
+  "summary",
 ].join(",")
 
 const isRadioButtonWithGroup = (
@@ -37,7 +40,9 @@ const getPreferredRadioButton = (
 
 const getFocusableElements = (container: Element | null) => {
   if (container === null) return []
-  return [...container.querySelectorAll(focusableSelector)]
+  return [...container.querySelectorAll(focusableSelector)].filter(
+    element => !element.closest("[inert]")
+  )
 }
 
 const tabIndex = (element: Element) =>
