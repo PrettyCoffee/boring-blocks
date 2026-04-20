@@ -3,7 +3,6 @@ import {
   useEffect,
   useMemo,
   useRef,
-  useState,
   type PropsWithChildren,
 } from "react"
 
@@ -126,7 +125,7 @@ const MasonryGrid = ({
   const gridRef = useRef<HTMLDivElement>(null)
   const throttle = useThrottle(1000 / 60)
 
-  const [didMount, setDidMount] = useState(false)
+  const didMount = useRef(false)
 
   const updateLayout = useCallback(
     (grid: HTMLElement) =>
@@ -149,7 +148,7 @@ const MasonryGrid = ({
     if (!gridRef.current) return
     updateLayout(gridRef.current)
     // Only enable transitions after first render is flushed
-    window.queueMicrotask(() => setDidMount(true))
+    window.queueMicrotask(() => (didMount.current = true))
   }, [updateLayout])
 
   useEffect(() => {
@@ -178,7 +177,10 @@ const MasonryGrid = ({
         ref={gridRef}
         className={gridClass}
         style={{
-          [MASONRY_TRANSITION]: !didMount ? "0ms" : `${transitionDuration}ms`,
+          // eslint-disable-next-line react-hooks/refs -- this shouldn't be reactive
+          [MASONRY_TRANSITION]: !didMount.current
+            ? "0ms"
+            : `${transitionDuration}ms`,
         }}
       >
         {children}
