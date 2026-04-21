@@ -48,8 +48,9 @@ export const ButtonPrimitive = ({
   children,
   ...props
 }: PropsWithChildren<ButtonPrimitiveProps>) => {
-  if (props.asChild) {
-    return <Slot {...props}>{children}</Slot>
+  const { asChild, ...slotProps } = props
+  if (asChild) {
+    return <Slot {...slotProps}>{children}</Slot>
   }
   if (props.href) {
     return <a {...props}>{children}</a>
