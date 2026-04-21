@@ -8,6 +8,6 @@ import { Icon } from "./icon"
 describe("Test Icon", () => {
   it("Renders an icon", () => {
     render(<Icon icon={CircleIcon} />)
-    expect(screen.getIconByName("Circle")).toBeInTheDocument()
+    expect(screen.getByIconName("Circle")).toBeInTheDocument()
   })
 })
