@@ -1,5 +1,3 @@
-import "vitest/config"
-
 import { resolve, parse } from "node:path"
 
 import react from "@vitejs/plugin-react"
