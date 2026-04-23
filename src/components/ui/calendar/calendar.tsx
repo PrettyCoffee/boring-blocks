@@ -12,6 +12,7 @@ import { Button } from "../button"
 import { IconButton } from "../icon-button"
 import { focusManager } from "./utils/focus-manager"
 import { Month } from "./utils/month"
+import { ErrorBoundary } from "../../utility/error-boundary"
 
 const getMonthName = (month: Month) =>
   month.firstDay.date.toLocaleString("en-US", { month: "long" })
@@ -169,19 +170,21 @@ export const Calendar = ({
     Temporal.PlainDate.compare(day, max) === 1
 
   return (
-    <div className={cn(vstack({ inline: true }))}>
-      <ViewSwitch month={month} max={max} min={min} setMonth={setMonth} />
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <ErrorBoundary>
+      <div className={cn(vstack({ inline: true }))}>
+        <ViewSwitch month={month} max={max} min={min} setMonth={setMonth} />
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions
           -- event bubbles up to this element */}
-      <div className="inline-grid grid-cols-7" onKeyDown={focusManager}>
-        <GridHeader />
-        <GridBody
-          month={month}
-          selected={selected}
-          onSelectionChange={onSelectionChange}
-          isDisabled={isDisabled}
-        />
+        <div className="inline-grid grid-cols-7" onKeyDown={focusManager}>
+          <GridHeader />
+          <GridBody
+            month={month}
+            selected={selected}
+            onSelectionChange={onSelectionChange}
+            isDisabled={isDisabled}
+          />
+        </div>
       </div>
-    </div>
+    </ErrorBoundary>
   )
 }

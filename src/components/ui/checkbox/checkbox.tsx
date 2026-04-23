@@ -12,6 +12,7 @@ import { SelectionBoxPrimitive } from "../../primitive/selection-box-primitive"
 import { AnimateHeight } from "../../utility/animate-height"
 import { Icon } from "../icon"
 import { labelStyles } from "./label-styles"
+import { ErrorBoundary } from "../../utility/error-boundary"
 
 const CheckboxLabel = ({
   children,
@@ -82,49 +83,51 @@ export const Checkbox = ({
   const [didChange, setDidChange] = useState(false)
 
   return (
-    <label
-      className={cn(
-        interactive({ look: "flat" }),
-        hstack({ gap: 3 }),
-        "relative min-h-10 min-w-10 shrink-0 rounded-md",
-        focusOutline.within,
-        label && labelStyles.layout,
-        className
-      )}
-    >
-      <SelectionBoxPrimitive
-        {...props}
-        type="checkbox"
-        onCheckedChange={(checked, event) => {
-          setDidChange(true)
-          onCheckedChange?.(checked, event)
-        }}
+    <ErrorBoundary>
+      <label
         className={cn(
-          "absolute top-2 left-2 inline-grid size-6 shrink-0 place-content-center rounded-sm border border-stroke/50 shade-low [:hover>&]:border-stroke"
+          interactive({ look: "flat" }),
+          hstack({ gap: 3 }),
+          "relative min-h-10 min-w-10 shrink-0 rounded-md",
+          focusOutline.within,
+          label && labelStyles.layout,
+          className
         )}
       >
-        {checked =>
-          checked === true ? (
-            <Icon
-              icon={CheckIcon}
-              color="highlight"
-              size="xs"
-              strokeWidth={4}
-              className={cn(didChange && checkAnimation)}
-            />
-          ) : checked === "indeterminate" ? (
-            <Icon
-              icon={MinusIcon}
-              color="muted"
-              size="xs"
-              strokeWidth={4}
-              className={cn(didChange && checkAnimation)}
-            />
-          ) : null
-        }
-      </SelectionBoxPrimitive>
+        <SelectionBoxPrimitive
+          {...props}
+          type="checkbox"
+          onCheckedChange={(checked, event) => {
+            setDidChange(true)
+            onCheckedChange?.(checked, event)
+          }}
+          className={cn(
+            "absolute top-2 left-2 inline-grid size-6 shrink-0 place-content-center rounded-sm border border-stroke/50 shade-low [:hover>&]:border-stroke"
+          )}
+        >
+          {checked =>
+            checked === true ? (
+              <Icon
+                icon={CheckIcon}
+                color="highlight"
+                size="xs"
+                strokeWidth={4}
+                className={cn(didChange && checkAnimation)}
+              />
+            ) : checked === "indeterminate" ? (
+              <Icon
+                icon={MinusIcon}
+                color="muted"
+                size="xs"
+                strokeWidth={4}
+                className={cn(didChange && checkAnimation)}
+              />
+            ) : null
+          }
+        </SelectionBoxPrimitive>
 
-      {label && <CheckboxLabel>{label}</CheckboxLabel>}
-    </label>
+        {label && <CheckboxLabel>{label}</CheckboxLabel>}
+      </label>
+    </ErrorBoundary>
   )
 }

@@ -4,6 +4,7 @@ import { CalendarDaysIcon } from "../icons"
 import { Button } from "./button"
 import { Calendar, type CalendarProps } from "./calendar"
 import { Popover } from "./popover"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 const printDate = (date: Temporal.PlainDate) => {
   if (date.equals(Temporal.Now.plainDateISO())) return "Today"
@@ -28,28 +29,30 @@ export const DateInput = ({
 }: DateInputProps) => {
   const [open, setOpen] = useState(false)
   return (
-    <Popover.Root open={open} onOpenChange={setOpen} placement="bottom">
-      <Popover.Trigger>
-        <Button
-          icon={CalendarDaysIcon}
-          iconColor="muted"
-          className="border border-stroke-gentle"
-        >
-          {caption || printDate(value)}
-        </Button>
-      </Popover.Trigger>
+    <ErrorBoundary>
+      <Popover.Root open={open} onOpenChange={setOpen} placement="bottom">
+        <Popover.Trigger>
+          <Button
+            icon={CalendarDaysIcon}
+            iconColor="muted"
+            className="border border-stroke-gentle"
+          >
+            {caption || printDate(value)}
+          </Button>
+        </Popover.Trigger>
 
-      <Popover.Content>
-        <Calendar
-          selected={value}
-          initialView={value}
-          onSelectionChange={value => {
-            onChange?.(value)
-            setOpen(false)
-          }}
-          {...props}
-        />
-      </Popover.Content>
-    </Popover.Root>
+        <Popover.Content>
+          <Calendar
+            selected={value}
+            initialView={value}
+            onSelectionChange={value => {
+              onChange?.(value)
+              setOpen(false)
+            }}
+            {...props}
+          />
+        </Popover.Content>
+      </Popover.Root>
+    </ErrorBoundary>
   )
 }

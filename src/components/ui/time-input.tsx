@@ -12,6 +12,7 @@ import { InputBorder } from "./fragments/input-border"
 import { hstack } from "../../styles/stack"
 import { clamp } from "../../utils/clamp"
 import { cn } from "../../utils/cn"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 const getNumbers = (value: Temporal.PlainTime | string = "") => {
   if (value instanceof Temporal.PlainTime) {
@@ -158,36 +159,38 @@ export const TimeInput = ({
   }
 
   return (
-    <InputBorder className={cn("w-15", className)}>
-      <div
-        aria-hidden
-        className={cn(
-          hstack({ align: "center", justify: "center" }),
-          "pointer-events-none absolute inset-0 m-auto size-full text-sm [&:has(+input:focus)]:opacity-0"
-        )}
-      >
-        {text.slice(0, 2).padEnd(2, "-")}
-        <span className="mx-0.5 font-bold opacity-50">:</span>
-        {text.slice(2, 4).padEnd(2, "-")}
-      </div>
+    <ErrorBoundary>
+      <InputBorder className={cn("w-15", className)}>
+        <div
+          aria-hidden
+          className={cn(
+            hstack({ align: "center", justify: "center" }),
+            "pointer-events-none absolute inset-0 m-auto size-full text-sm [&:has(+input:focus)]:opacity-0"
+          )}
+        >
+          {text.slice(0, 2).padEnd(2, "-")}
+          <span className="mx-0.5 font-bold opacity-50">:</span>
+          {text.slice(2, 4).padEnd(2, "-")}
+        </div>
 
-      <input
-        {...props}
-        type="text"
-        className="w-full px-0 text-center outline-none not-focus:opacity-0"
-        value={text}
-        onKeyDown={handleKeyDown}
-        onChange={handleChange}
-        onFocus={event => {
-          event.currentTarget.focus()
-          event.currentTarget.select()
-          onFocus?.(event)
-        }}
-        onBlur={event => {
-          setText(getNumbers(value))
-          onBlur?.(event)
-        }}
-      />
-    </InputBorder>
+        <input
+          {...props}
+          type="text"
+          className="w-full px-0 text-center outline-none not-focus:opacity-0"
+          value={text}
+          onKeyDown={handleKeyDown}
+          onChange={handleChange}
+          onFocus={event => {
+            event.currentTarget.focus()
+            event.currentTarget.select()
+            onFocus?.(event)
+          }}
+          onBlur={event => {
+            setText(getNumbers(value))
+            onBlur?.(event)
+          }}
+        />
+      </InputBorder>
+    </ErrorBoundary>
   )
 }

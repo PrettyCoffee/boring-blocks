@@ -5,32 +5,39 @@ import { zIndex } from "../../styles/z-index"
 import { type ClassNameProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
 import { PopoverPrimitive } from "../primitive/popover-primitive"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 const PopoverRoot = (props: PropsWithChildren<Popover.Root.Props>) => (
-  <PopoverPrimitive.Root placement="bottom" {...props} />
+  <ErrorBoundary>
+    <PopoverPrimitive.Root placement="bottom" {...props} />
+  </ErrorBoundary>
 )
 
 const PopoverTrigger = (props: PropsWithChildren) => (
-  <PopoverPrimitive.Trigger {...props} />
+  <ErrorBoundary>
+    <PopoverPrimitive.Trigger {...props} />
+  </ErrorBoundary>
 )
 
 const PopoverContent = ({
   className,
   children,
 }: PropsWithChildren<ClassNameProp>) => (
-  <PopoverPrimitive.Content
-    duration={150}
-    className={cn(
-      zIndex.popover,
-      "*:duration-150 *:fill-mode-forwards",
-      "data-close:*:animate-out data-close:*:fade-out-0 data-close:*:zoom-out-95 data-open:*:animate-in data-open:*:fade-in-0 data-open:*:zoom-in-95",
-      "data-[side=bottom]:*:slide-in-from-top-4 data-[side=left]:*:slide-in-from-right-4 data-[side=right]:*:slide-in-from-left-4 data-[side=top]:*:slide-in-from-bottom-4"
-    )}
-  >
-    <div className={cn(surface({ look: "overlay", size: "md" }), className)}>
-      {children}
-    </div>
-  </PopoverPrimitive.Content>
+  <ErrorBoundary>
+    <PopoverPrimitive.Content
+      duration={150}
+      className={cn(
+        zIndex.popover,
+        "*:duration-150 *:fill-mode-forwards",
+        "data-close:*:animate-out data-close:*:fade-out-0 data-close:*:zoom-out-95 data-open:*:animate-in data-open:*:fade-in-0 data-open:*:zoom-in-95",
+        "data-[side=bottom]:*:slide-in-from-top-4 data-[side=left]:*:slide-in-from-right-4 data-[side=right]:*:slide-in-from-left-4 data-[side=top]:*:slide-in-from-bottom-4"
+      )}
+    >
+      <div className={cn(surface({ look: "overlay", size: "md" }), className)}>
+        {children}
+      </div>
+    </PopoverPrimitive.Content>
+  </ErrorBoundary>
 )
 
 export namespace Popover {

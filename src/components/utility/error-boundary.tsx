@@ -1,7 +1,12 @@
 import { Component, type ReactNode } from "react"
 
 const DefaultFallback = () => (
-  <div className="grid size-10 place-content-center">💥</div>
+  <div
+    className="grid size-10 place-content-center"
+    title="An unexpected error occurred here"
+  >
+    💥
+  </div>
 )
 
 interface Props {

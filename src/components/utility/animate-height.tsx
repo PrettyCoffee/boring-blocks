@@ -8,6 +8,7 @@ import {
   useState,
 } from "react"
 
+import { ErrorBoundary } from "./error-boundary"
 import { Slot } from "./slot"
 import {
   type RefProp,
@@ -103,36 +104,40 @@ export const AnimateHeight = ({
   }, [heightProp, updateHeight])
 
   return (
-    <div
-      ref={mergeRefs(ref, container => updateHeight({ container }))}
-      style={{
-        ...style,
-        height,
-        overflow: "hidden",
-        transitionProperty: "height",
-        transitionDuration: prefersReducedMotion()
-          ? "0.1ms"
-          : durationProp + "ms",
-      }}
-      // eslint-disable-next-line react/no-unknown-property -- plugin is outdated
-      onTransitionStart={event => {
-        setIsAnimating(true)
-        onTransitionStart?.(event)
-      }}
-      onTransitionEnd={event => {
-        setIsAnimating(false)
-        onTransitionEnd?.(event)
-      }}
-      {...rest}
-    >
-      <Slot
-        ref={contentRef}
-        style={
-          isZeroHeight(height ?? "") && !isAnimating ? { display: "none" } : {}
-        }
+    <ErrorBoundary>
+      <div
+        ref={mergeRefs(ref, container => updateHeight({ container }))}
+        style={{
+          ...style,
+          height,
+          overflow: "hidden",
+          transitionProperty: "height",
+          transitionDuration: prefersReducedMotion()
+            ? "0.1ms"
+            : durationProp + "ms",
+        }}
+        // eslint-disable-next-line react/no-unknown-property -- plugin is outdated
+        onTransitionStart={event => {
+          setIsAnimating(true)
+          onTransitionStart?.(event)
+        }}
+        onTransitionEnd={event => {
+          setIsAnimating(false)
+          onTransitionEnd?.(event)
+        }}
+        {...rest}
       >
-        {children}
-      </Slot>
-    </div>
+        <Slot
+          ref={contentRef}
+          style={
+            isZeroHeight(height ?? "") && !isAnimating
+              ? { display: "none" }
+              : {}
+          }
+        >
+          {children}
+        </Slot>
+      </div>
+    </ErrorBoundary>
   )
 }

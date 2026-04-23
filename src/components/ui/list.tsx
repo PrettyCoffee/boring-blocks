@@ -15,6 +15,7 @@ import {
 } from "../../types/base-props"
 import { cn } from "../../utils/cn"
 import { type ButtonPrimitiveProps } from "../primitive/button-primitive"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 export interface ListItemProps extends ClassNameProp, RefProp<HTMLLIElement> {
   active?: boolean
@@ -26,17 +27,19 @@ const Item = ({
   children,
   ...props
 }: PropsWithChildren<ListItemProps>) => (
-  <li
-    {...props}
-    className={cn(
-      hstack({}),
-      active ? "border-highlight/50" : "border-text-gentle/10",
-      "h-10 list-none rounded-sm border bgl-base-invert/10 *:h-full *:rounded-none *:first:rounded-l-sm *:last:rounded-e-sm hover:bgl-layer/5 has-focus-visible:bgl-layer/5",
-      className
-    )}
-  >
-    {children}
-  </li>
+  <ErrorBoundary>
+    <li
+      {...props}
+      className={cn(
+        hstack({}),
+        active ? "border-highlight/50" : "border-text-gentle/10",
+        "h-10 list-none rounded-sm border bgl-base-invert/10 *:h-full *:rounded-none *:first:rounded-l-sm *:last:rounded-e-sm hover:bgl-layer/5 has-focus-visible:bgl-layer/5",
+        className
+      )}
+    >
+      {children}
+    </li>
+  </ErrorBoundary>
 )
 
 type ListItemLabelProps = ButtonPrimitiveProps &
@@ -53,18 +56,20 @@ const Label = ({
   icon,
   ...props
 }: ListItemLabelProps) => (
-  <Button
-    {...props}
-    className={cn(
-      hstack({ justify: "start", align: "center" }),
-      "flex-1 truncate",
-      className
-    )}
-  >
-    {icon && <Icon icon={icon} className="mr-2 -ml-1" />}
-    <span className="truncate">{label}</span>
-    {labelAttachment}
-  </Button>
+  <ErrorBoundary>
+    <Button
+      {...props}
+      className={cn(
+        hstack({ justify: "start", align: "center" }),
+        "flex-1 truncate",
+        className
+      )}
+    >
+      {icon && <Icon icon={icon} className="mr-2 -ml-1" />}
+      <span className="truncate">{label}</span>
+      {labelAttachment}
+    </Button>
+  </ErrorBoundary>
 )
 
 const Action = ({
@@ -72,12 +77,14 @@ const Action = ({
   ...props
 }: ButtonPrimitiveProps<"button" | "link"> &
   Required<IconProp> & { title: string }) => (
-  <IconButton
-    {...props}
-    hideTitle
-    look="flat"
-    className={cn("[*:not(:hover):not(:focus-within)>&]:sr-only", className)}
-  />
+  <ErrorBoundary>
+    <IconButton
+      {...props}
+      hideTitle
+      look="flat"
+      className={cn("[*:not(:hover):not(:focus-within)>&]:sr-only", className)}
+    />
+  </ErrorBoundary>
 )
 
 const Group = ({
@@ -85,9 +92,11 @@ const Group = ({
   children,
   ...props
 }: PropsWithChildren<ClassNameProp & RefProp<HTMLUListElement>>) => (
-  <ul {...props} className={cn("space-y-1", className)}>
-    {children}
-  </ul>
+  <ErrorBoundary>
+    <ul {...props} className={cn("space-y-1", className)}>
+      {children}
+    </ul>
+  </ErrorBoundary>
 )
 
 export const List = {

@@ -12,6 +12,7 @@ import { useThrottle } from "../../hooks/use-throttle"
 import { type ClassNameProp } from "../../types/base-props"
 import { cn } from "../../utils/cn"
 import { createContext } from "../../utils/create-context"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 const COLUMN_WIDTH = "--masonry-column-width" as string
 const MASONRY_TRANSITION = "--masonry-transition-duration" as string
@@ -165,27 +166,30 @@ const MasonryGrid = ({
   }, [updateLayout])
 
   return (
-    <Context
-      value={useMemo(
-        () => ({
-          updateLayout: () => gridRef.current && updateLayout(gridRef.current),
-        }),
-        [updateLayout]
-      )}
-    >
-      <div
-        ref={gridRef}
-        className={gridClass}
-        style={{
-          // eslint-disable-next-line react-hooks/refs -- this shouldn't be reactive
-          [MASONRY_TRANSITION]: !didMount.current
-            ? "0ms"
-            : `${transitionDuration}ms`,
-        }}
+    <ErrorBoundary>
+      <Context
+        value={useMemo(
+          () => ({
+            updateLayout: () =>
+              gridRef.current && updateLayout(gridRef.current),
+          }),
+          [updateLayout]
+        )}
       >
-        {children}
-      </div>
-    </Context>
+        <div
+          ref={gridRef}
+          className={gridClass}
+          style={{
+            // eslint-disable-next-line react-hooks/refs -- this shouldn't be reactive
+            [MASONRY_TRANSITION]: !didMount.current
+              ? "0ms"
+              : `${transitionDuration}ms`,
+          }}
+        >
+          {children}
+        </div>
+      </Context>
+    </ErrorBoundary>
   )
 }
 
@@ -206,7 +210,9 @@ const MasonryItem = ({
   className,
   children,
 }: PropsWithChildren<ClassNameProp>) => (
-  <div className={cn(itemClass, className)}>{children}</div>
+  <ErrorBoundary>
+    <div className={cn(itemClass, className)}>{children}</div>
+  </ErrorBoundary>
 )
 
 export const Masonry = {

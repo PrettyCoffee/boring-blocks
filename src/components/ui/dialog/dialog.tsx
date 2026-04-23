@@ -7,6 +7,7 @@ import { type ClassNameProp } from "../../../types/base-props"
 import { cn } from "../../../utils/cn"
 import { XIcon } from "../../icons"
 import { DialogPrimitive } from "../../primitive/dialog-primitive"
+import { ErrorBoundary } from "../../utility/error-boundary"
 import { Button, type ButtonProps } from "../button"
 import { IconButton } from "../icon-button"
 
@@ -79,60 +80,62 @@ export const Dialog = ({
   cancel,
   className,
 }: PropsWithChildren<DialogProps>) => (
-  <DialogPrimitive.Root onClose={onClose} closeDuration={100}>
-    <DialogPrimitive.Overlay
-      className={cn(
-        "fixed inset-0 size-full transition-all duration-200",
-        "starting:data-open:bg-transparent starting:data-open:backdrop-blur-none",
-        "data-open:bg-background-page/50 data-open:backdrop-blur-sm",
-        "data-close:bg-transparent data-close:backdrop-blur-none data-close:duration-100",
-        zIndex.dialog
-      )}
-    />
-
-    <DialogPrimitive.Content
-      className={cn(
-        vstack({}),
-        surface({ look: "overlay", size: "lg" }),
-        "fixed inset-1/2 h-max w-96 -translate-1/2 p-0 shade-medium transition-all duration-200",
-        "starting:data-open:scale-50 starting:data-open:opacity-0",
-        "data-open:scale-100 data-open:opacity-100",
-        "data-close:scale-50 data-close:opacity-0 data-close:duration-100",
-        zIndex.dialog,
-        className
-      )}
-    >
-      <DialogPrimitive.Title
+  <ErrorBoundary>
+    <DialogPrimitive.Root onClose={onClose} closeDuration={100}>
+      <DialogPrimitive.Overlay
         className={cn(
-          hstack({ align: "center" }),
-          "h-12 truncate pr-12 pl-4 text-xl text-text-priority"
+          "fixed inset-0 size-full transition-all duration-200",
+          "starting:data-open:bg-transparent starting:data-open:backdrop-blur-none",
+          "data-open:bg-background-page/50 data-open:backdrop-blur-sm",
+          "data-close:bg-transparent data-close:backdrop-blur-none data-close:duration-100",
+          zIndex.dialog
+        )}
+      />
+
+      <DialogPrimitive.Content
+        className={cn(
+          vstack({}),
+          surface({ look: "overlay", size: "lg" }),
+          "fixed inset-1/2 h-max w-96 -translate-1/2 p-0 shade-medium transition-all duration-200",
+          "starting:data-open:scale-50 starting:data-open:opacity-0",
+          "data-open:scale-100 data-open:opacity-100",
+          "data-close:scale-50 data-close:opacity-0 data-close:duration-100",
+          zIndex.dialog,
+          className
         )}
       >
-        <span className="truncate">{title}</span>
-      </DialogPrimitive.Title>
+        <DialogPrimitive.Title
+          className={cn(
+            hstack({ align: "center" }),
+            "h-12 truncate pr-12 pl-4 text-xl text-text-priority"
+          )}
+        >
+          <span className="truncate">{title}</span>
+        </DialogPrimitive.Title>
 
-      {description && (
-        <DialogPrimitive.Description className="px-4 pb-4 text-sm text-text-gentle">
-          {description}
-        </DialogPrimitive.Description>
-      )}
+        {description && (
+          <DialogPrimitive.Description className="px-4 pb-4 text-sm text-text-gentle">
+            {description}
+          </DialogPrimitive.Description>
+        )}
 
-      {children && (
-        <div className="flex-1 overflow-auto px-4 pb-4">{children}</div>
-      )}
+        {children && (
+          <div className="flex-1 overflow-auto px-4 pb-4">{children}</div>
+        )}
 
-      <DialogActions confirm={confirm} cancel={cancel} />
+        <DialogActions confirm={confirm} cancel={cancel} />
 
-      <DialogPrimitive.Close>
-        <IconButton
-          // TODO: Translate title
-          title="Close"
-          className="absolute top-1 right-1"
-          hideTitle
-          icon={XIcon}
-          onClick={cancel?.onClick}
-        />
-      </DialogPrimitive.Close>
-    </DialogPrimitive.Content>
-  </DialogPrimitive.Root>
+        <DialogPrimitive.Close>
+          <IconButton
+            // TODO: Translate title
+            title="Close"
+            className="absolute top-1 right-1"
+            hideTitle
+            icon={XIcon}
+            onClick={cancel?.onClick}
+          />
+        </DialogPrimitive.Close>
+      </DialogPrimitive.Content>
+    </DialogPrimitive.Root>
+  </ErrorBoundary>
 )

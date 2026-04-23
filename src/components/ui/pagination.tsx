@@ -6,6 +6,7 @@ import { hstack } from "../../styles/stack"
 import { type ClassNameProp } from "../../types/base-props"
 import { clamp } from "../../utils/clamp"
 import { cn } from "../../utils/cn"
+import { ErrorBoundary } from "../utility/error-boundary"
 
 interface PageSizeSelectProps {
   pageSizes: number[]
@@ -113,31 +114,33 @@ export const Pagination = ({
   const numberOfPages = getNumberOfPages(items, pageSize)
 
   return (
-    <div className={cn(hstack({ align: "center" }), className)}>
-      <PaginationButtons
-        numberOfPages={numberOfPages}
-        page={page}
-        onPageChange={onPageChange}
-      />
+    <ErrorBoundary>
+      <div className={cn(hstack({ align: "center" }), className)}>
+        <PaginationButtons
+          numberOfPages={numberOfPages}
+          page={page}
+          onPageChange={onPageChange}
+        />
 
-      {pageSizeOptions && (
-        <>
-          <div className="flex-1" />
-          <span className="mr-2">
-            {/* TODO: Translate caption */}
-            Page size:
-          </span>
-          <PageSizeSelect
-            pageSizes={pageSizeOptions}
-            value={pageSize}
-            onPageSizeChange={pageSize => {
-              onPageChange?.(0)
-              onPageSizeChange?.(pageSize)
-            }}
-          />
-        </>
-      )}
-    </div>
+        {pageSizeOptions && (
+          <>
+            <div className="flex-1" />
+            <span className="mr-2">
+              {/* TODO: Translate caption */}
+              Page size:
+            </span>
+            <PageSizeSelect
+              pageSizes={pageSizeOptions}
+              value={pageSize}
+              onPageSizeChange={pageSize => {
+                onPageChange?.(0)
+                onPageSizeChange?.(pageSize)
+              }}
+            />
+          </>
+        )}
+      </div>
+    </ErrorBoundary>
   )
 }
 

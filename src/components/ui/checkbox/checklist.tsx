@@ -7,6 +7,7 @@ import { cn } from "../../../utils/cn"
 import { createId } from "../../../utils/create-id"
 import { PenLineIcon, PlusIcon, TrashIcon, XIcon } from "../../icons"
 import { AnimateHeight } from "../../utility/animate-height"
+import { ErrorBoundary } from "../../utility/error-boundary"
 import { showDialog } from "../dialog"
 import { Divider } from "../divider"
 import { IconButton } from "../icon-button"
@@ -118,56 +119,58 @@ export const Checklist = ({
   }
 
   return (
-    <div data-checklist>
-      <ChecklistHeader
-        title={title}
-        onAdd={item => onChange([...items, item])}
-        isEditing={isEditing}
-        setIsEditing={setIsEditing}
-      />
-      {items.length === 0 ? (
-        <div className="grid place-items-center pt-2 pb-4 text-text-gentle">
-          {noItemsLabel}
-        </div>
-      ) : (
-        <ul className="space-y-1">
-          {items.map(item =>
-            isEditing ? (
-              <li key={item.id} className="relative">
-                <CheckboxEditor
-                  placeholder="Start typing..."
-                  label={item.label}
-                  checked={item.checked}
-                  onLabelChange={label => handleChange({ ...item, label })}
-                  onCheckedChange={checked =>
-                    handleChange({ ...item, checked })
-                  }
-                  className="pr-10"
-                />
-                <IconButton
-                  icon={TrashIcon}
-                  title="Delete item"
-                  hideTitle
-                  size="sm"
-                  iconColor="gentle"
-                  onClick={() => handleDelete(item)}
-                  className="absolute top-1 right-1 [:not(:hover,:has(*:focus-visible))>&]:opacity-0"
-                />
-              </li>
-            ) : (
-              <li key={item.id}>
-                <Checkbox
-                  label={item.label}
-                  checked={item.checked}
-                  onCheckedChange={checked =>
-                    handleChange({ ...item, checked })
-                  }
-                />
-              </li>
-            )
-          )}
-        </ul>
-      )}
-    </div>
+    <ErrorBoundary>
+      <div data-checklist>
+        <ChecklistHeader
+          title={title}
+          onAdd={item => onChange([...items, item])}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+        />
+        {items.length === 0 ? (
+          <div className="grid place-items-center pt-2 pb-4 text-text-gentle">
+            {noItemsLabel}
+          </div>
+        ) : (
+          <ul className="space-y-1">
+            {items.map(item =>
+              isEditing ? (
+                <li key={item.id} className="relative">
+                  <CheckboxEditor
+                    placeholder="Start typing..."
+                    label={item.label}
+                    checked={item.checked}
+                    onLabelChange={label => handleChange({ ...item, label })}
+                    onCheckedChange={checked =>
+                      handleChange({ ...item, checked })
+                    }
+                    className="pr-10"
+                  />
+                  <IconButton
+                    icon={TrashIcon}
+                    title="Delete item"
+                    hideTitle
+                    size="sm"
+                    iconColor="gentle"
+                    onClick={() => handleDelete(item)}
+                    className="absolute top-1 right-1 [:not(:hover,:has(*:focus-visible))>&]:opacity-0"
+                  />
+                </li>
+              ) : (
+                <li key={item.id}>
+                  <Checkbox
+                    label={item.label}
+                    checked={item.checked}
+                    onCheckedChange={checked =>
+                      handleChange({ ...item, checked })
+                    }
+                  />
+                </li>
+              )
+            )}
+          </ul>
+        )}
+      </div>
+    </ErrorBoundary>
   )
 }
