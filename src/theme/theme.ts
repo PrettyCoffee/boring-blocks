@@ -69,6 +69,12 @@ const tokens = createTokens()
         invert: colors.neutral[950],
         button: colors.neutral[800],
       },
+      chart: {
+        priority: colors.neutral[950],
+        default: colors.neutral[800],
+        gentle: colors.neutral[500],
+        muted: colors.neutral[200],
+      },
       alert: {
         error: colors.alert.error[500],
         warn: colors.alert.warn[500],
@@ -125,6 +131,12 @@ const tokens = createTokens()
         muted: colors.neutral[800],
         invert: colors.neutral[50],
         button: colors.neutral[50],
+      },
+      chart: {
+        priority: colors.neutral[50],
+        default: colors.neutral[200],
+        gentle: colors.neutral[500],
+        muted: colors.neutral[800],
       },
       alert: {
         error: colors.alert.error[400],
@@ -198,6 +210,12 @@ export const theme = createTheme({
         invert: get("color.stroke.invert"),
         button: get("color.stroke.button"),
         focus: get("color.accent"),
+      },
+      chart: {
+        priority: get("color.chart.priority"),
+        default: get("color.chart.default"),
+        gentle: get("color.chart.gentle"),
+        muted: get("color.chart.muted"),
       },
       alert: {
         error: get("color.alert.error"),
