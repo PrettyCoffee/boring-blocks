@@ -1,4 +1,4 @@
-import { theme } from "boring-blocks"
+import { theme } from "boring-blocks/theme"
 import { Fragment } from "react/jsx-runtime"
 import { styled, Global } from "storybook/theming"
 

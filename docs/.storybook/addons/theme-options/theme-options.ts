@@ -1,4 +1,5 @@
-import { theme } from "../../../../src/theme"
+import { theme } from "boring-blocks/theme"
+
 import { createAtom, createDerived, localStorage } from "../../../src/lib/yaasl"
 import { darkMode } from "../dark-mode/darkMode"
 
