@@ -114,6 +114,9 @@ importers:
       '@yaasl/react':
         specifier: 0.15.0-alpha.1
         version: 0.15.0-alpha.1(@yaasl/core@0.15.0-alpha.1(@yaasl/utils@0.15.0-alpha.1))(@yaasl/utils@0.15.0-alpha.1)(react@19.2.5)
+      boring-blocks:
+        specifier: workspace:*
+        version: link:..
       react:
         specifier: 19.2.5
         version: 19.2.5

@@ -4,12 +4,7 @@
     "tsBuildInfoFile": "../node_modules/.tmp/tsconfig.docs.tsbuildinfo",
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx",
-    "types": ["vite/client", "storybook/test"],
-    "paths": {
-      "boring-blocks": ["../src"],
-      "boring-blocks/utils": ["../src/index-utils.ts"],
-      "boring-blocks/icons": ["../src/index-icons.ts"],
-    }
+    "types": ["vite/client", "storybook/test"]
   },
   "include": ["src", "./.storybook/**/*"]
 }

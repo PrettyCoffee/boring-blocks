@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "start": "storybook dev -p 6006",
-    "build": "storybook build -o dist"
+    "build": "tsc -b && storybook build -o dist"
   },
   "dependencies": {
     "@faker-js/faker": "10.4.0",
     "@storybook/addon-docs": "10.3.5",
     "@storybook/icons": "2.0.1",
     "@yaasl/react": "0.15.0-alpha.1",
+    "boring-blocks": "workspace:*",
     "react": "19.2.5",
     "react-dom": "19.2.5",
     "storybook": "10.3.5"
