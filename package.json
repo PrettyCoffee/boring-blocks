@@ -1,6 +1,6 @@
 {
   "name": "boring-blocks",
-  "version": "0.0.0-alpha.0",
+  "version": "0.0.0-alpha.1",
   "description": "Boring react components for classic shadcn style productivity UIs",
   "author": "PrettyCoffee",
   "license": "MIT",
@@ -19,7 +19,7 @@
     ".": "./src/index.ts",
     "./icons": "./src/index-icons.ts",
     "./theme": "./src/index-theme.ts",
-    "./utils":  "./src/index-utils.ts",
+    "./utils": "./src/index-utils.ts",
     "./tailwind": "./tailwind/index.ts"
   },
   "bin": {
