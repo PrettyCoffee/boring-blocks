@@ -1,7 +1,7 @@
 // @ts-ignore -- We need to import React for JSX support in Storybook internals
 import React, { useEffect, useRef, useState } from "react"
 
-import { RangeControl } from "@storybook/addon-docs/blocks"
+import { RangeControl, BooleanControl } from "@storybook/addon-docs/blocks"
 import { PaintBrushIcon } from "@storybook/icons"
 import { Button, type ButtonProps } from "storybook/internal/components"
 import { css, styled } from "storybook/theming"
@@ -100,7 +100,7 @@ const Section = styled.div`
 export const ThemeOptionToolbar = () => {
   const ref = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
-  const { accent, radius } = useAtom(themeOptions)
+  const { accent, radius, colored } = useAtom(themeOptions)
 
   useEffect(() => {
     const element = ref.current
@@ -163,6 +163,19 @@ export const ThemeOptionToolbar = () => {
               />
             ))}
           </ColorsWrapper>
+        </Section>
+
+        <Section as="label">
+          Neutral Colors with Accent Hue
+          <div>
+            <BooleanControl
+              name="colored"
+              value={colored}
+              onChange={(colored = false) => {
+                themeOptions.set(prev => ({ ...prev, colored }))
+              }}
+            />
+          </div>
         </Section>
 
         <Section>

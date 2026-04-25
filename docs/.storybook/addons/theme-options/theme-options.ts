@@ -1,4 +1,8 @@
-import { theme } from "boring-blocks/theme"
+import {
+  theme,
+  applyThemeOptions,
+  type ThemeOptions,
+} from "boring-blocks/theme"
 
 import { createAtom, createDerived, localStorage } from "../../../src/lib/yaasl"
 import { darkMode } from "../dark-mode/darkMode"
@@ -10,30 +14,20 @@ export const themeOptions = createAtom({
   defaultValue: {
     radius: theme.tokens.variants.dark.radius,
     accent: "rose" satisfies ColorName as ColorName,
+    colored: false,
   },
   effects: [localStorage()],
 })
 
-const fullTheme = createDerived(({ get }) => {
+const fullTheme = createDerived(({ get }): ThemeOptions => {
   const isDarkMode = get(darkMode)
-  const { accent, radius } = get(themeOptions)
-  const colors =
-    theme.tokens.variants[isDarkMode ? "dark" : "light"].color.category
-  const accentColor = colors[accent]
+  const { accent, radius, colored } = get(themeOptions)
 
-  return { radius, accentName: accent, accentColor }
+  return { radius, accent, colored, mode: isDarkMode ? "dark" : "light" }
 })
 
-const updateCssTheme = () => {
-  const { radius, accentColor } = fullTheme.get()
-
-  theme.set(document.documentElement, "radius", radius as never)
-  theme.set(
-    document.documentElement,
-    "color.accent",
-    accentColor.replace(/^oklch\(([^)]*)\)$/, "$1") as never
-  )
-}
+const updateCssTheme = () =>
+  applyThemeOptions(document.documentElement, fullTheme.get())
 
 updateCssTheme()
 fullTheme.subscribe(updateCssTheme)

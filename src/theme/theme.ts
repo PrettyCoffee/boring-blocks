@@ -2,13 +2,31 @@ import twColors from "tailwindcss/colors"
 
 import { createTheme } from "./create-theme"
 import { createTokens } from "./create-tokens"
+import { parseOklch } from "./utils/color"
+
+const getOklchHue = (value: string) => parseOklch(value).hue
+
+const neutralWithAccent = Object.fromEntries(
+  Object.entries(twColors.stone).map(([key, value]) => {
+    const { light, chroma } = parseOklch(value)
+    const withAccent = `${light} ${chroma} var(--tw-theme-color-accentHue)`
+    return [key, withAccent]
+  })
+) as typeof twColors.stone
 
 const colors = {
   black: twColors.black,
   neutral: {
-    0: "#fff",
-    ...twColors.neutral,
     1000: "#000",
+    ...twColors.neutral,
+    0: "#fff",
+  },
+  neutralWithAccent: {
+    // eslint-disable-next-line unicorn/no-unused-properties -- false positive
+    "1000": "#000",
+    ...neutralWithAccent,
+    // eslint-disable-next-line unicorn/no-unused-properties -- false positive
+    "0": "#fff",
   },
   accent: twColors.rose,
   alert: {
@@ -42,6 +60,7 @@ const tokens = createTokens()
   .addVariant("light", {
     radius: 8,
     color: {
+      accentHue: getOklchHue(colors.accent[500]),
       accent: colors.accent[500],
       shadow: colors.neutral[300],
       max: {
@@ -105,6 +124,7 @@ const tokens = createTokens()
   .addVariant("dark", {
     radius: 8,
     color: {
+      accentHue: getOklchHue(colors.accent[300]),
       accent: colors.accent[300],
       shadow: colors.black,
       max: {
@@ -137,6 +157,134 @@ const tokens = createTokens()
         default: colors.neutral[200],
         gentle: colors.neutral[500],
         muted: colors.neutral[800],
+      },
+      alert: {
+        error: colors.alert.error[400],
+        warn: colors.alert.warn[400],
+        info: colors.alert.info[400],
+        success: colors.alert.success[400],
+      },
+      category: {
+        pink: colors.category.pink[300],
+        rose: colors.category.rose[300],
+        //red: colors.category.red[300],
+        orange: colors.category.orange[300],
+        amber: colors.category.amber[300],
+        //yellow: colors.category.yellow[300],
+        lime: colors.category.lime[300],
+        green: colors.category.green[300],
+        emerald: colors.category.emerald[300],
+        teal: colors.category.teal[300],
+        cyan: colors.category.cyan[300],
+        sky: colors.category.sky[300],
+        blue: colors.category.blue[300],
+        indigo: colors.category.indigo[300],
+        violet: colors.category.violet[300],
+        purple: colors.category.purple[300],
+        fuchsia: colors.category.fuchsia[300],
+      },
+    },
+  })
+  .addVariant("light-with-accent", {
+    radius: 8,
+    color: {
+      accentHue: getOklchHue(colors.accent[500]),
+      accent: colors.accent[500],
+      shadow: colors.neutralWithAccent[300],
+      max: {
+        default: colors.neutralWithAccent[0],
+        invert: colors.neutralWithAccent[1000],
+      },
+      background: {
+        page: colors.neutralWithAccent[100],
+        default: colors.neutralWithAccent[50],
+        invert: colors.neutralWithAccent[950],
+        button: colors.neutralWithAccent[700],
+      },
+      text: {
+        priority: colors.neutralWithAccent[950],
+        default: colors.neutralWithAccent[800],
+        gentle: colors.neutralWithAccent[600],
+        muted: colors.neutralWithAccent[500],
+        invert: colors.neutralWithAccent[50],
+        button: colors.neutralWithAccent[50],
+      },
+      stroke: {
+        default: colors.neutralWithAccent[600],
+        gentle: colors.neutralWithAccent[300],
+        muted: colors.neutralWithAccent[200],
+        invert: colors.neutralWithAccent[950],
+        button: colors.neutralWithAccent[800],
+      },
+      chart: {
+        priority: colors.neutralWithAccent[950],
+        default: colors.neutralWithAccent[800],
+        gentle: colors.neutralWithAccent[500],
+        muted: colors.neutralWithAccent[200],
+      },
+      alert: {
+        error: colors.alert.error[500],
+        warn: colors.alert.warn[500],
+        info: colors.alert.info[500],
+        success: colors.alert.success[500],
+      },
+      category: {
+        pink: colors.category.pink[500],
+        rose: colors.category.rose[500],
+        //red: colors.category.red[500],
+        orange: colors.category.orange[500],
+        amber: colors.category.amber[500],
+        //yellow: colors.category.yellow[500],
+        lime: colors.category.lime[500],
+        green: colors.category.green[500],
+        emerald: colors.category.emerald[500],
+        teal: colors.category.teal[500],
+        cyan: colors.category.cyan[500],
+        sky: colors.category.sky[500],
+        blue: colors.category.blue[500],
+        indigo: colors.category.indigo[500],
+        violet: colors.category.violet[500],
+        purple: colors.category.purple[500],
+        fuchsia: colors.category.fuchsia[500],
+      },
+    },
+  })
+  .addVariant("dark-with-accent", {
+    radius: 8,
+    color: {
+      accentHue: getOklchHue(colors.accent[300]),
+      accent: colors.accent[300],
+      shadow: colors.black,
+      max: {
+        default: colors.neutralWithAccent[1000],
+        invert: colors.neutralWithAccent[0],
+      },
+      background: {
+        page: colors.neutralWithAccent[950],
+        default: colors.neutralWithAccent[900],
+        invert: colors.neutralWithAccent[50],
+        button: colors.neutralWithAccent[300],
+      },
+      text: {
+        priority: colors.neutralWithAccent[50],
+        default: colors.neutralWithAccent[200],
+        gentle: colors.neutralWithAccent[400],
+        muted: colors.neutralWithAccent[500],
+        invert: colors.neutralWithAccent[950],
+        button: colors.neutralWithAccent[950],
+      },
+      stroke: {
+        default: colors.neutralWithAccent[400],
+        gentle: colors.neutralWithAccent[700],
+        muted: colors.neutralWithAccent[800],
+        invert: colors.neutralWithAccent[50],
+        button: colors.neutralWithAccent[50],
+      },
+      chart: {
+        priority: colors.neutralWithAccent[50],
+        default: colors.neutralWithAccent[200],
+        gentle: colors.neutralWithAccent[500],
+        muted: colors.neutralWithAccent[800],
       },
       alert: {
         error: colors.alert.error[400],
