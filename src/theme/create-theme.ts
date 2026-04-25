@@ -1,6 +1,6 @@
 import type { ThemeConfig } from "tailwindcss/plugin.js"
 
-import { type ThemeTokens } from "./create-tokens"
+import { type TokenItem, type ThemeTokens } from "./create-tokens"
 import { parseColor, toOklch } from "./utils/color"
 import { type ObjDeepPath, type ObjDeepValue } from "./utils/flatten"
 
@@ -9,6 +9,14 @@ type CustomThemeConfig = ThemeConfig["extend"]
 export type TokenNames<TTokens extends ThemeTokens> =
   TTokens extends ThemeTokens<string, infer Tokens>
     ? ObjDeepPath<Tokens>
+    : never
+
+type TokenValue<
+  TTokens extends ThemeTokens,
+  TPath extends TokenNames<TTokens>,
+> =
+  TTokens extends ThemeTokens<string, infer Tokens>
+    ? ObjDeepValue<Tokens, TPath>
     : never
 
 export type TokenVariants<TTokens extends ThemeTokens> =
@@ -97,7 +105,7 @@ export class Theme<
   public set<TPath extends TokenNames<TTokens>>(
     element: HTMLElement,
     path: TPath,
-    value: ObjDeepValue<TTokens, TPath>
+    value: Exclude<TokenValue<TTokens, TPath>, TokenItem>
   ) {
     const cssVar = this.getCssVar(path)
     element.style.setProperty(cssVar, String(value))
