@@ -7,7 +7,9 @@ import {
 import { createAtom, createDerived, localStorage } from "../../../src/lib/yaasl"
 import { darkMode } from "../dark-mode/darkMode"
 
-type ColorName = keyof typeof theme.tokens.variants.dark.color.category
+type ColorName =
+  | "neutral"
+  | keyof typeof theme.tokens.variants.dark.color.category
 
 export const themeOptions = createAtom({
   name: "theme-options",

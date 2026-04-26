@@ -10,7 +10,10 @@ import { themeOptions } from "./theme-options"
 import { theme } from "../../../../src/theme"
 import { useAtom } from "../../../src/lib/yaasl"
 
-const colors = theme.tokens.variants.dark.color.category
+const colors = {
+  neutral: theme.tokens.variants.dark.color.text.priority,
+  ...theme.tokens.variants.dark.color.category,
+}
 
 const MenuButton = styled(Button)<ButtonProps & { isOpen?: boolean }>(
   ({ isOpen, theme }) => [
@@ -35,8 +38,8 @@ const MenuButton = styled(Button)<ButtonProps & { isOpen?: boolean }>(
 
 const ColorSwatch = styled.button(
   ({ theme }) => css`
-    height: 28px;
-    min-width: 28px;
+    height: 24px;
+    min-width: 24px;
     border-radius: ${theme.appBorderRadius + 2}px;
     border: none;
     outline: none;
@@ -68,7 +71,7 @@ const ColorSwatch = styled.button(
 const ColorsWrapper = styled.div`
   display: grid;
   gap: 0.25rem;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   place-content: start;
 `
 
@@ -80,8 +83,8 @@ const PopoverWrapper = styled.div(
     font-size: ${theme.typography.size.s1}px;
     background: ${theme.background.app};
     color: ${theme.color.defaultText};
+    border: 1px solid ${theme.appBorderColor};
     position-area: bottom;
-    border: none;
     filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.05))
       drop-shadow(0 1px 3px rgba(0, 0, 0, 0.1));
   `,
@@ -166,7 +169,7 @@ export const ThemeOptionToolbar = () => {
         </Section>
 
         <Section as="label">
-          Neutral Colors with Accent Hue
+          Colored Base Colors
           <div>
             <BooleanControl
               name="colored"

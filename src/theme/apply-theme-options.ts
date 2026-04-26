@@ -1,7 +1,10 @@
 import { theme } from "./theme"
 import { parseOklch } from "./utils/color"
 
-type ColorName = keyof typeof theme.tokens.variants.dark.color.category
+type ColorName =
+  | "neutral"
+  | keyof typeof theme.tokens.variants.dark.color.category
+
 export interface ThemeOptions {
   radius: number
   mode: "dark" | "light"
@@ -22,19 +25,15 @@ export const applyThemeOptions = (
   element.classList.toggle("light-with-accent", isLight && options.colored)
   element.classList.toggle("dark-with-accent", isDark && options.colored)
 
-  const variant = options.colored
-    ? isDark
-      ? "dark-with-accent"
-      : "light-with-accent"
-    : isDark
-      ? "dark"
-      : "light"
-
+  const variant = isDark ? "dark" : "light"
   const tokens = theme.tokens.variants[variant]
 
-  const accentColor = tokens.color.category[options.accent]
+  const accentColor =
+    options.accent === "neutral"
+      ? tokens.color.text.priority
+      : tokens.color.category[options.accent]
+
   const { light, chroma, hue } = parseOklch(accentColor)
   theme.set(element, "color.accent", `${light} ${chroma} ${hue}`)
-
   theme.set(element, "color.accentHue", hue)
 }
