@@ -1,3 +1,6 @@
+// adds needed types for import.meta.dirname
+/// <reference types="@types/node" />
+
 import { type Config } from "tailwindcss"
 import animatePlugin from "tailwindcss-animate"
 
