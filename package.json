@@ -14,12 +14,25 @@
     "vite.config.ts",
     "*.md"
   ],
-  "module": "src/index.ts",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./icons": "./src/index-icons.ts",
-    "./theme": "./src/index-theme.ts",
-    "./utils": "./src/index-utils.ts",
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./icons": {
+      "import": "./dist/index-icons.mjs",
+      "types": "./dist/index-icons.d.ts"
+    },
+    "./theme": {
+      "import": "./dist/index-theme.mjs",
+      "types": "./dist/index-theme.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/index-utils.mjs",
+      "types": "./dist/index-utils.d.ts"
+    },
     "./tailwind": "./tailwind/index.ts"
   },
   "bin": {
@@ -28,7 +41,7 @@
   "scripts": {
     "start": "pnpm run --filter ./docs start",
     "build": "node ./scripts/build.mjs",
-    "build:docs": "pnpm run --filter ./docs build",
+    "build:docs": "pnpm run build && pnpm run --filter ./docs build",
     "lint": "tsc -b && eslint",
     "lint:fix": "pnpm run lint --fix",
     "test": "vitest"

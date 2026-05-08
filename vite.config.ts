@@ -1,14 +1,11 @@
-import { resolve, parse } from "node:path"
+import path from "node:path"
 
 import react from "@vitejs/plugin-react"
 import { defineConfig, type Plugin } from "vite"
 
-const normalSlash = (path: string) => path.replaceAll("\\", "/")
-const fileSystemRoot = parse(__dirname).root
-const isLocalPath = (id: string) =>
-  [".", "/", fileSystemRoot].some(root =>
-    normalSlash(id).startsWith(normalSlash(root))
-  )
+const isModuleName = (id: string) =>
+  !id.startsWith(".") && !id.startsWith("\0") && !path.isAbsolute(id)
+
 interface LibBundleOptions {
   entries: Record<string, { path: string; outFile: string }>
   disabled?: boolean
@@ -25,7 +22,7 @@ const libBundle = ({
     const forceBundling = includeInBundle.some(pattern =>
       typeof pattern === "string" ? id.startsWith(pattern) : pattern.test(id)
     )
-    return forceBundling || isLocalPath(id)
+    return forceBundling || !isModuleName(id)
   }
 
   return {
@@ -72,15 +69,19 @@ export default defineConfig(({ command }) => ({
       entries: {
         "src/index": {
           outFile: "index",
-          path: resolve(__dirname, "./src/index.ts"),
+          path: path.resolve(__dirname, "./src/index.ts"),
         },
         "src/index-utils": {
           outFile: "index-utils",
-          path: resolve(__dirname, "./src/index-utils.ts"),
+          path: path.resolve(__dirname, "./src/index-utils.ts"),
         },
         "src/index-icons": {
           outFile: "index-icons",
-          path: resolve(__dirname, "./src/index-icons.ts"),
+          path: path.resolve(__dirname, "./src/index-icons.ts"),
+        },
+        "src/index-theme": {
+          outFile: "index-theme",
+          path: path.resolve(__dirname, "./src/index-theme.ts"),
         },
       },
     }),
