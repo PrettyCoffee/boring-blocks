@@ -12,3 +12,19 @@ msgstr ""
 "Last-Translator: \n"
 "Language-Team: \n"
 "Plural-Forms: \n"
+
+#: src/components/ui/calendar/calendar.tsx:94
+msgid "Next month"
+msgstr "Nächster Monat"
+
+#: src/components/ui/calendar/calendar.tsx:98
+msgid "Next year"
+msgstr "Nächstes Jahr"
+
+#: src/components/ui/calendar/calendar.tsx:95
+msgid "Previous month"
+msgstr "Vorheriger Monat"
+
+#: src/components/ui/calendar/calendar.tsx:99
+msgid "Previous year"
+msgstr "Vorheriges Jahr"

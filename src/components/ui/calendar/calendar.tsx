@@ -1,10 +1,8 @@
-import {
-  type Dispatch,
-  type PropsWithChildren,
-  type SetStateAction,
-  useState,
-} from "react"
+import { type Dispatch, type SetStateAction, useState } from "react"
 
+import { msg } from "@lingui/core/macro"
+
+import { useLanguage, useTrans } from "../../../locales"
 import { hstack, vstack } from "../../../styles/stack"
 import { cn } from "../../../utils/cn"
 import { ChevronLeft, ChevronRight } from "../../icons"
@@ -14,29 +12,42 @@ import { focusManager } from "./utils/focus-manager"
 import { Month } from "./utils/month"
 import { ErrorBoundary } from "../../utility/error-boundary"
 
-const getMonthName = (month: Month) =>
-  month.firstDay.date.toLocaleString("en-US", { month: "long" })
+const MonthName = ({ month }: { month: Month }) => {
+  const language = useLanguage()
+  const monthName = month.firstDay.date.toLocaleString(language, {
+    month: "long",
+  })
+  return <>{monthName}</>
+}
 
-const GridHeaderCell = ({ children }: PropsWithChildren) => (
-  <div
-    className={cn(
-      hstack({ align: "center", justify: "center" }),
-      "size-8 text-text-gentle"
-    )}
-  >
-    {children}
-  </div>
-)
+const GridHeaderCell = ({ weekday }: { weekday: number }) => {
+  const language = useLanguage()
+
+  const today = Temporal.Now.plainDateISO()
+  const day = today.add({ days: (weekday - today.dayOfWeek + 7) % 7 })
+  const dayName = day.toLocaleString(language, { weekday: "long" })[0] ?? ""
+
+  return (
+    <div
+      className={cn(
+        hstack({ align: "center", justify: "center" }),
+        "size-8 text-text-gentle"
+      )}
+    >
+      {dayName}
+    </div>
+  )
+}
 
 const GridHeader = () => (
   <>
-    <GridHeaderCell>M</GridHeaderCell>
-    <GridHeaderCell>T</GridHeaderCell>
-    <GridHeaderCell>W</GridHeaderCell>
-    <GridHeaderCell>T</GridHeaderCell>
-    <GridHeaderCell>F</GridHeaderCell>
-    <GridHeaderCell>S</GridHeaderCell>
-    <GridHeaderCell>S</GridHeaderCell>
+    <GridHeaderCell weekday={1} />
+    <GridHeaderCell weekday={2} />
+    <GridHeaderCell weekday={3} />
+    <GridHeaderCell weekday={4} />
+    <GridHeaderCell weekday={5} />
+    <GridHeaderCell weekday={6} />
+    <GridHeaderCell weekday={7} />
   </>
 )
 
@@ -78,6 +89,17 @@ const clampMonth = (value: Month, min: Month, max: Month) => {
   return value
 }
 
+const magnitudeCaptions = {
+  month: {
+    next: msg`Next month`,
+    prev: msg`Previous month`,
+  },
+  year: {
+    next: msg`Next year`,
+    prev: msg`Previous year`,
+  },
+}
+
 interface ViewSwitchProps {
   month: Month
   min: Temporal.PlainDate
@@ -97,10 +119,8 @@ const ViewSwitch = ({ month, min, max, setMonth }: ViewSwitchProps) => {
   const prevDisabled = month.valueOf() <= minMonth.valueOf()
   const nextDisabled = month.valueOf() >= maxMonth.valueOf()
 
-  const magnitudeCaptions = {
-    month: { next: "Next month", prev: "Previous month" },
-    year: { next: "Next year", prev: "Previous year" },
-  }[magnitude]
+  const nextCaption = useTrans(magnitudeCaptions[magnitude].next)
+  const prevCaption = useTrans(magnitudeCaptions[magnitude].prev)
 
   return (
     <div className="flex">
@@ -113,13 +133,15 @@ const ViewSwitch = ({ month, min, max, setMonth }: ViewSwitchProps) => {
       >
         {magnitude === "month" ? (
           <>
-            <span className="text-text-priority">{getMonthName(month)}</span>
+            <span className="text-text-priority">
+              <MonthName month={month} />
+            </span>
             <span className="mr-1">,</span>
             {month.month.year}
           </>
         ) : (
           <>
-            {getMonthName(month)}
+            <MonthName month={month} />
             <span className="mr-1">,</span>
             <span className="text-text-priority">{month.month.year}</span>
           </>
@@ -132,7 +154,7 @@ const ViewSwitch = ({ month, min, max, setMonth }: ViewSwitchProps) => {
         size="sm"
         icon={ChevronLeft}
         hideTitle
-        title={magnitudeCaptions.prev}
+        title={prevCaption}
         onClick={() => setMonth(prev)}
         disabled={prevDisabled}
       />
@@ -140,7 +162,7 @@ const ViewSwitch = ({ month, min, max, setMonth }: ViewSwitchProps) => {
         size="sm"
         icon={ChevronRight}
         hideTitle
-        title={magnitudeCaptions.next}
+        title={nextCaption}
         onClick={() => setMonth(next)}
         disabled={nextDisabled}
       />
