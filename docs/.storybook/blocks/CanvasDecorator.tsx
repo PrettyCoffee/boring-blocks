@@ -2,7 +2,7 @@
 import React from "react"
 
 import { type Decorator, type StoryContext } from "@storybook/react-vite"
-import { DialogProvider } from "boring-blocks"
+import { DialogProvider, L10nProvider } from "boring-blocks"
 import { css, Global, styled } from "storybook/theming"
 
 import { useDarkMode } from "../addons/dark-mode"
@@ -46,10 +46,12 @@ export const CanvasDecorator: Decorator = (Story, context) => {
   const isDocsPage = viewMode === "docs"
 
   return (
-    <CanvasLayout background={isDocsPage ? background : undefined}>
-      <Story />
-      <DialogProvider />
-      {!isDocsPage && <Global styles={{ ":root": { background } }} />}
-    </CanvasLayout>
+    <L10nProvider locale="de" language="de">
+      <CanvasLayout background={isDocsPage ? background : undefined}>
+        <Story />
+        <DialogProvider />
+        {!isDocsPage && <Global styles={{ ":root": { background } }} />}
+      </CanvasLayout>
+    </L10nProvider>
   )
 }

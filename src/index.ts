@@ -27,5 +27,6 @@ export * from "./components/utility/animate-height"
 export * from "./components/utility/error-boundary"
 export * from "./components/utility/slot"
 
+export { L10nProvider } from "./locales"
 export { type AlertKind } from "./types/alert"
 export { hstack, vstack } from "./styles/stack"

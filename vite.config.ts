@@ -1,7 +1,17 @@
 import path from "node:path"
 
+import babelPlugin, { defineRolldownBabelPreset } from "@rolldown/plugin-babel"
 import react from "@vitejs/plugin-react"
 import { defineConfig, type Plugin } from "vite"
+
+const linguiPreset = defineRolldownBabelPreset({
+  preset: () => ({ plugins: ["@lingui/babel-plugin-lingui-macro"] }),
+  rolldown: {
+    filter: {
+      code: /from ['"]@lingui\/(?:react|core)\/macro['"]/,
+    },
+  },
+})
 
 const isModuleName = (id: string) =>
   !id.startsWith(".") && !id.startsWith("\0") && !path.isAbsolute(id)
@@ -64,6 +74,7 @@ const libBundle = ({
 export default defineConfig(({ command }) => ({
   plugins: [
     react(),
+    babelPlugin({ presets: [linguiPreset] }),
     libBundle({
       disabled: command !== "build",
       entries: {
