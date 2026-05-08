@@ -13,6 +13,34 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/utility/error-boundary.tsx:10
+msgid "An unexpected error occurred here"
+msgstr "An unexpected error occurred here"
+
+#: src/components/ui/dialog/dialog.tsx:64
+msgid "Cancel"
+msgstr "Cancel"
+
+#: src/components/ui/text-input.tsx:79
+msgid "Clear text field"
+msgstr "Clear text field"
+
+#: src/components/ui/dialog/dialog.tsx:128
+msgid "Close"
+msgstr "Close"
+
+#: src/components/ui/toaster/toast.tsx:127
+msgid "Close message"
+msgstr "Close message"
+
+#: src/components/ui/dialog/dialog.tsx:53
+msgid "Confirm"
+msgstr "Confirm"
+
+#: src/components/ui/file-input/file-input.tsx:82
+msgid "Drop File"
+msgstr "Drop File"
+
 #: src/components/ui/calendar/calendar.tsx:94
 msgid "Next month"
 msgstr "Next month"
@@ -21,6 +49,10 @@ msgstr "Next month"
 msgid "Next year"
 msgstr "Next year"
 
+#: src/components/ui/pagination.tsx:131
+msgid "Page size:"
+msgstr "Page size:"
+
 #: src/components/ui/calendar/calendar.tsx:95
 msgid "Previous month"
 msgstr "Previous month"
@@ -28,3 +60,11 @@ msgstr "Previous month"
 #: src/components/ui/calendar/calendar.tsx:99
 msgid "Previous year"
 msgstr "Previous year"
+
+#: src/components/ui/pagination.tsx:26
+msgid "Size"
+msgstr "Size"
+
+#: src/components/ui/date-input.tsx:16
+msgid "Today"
+msgstr "Today"

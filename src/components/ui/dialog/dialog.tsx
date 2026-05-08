@@ -1,5 +1,8 @@
 import { type PropsWithChildren, type ReactNode } from "react"
 
+import { msg } from "@lingui/core/macro"
+
+import { useTrans } from "../../../locales"
 import { hstack, vstack } from "../../../styles/stack"
 import { surface } from "../../../styles/surface"
 import { zIndex } from "../../../styles/z-index"
@@ -35,6 +38,7 @@ const DialogActions = ({
   confirm,
   cancel,
 }: Pick<DialogProps, "confirm" | "cancel">) => {
+  const trans = useTrans()
   if (!confirm && !cancel) return null
 
   return (
@@ -46,10 +50,7 @@ const DialogActions = ({
             disabled={confirm.disabled}
             onClick={confirm.onClick}
           >
-            {
-              // TODO: Translate caption
-              confirm.caption ?? "Confirm"
-            }
+            {confirm.caption ?? trans._(msg`Confirm`)}
           </Button>
         </DialogPrimitive.Close>
       )}
@@ -60,10 +61,7 @@ const DialogActions = ({
             disabled={cancel.disabled}
             onClick={cancel.onClick}
           >
-            {
-              // TODO: Translate caption
-              cancel.caption ?? "Cancel"
-            }
+            {cancel.caption ?? trans._(msg`Cancel`)}
           </Button>
         </DialogPrimitive.Close>
       )}
@@ -127,8 +125,7 @@ export const Dialog = ({
 
         <DialogPrimitive.Close>
           <IconButton
-            // TODO: Translate title
-            title="Close"
+            title={useTrans(msg`Close`)}
             className="absolute top-1 right-1"
             hideTitle
             icon={XIcon}

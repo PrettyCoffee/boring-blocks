@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useRef } from "react"
 
+import { msg } from "@lingui/core/macro"
 import { keyframes } from "goober"
 
 import { XIcon } from "../../icons"
 import { Icon } from "../icon"
 import { type ToastDataProps } from "./toaster-data"
+import { useTrans } from "../../../locales"
 import { alert } from "../../../styles/alert"
 import { hstack } from "../../../styles/stack"
 import { surface } from "../../../styles/surface"
@@ -121,8 +123,7 @@ export const Toast = ({
           </div>
           <IconButton
             icon={XIcon}
-            // TODO: Translate title
-            title="Close message"
+            title={useTrans(msg`Close message`)}
             hideTitle
             look="flat"
             onClick={() => void exit()}

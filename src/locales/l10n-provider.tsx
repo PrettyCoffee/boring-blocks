@@ -58,10 +58,10 @@ const useL10n = () => Context.useRequiredValue()
 export const useLocale = () => useL10n().locale
 export const useLanguage = () => useL10n().language
 
-export function useTrans(): (typeof i18n)["_"]
+export function useTrans(): typeof i18n
 export function useTrans(msg: MessageDescriptor): string
 export function useTrans(msg?: MessageDescriptor) {
   const { i18n } = useL10n()
   if (msg) return i18n._(msg)
-  return i18n._
+  return i18n
 }

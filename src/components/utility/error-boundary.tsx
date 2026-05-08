@@ -1,9 +1,13 @@
 import { Component, type ReactNode } from "react"
 
+import { msg } from "@lingui/core/macro"
+
+import { useTrans } from "../../locales"
+
 const DefaultFallback = () => (
   <div
     className="grid size-10 place-content-center"
-    title="An unexpected error occurred here"
+    title={useTrans(msg`An unexpected error occurred here`)}
   >
     💥
   </div>

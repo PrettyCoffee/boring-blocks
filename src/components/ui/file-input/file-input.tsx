@@ -1,7 +1,9 @@
 import { useState } from "react"
 
+import { msg } from "@lingui/core/macro"
 import { cva, type VariantProps } from "class-variance-authority"
 
+import { useTrans } from "../../../locales"
 import { alert as alertStyles } from "../../../styles/alert"
 import { focusOutline } from "../../../styles/focus-outline"
 import { interactive } from "../../../styles/interactive"
@@ -50,13 +52,14 @@ export type FileInputProps = Omit<
 }
 
 export const FileInput = ({
-  label = "Drop File",
+  label,
   alert,
   className,
   onChange,
   ...props
 }: Omit<FileInputProps, "onDragStart" | "onDragEnd">) => {
   const [dragging, setDragging] = useState<DraggingState>("idle")
+  const trans = useTrans()
 
   return (
     <ErrorBoundary>
@@ -76,7 +79,7 @@ export const FileInput = ({
           className={cn(fileInput({ dragging, alert: alert?.kind }), className)}
         >
           <AnimatedUploadIcon status={dragging} />
-          {label}
+          {label ?? trans._(msg`Drop File`)}
           {alert && (
             <Icon icon={alertStyles[alert.kind].icon} color={alert.kind} />
           )}

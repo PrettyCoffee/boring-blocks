@@ -7,12 +7,15 @@ import {
   type FocusEventHandler,
 } from "react"
 
+import { msg } from "@lingui/core/macro"
+
 import { Icon } from "./icon"
 import { cn } from "../../utils/cn"
 import { SearchIcon, XIcon } from "../icons"
 import { InputAlertIcon } from "./fragments/input-alert-icon"
 import { InputBorder } from "./fragments/input-border"
 import { IconButton } from "./icon-button"
+import { useTrans } from "../../locales"
 import { type AlertKind } from "../../types/alert"
 import { type ClassNameProp, type DisableProp } from "../../types/base-props"
 import { mergeRefs } from "../../utils/merge-refs"
@@ -44,6 +47,7 @@ export const TextInput = ({
   className,
   ...props
 }: TextInputProps) => {
+  const trans = useTrans()
   const textRef = useRef<HTMLInputElement>(null)
   const isSearch = type === "search"
 
@@ -72,8 +76,7 @@ export const TextInput = ({
           <span className="grid size-10 shrink-0 place-content-center [:not(:hover,:focus-within)>&]:opacity-0">
             <IconButton
               hideTitle
-              // TODO: Translate title
-              title="Clear text field"
+              title={trans._(msg`Clear text field`)}
               icon={XIcon}
               size="sm"
               onClick={event => {

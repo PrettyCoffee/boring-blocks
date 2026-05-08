@@ -1,14 +1,20 @@
 import { type Dispatch, useState } from "react"
 
+import { msg } from "@lingui/core/macro"
+
 import { CalendarDaysIcon } from "../icons"
 import { Button } from "./button"
 import { Calendar, type CalendarProps } from "./calendar"
 import { Popover } from "./popover"
+import { useLocale, useTrans } from "../../locales"
 import { ErrorBoundary } from "../utility/error-boundary"
 
-const printDate = (date: Temporal.PlainDate) => {
-  if (date.equals(Temporal.Now.plainDateISO())) return "Today"
-  return date.toLocaleString("en-US", {
+const DateValue = ({ date }: { date: Temporal.PlainDate }) => {
+  const trans = useTrans()
+  const locale = useLocale()
+
+  if (date.equals(Temporal.Now.plainDateISO())) return trans._(msg`Today`)
+  return date.toLocaleString(locale, {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
@@ -37,7 +43,7 @@ export const DateInput = ({
             iconColor="muted"
             className="border border-stroke-gentle"
           >
-            {caption || printDate(value)}
+            {caption || <DateValue date={value} />}
           </Button>
         </Popover.Trigger>
 

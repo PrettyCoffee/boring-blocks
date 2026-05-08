@@ -13,6 +13,34 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/utility/error-boundary.tsx:10
+msgid "An unexpected error occurred here"
+msgstr "Ein unerwarteter Fehler ist aufgetreten"
+
+#: src/components/ui/dialog/dialog.tsx:64
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: src/components/ui/text-input.tsx:79
+msgid "Clear text field"
+msgstr "Textfeld leeren"
+
+#: src/components/ui/dialog/dialog.tsx:128
+msgid "Close"
+msgstr "Schließen"
+
+#: src/components/ui/toaster/toast.tsx:127
+msgid "Close message"
+msgstr "Nachricht schließen"
+
+#: src/components/ui/dialog/dialog.tsx:53
+msgid "Confirm"
+msgstr "Bestätigen"
+
+#: src/components/ui/file-input/file-input.tsx:82
+msgid "Drop File"
+msgstr "Datei ablegen"
+
 #: src/components/ui/calendar/calendar.tsx:94
 msgid "Next month"
 msgstr "Nächster Monat"
@@ -21,6 +49,10 @@ msgstr "Nächster Monat"
 msgid "Next year"
 msgstr "Nächstes Jahr"
 
+#: src/components/ui/pagination.tsx:131
+msgid "Page size:"
+msgstr "Seitengröße:"
+
 #: src/components/ui/calendar/calendar.tsx:95
 msgid "Previous month"
 msgstr "Vorheriger Monat"
@@ -28,3 +60,11 @@ msgstr "Vorheriger Monat"
 #: src/components/ui/calendar/calendar.tsx:99
 msgid "Previous year"
 msgstr "Vorheriges Jahr"
+
+#: src/components/ui/pagination.tsx:26
+msgid "Size"
+msgstr "Größe"
+
+#: src/components/ui/date-input.tsx:16
+msgid "Today"
+msgstr "Heute"
