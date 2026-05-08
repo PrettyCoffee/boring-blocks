@@ -176,7 +176,7 @@ export const TimeInput = ({
         <input
           {...props}
           type="text"
-          className="w-full px-0 text-center outline-none not-focus:opacity-0"
+          className="size-full px-0 text-center outline-none not-focus:opacity-0"
           value={text}
           onKeyDown={handleKeyDown}
           onChange={handleChange}
