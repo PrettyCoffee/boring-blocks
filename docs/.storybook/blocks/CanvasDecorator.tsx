@@ -42,11 +42,12 @@ export const CanvasDecorator: Decorator = (Story, context) => {
 
   const isDarkMode = useDarkMode()
   const background = getCanvasBackground(context, isDarkMode)
-  const { viewMode } = context
+  const { viewMode, globals } = context
   const isDocsPage = viewMode === "docs"
+  const locale = String(globals["locale"] ?? "en") as "en"
 
   return (
-    <L10nProvider locale="de" language="de">
+    <L10nProvider key={locale} locale={locale} language={locale}>
       <CanvasLayout background={isDocsPage ? background : undefined}>
         <Story />
         <DialogProvider />

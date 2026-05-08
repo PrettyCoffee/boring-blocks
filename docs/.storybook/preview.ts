@@ -53,6 +53,22 @@ const preview = {
     style: argType.hidden(),
     ref: argType.hidden(),
   },
+
+  globalTypes: {
+    locale: {
+      description: "Language for components",
+      toolbar: {
+        title: "Language",
+        icon: "globe",
+        items: ["en", "de"],
+        dynamicTitle: true,
+      },
+    },
+  },
+
+  initialGlobals: {
+    locale: "en",
+  },
 } satisfies Preview
 
 export default preview
