@@ -1,45 +1,53 @@
 #! /usr/bin/env node
 
 import { spawnSync } from "node:child_process"
+import { parseArgs } from "node:util"
 
-const commands = [
-  {
-    name: "build",
+const commands = {
+  build: {
     description: "Transpile the library to usable code",
     script: "./build.mjs",
   },
-]
+}
 
-const flags = [
-  { name: "help", description: "Display the help page" },
-  { name: "verbose", description: "Print more information in the terminal" },
-]
+const flags = {
+  help: {
+    type: "boolean",
+    short: "h",
+    description: "Display the help page",
+  },
+  verbose: {
+    type: "boolean",
+    short: "v",
+    description: "Print more information in the terminal",
+  },
+}
 
-const args = process.argv.slice(2)
-const command = args.reduce((result, arg) => {
-  const cmd = commands.find(({ name }) => name === arg)
-  if (!result.name && cmd) {
-    return { ...cmd, ...result }
-  }
+const parseArgv = () => {
+  const name = process.argv[2]
+  const script = commands[name]?.script
+  if (!name || !script) return { help: true }
 
-  const flag = flags.find(({ name }) => `--${name}` == arg)
-  if (flag) {
-    return { [flag.name]: true, ...result }
-  }
+  const { values: args } = parseArgs({
+    args: process.argv.slice(3),
+    allowPositionals: false,
+    options: flags,
+  })
 
-  console.error(`Argument ${arg} is invalid.\n`)
-  return { help: true }
-}, {})
+  return { name, script, ...args }
+}
+
+const command = parseArgv()
 
 if (!command.name || command.help) {
   console.info("Usage: boring-blocks <command>")
   console.info("\nAvailable commands:")
-  commands.forEach(({ name, description }) => {
+  Object.entries(commands).forEach(([name, { description }]) => {
     console.info(`  ${name}: ${description}`)
   })
   console.info("\nAvailable flags:")
-  flags.forEach(({ name, description }) => {
-    console.info(`  --${name}: ${description}`)
+  Object.entries(flags).forEach(([name, { short, description }]) => {
+    console.info(`  --${name}, -${short}: ${description}`)
   })
   process.exit(1)
 }
