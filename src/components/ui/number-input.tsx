@@ -2,6 +2,7 @@ import { type ChangeEvent, type HTMLProps, useState } from "react"
 
 import { type InputAlert, InputAlertIcon } from "./fragments/input-alert-icon"
 import { InputBorder } from "./fragments/input-border"
+import { useLocale } from "../../locales"
 import { clamp } from "../../utils/clamp"
 import { cn } from "../../utils/cn"
 import { mergeRefs } from "../../utils/merge-refs"
@@ -20,16 +21,40 @@ const meassureText = (text: string, reference: HTMLElement) => {
   return width
 }
 
+const getNumberSeparator = (locale: string) => {
+  const numberWithDecimalSeparator = 1.1
+  return (
+    Intl.NumberFormat(locale)
+      .formatToParts(numberWithDecimalSeparator)
+      .find(part => part.type === "decimal")?.value ?? "."
+  )
+}
+
 interface ParseNumberOptions {
   min?: number
   max?: number
+  locale: string
 }
-const parseNumber = (
-  value: string,
-  { min = -Infinity, max = Infinity }: ParseNumberOptions = {}
+const numberToString = (
+  value: number | undefined,
+  { min = -Infinity, max = Infinity, locale }: ParseNumberOptions
 ) => {
-  const string = /(-?\d*\.?\d*)/.exec(value)?.[0] ?? ""
-  const number = Number.parseFloat(string)
+  if (value === undefined) return ""
+  const clamped = clamp(value, min, max)
+  return Intl.NumberFormat(locale)
+    .formatToParts(clamped)
+    .filter(part => part.type !== "group")
+    .map(part => part.value)
+    .join("")
+}
+const stringToNumber = (
+  value: string,
+  { min = -Infinity, max = Infinity, locale }: ParseNumberOptions
+) => {
+  const decimalSeparator = getNumberSeparator(locale)
+  const numberRegex = new RegExp(`(-?\\d*\\${decimalSeparator}?\\d*)`)
+  const string = numberRegex.exec(value)?.[0] ?? ""
+  const number = Number.parseFloat(string.split(decimalSeparator).join("."))
 
   if (Number.isNaN(number)) {
     return { string, number: undefined }
@@ -37,13 +62,13 @@ const parseNumber = (
 
   const clamped = clamp(number, min, max)
   if (clamped !== number) {
-    return { string: String(clamped), number: clamped }
+    return {
+      string: numberToString(clamped, { min, max, locale }),
+      number: clamped,
+    }
   }
 
-  return {
-    string,
-    number: Number.parseFloat(string) || undefined,
-  }
+  return { string, number }
 }
 
 type InputProps = HTMLProps<HTMLInputElement>
@@ -85,10 +110,13 @@ export const NumberInput = ({
   const [unitWidth, setUnitWidth] = useState(0)
   const [digitsWidth, setDigitsWidth] = useState(0)
 
+  const locale = useLocale()
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { string, number } = parseNumber(event.currentTarget.value, {
+    const { string, number } = stringToNumber(event.currentTarget.value, {
       min,
       max,
+      locale,
     })
     setInternal(string)
     onChange?.(number, event)
@@ -118,7 +146,9 @@ export const NumberInput = ({
           })}
           value={internal}
           onChange={handleChange}
-          onBlur={() => setInternal(String(value ?? ""))}
+          onBlur={() =>
+            setInternal(numberToString(value, { min, max, locale }))
+          }
           placeholder={placeholder}
           className={cn(
             "h-10 flex-1 bg-transparent px-3 text-end text-sm text-text outline-none placeholder:text-text-muted",
