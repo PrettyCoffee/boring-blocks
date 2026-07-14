@@ -6,8 +6,8 @@ import { cn } from "../../utils/cn"
 import { ErrorBoundary } from "../utility/error-boundary"
 
 interface CardProps extends ClassNameProp {
-  title: ReactNode | string
-  description: ReactNode | string
+  title?: ReactNode | string
+  description?: ReactNode | string
   Headline?: "h2" | "h3" | "div"
 }
 
@@ -26,7 +26,16 @@ export const Card = ({
         className
       )}
     >
-      <Headline className="mb-1 font-bold text-text-priority">{title}</Headline>
+      {title && (
+        <Headline
+          className={cn(
+            "mb-1 font-bold text-text-priority",
+            !description && children && "mb-2"
+          )}
+        >
+          {title}
+        </Headline>
+      )}
       {description && (
         <p className={cn("text-sm text-text-gentle", children && "mb-4")}>
           {description}

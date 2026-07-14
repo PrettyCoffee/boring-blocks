@@ -60,6 +60,7 @@ export default defineConfig(
 
   {
     rules: {
+      complexity: ["error", 12],
       "@typescript-eslint/no-namespace": "off",
       "@typescript-eslint/consistent-type-imports": [
         "error",
