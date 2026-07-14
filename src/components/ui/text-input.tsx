@@ -25,7 +25,7 @@ type InputProps = HTMLProps<HTMLInputElement>
 
 export interface TextInputProps
   extends Pick<InputProps, "ref" | "placeholder">, ClassNameProp, DisableProp {
-  type?: "text" | "search"
+  type?: "text" | "search" | "password"
   value?: string
   alert?: { kind: AlertKind; text: string }
 
@@ -50,6 +50,7 @@ export const TextInput = ({
   const trans = useTrans()
   const textRef = useRef<HTMLInputElement>(null)
   const isSearch = type === "search"
+  const isMasked = type === "password" && !!props.value
 
   return (
     <ErrorBoundary>
@@ -68,7 +69,8 @@ export const TextInput = ({
           className={cn(
             "h-10 w-full flex-1 bg-transparent px-3 text-sm text-text outline-none placeholder:text-text-gentle",
             isSearch && "pl-10",
-            (isSearch || alert) && "pr-0"
+            (isSearch || alert) && "pr-0",
+            isMasked && "text-3xl tracking-widest"
           )}
         />
 
