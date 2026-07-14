@@ -7,6 +7,8 @@ import { Button } from "./button"
 import { Calendar, type CalendarProps } from "./calendar"
 import { Popover } from "./popover"
 import { useLocale, useTrans } from "../../locales"
+import { type ClassNameProp } from "../../types/base-props"
+import { cn } from "../../utils/cn"
 import { ErrorBoundary } from "../utility/error-boundary"
 
 const DateValue = ({ date }: { date: Temporal.PlainDate }) => {
@@ -21,7 +23,8 @@ const DateValue = ({ date }: { date: Temporal.PlainDate }) => {
   })
 }
 
-export interface DateInputProps extends Pick<CalendarProps, "min" | "max"> {
+export interface DateInputProps
+  extends ClassNameProp, Pick<CalendarProps, "min" | "max"> {
   caption?: string
   value?: Temporal.PlainDate
   onChange?: Dispatch<Temporal.PlainDate>
@@ -31,6 +34,9 @@ export const DateInput = ({
   value = Temporal.Now.plainDateISO(),
   onChange,
   caption,
+  min,
+  max,
+  className,
   ...props
 }: DateInputProps) => {
   const [open, setOpen] = useState(false)
@@ -39,9 +45,10 @@ export const DateInput = ({
       <Popover.Root open={open} onOpenChange={setOpen} placement="bottom">
         <Popover.Trigger>
           <Button
+            {...props}
             icon={CalendarDaysIcon}
             iconColor="muted"
-            className="border border-stroke-gentle"
+            className={cn("border border-stroke-gentle", className)}
           >
             {caption || <DateValue date={value} />}
           </Button>
@@ -51,11 +58,12 @@ export const DateInput = ({
           <Calendar
             selected={value}
             initialView={value}
+            min={min}
+            max={max}
             onSelectionChange={value => {
               onChange?.(value)
               setOpen(false)
             }}
-            {...props}
           />
         </Popover.Content>
       </Popover.Root>

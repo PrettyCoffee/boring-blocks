@@ -11,28 +11,27 @@ type BaseHtmlProps = HTMLProps<HTMLElement>
 type ButtonHtmlProps = HTMLProps<HTMLButtonElement>
 type AnchorHtmlProps = HTMLProps<HTMLAnchorElement>
 
+type SharedKeys =
+  | "ref"
+  | "aria-current"
+  | "onMouseDown"
+  | "onMouseUp"
+  | "onFocus"
+  | "onBlur"
+
 interface ButtonPropsOverloads {
-  slot: Pick<
-    BaseHtmlProps,
-    "ref" | "aria-current" | "onFocus" | "onBlur" | "onClick"
-  > & {
+  slot: Pick<BaseHtmlProps, "onClick" | SharedKeys> & {
     asChild: true
     href?: undefined
     target?: undefined
   }
-  link: Pick<
-    AnchorHtmlProps,
-    "ref" | "aria-current" | "onFocus" | "onBlur" | "target"
-  > & {
+  link: Pick<AnchorHtmlProps, "target" | SharedKeys> & {
     asChild?: undefined
     onClick?: undefined
     href: string
     target?: string
   }
-  button: Pick<
-    ButtonHtmlProps,
-    "ref" | "aria-current" | "onFocus" | "onBlur"
-  > & {
+  button: Pick<ButtonHtmlProps, SharedKeys> & {
     asChild?: undefined
     onClick?: ButtonHtmlProps["onClick"]
     href?: undefined
