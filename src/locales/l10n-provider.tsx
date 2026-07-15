@@ -2,25 +2,17 @@ import { type PropsWithChildren, useEffect, useMemo, useState } from "react"
 
 import { type I18n, type MessageDescriptor, setupI18n } from "@lingui/core"
 
-import { messages as de } from "./_de"
-import { messages as en } from "./_en"
+import { messages as de } from "./_de.json"
+import { messages as en } from "./_en.json"
 import { createContext } from "../utils/create-context"
 
-const availableLanguages = new Set(["en", "de"])
-
+const defaultLanguage = "en"
 const catalog = { en, de }
-
 const i18n = setupI18n({
-  locales: [...availableLanguages],
-  locale: "en",
+  locales: Object.keys(catalog),
+  locale: defaultLanguage,
   messages: catalog,
 })
-
-const activate = (languageArg: "en" | "de") => {
-  const language = availableLanguages.has(languageArg) ? languageArg : "en"
-  i18n.loadAndActivate({ locale: language, messages: catalog[language] })
-  return language
-}
 
 interface L10nProviderState {
   i18n: I18n
@@ -31,14 +23,16 @@ const Context = createContext<L10nProviderState>("L10nProvider")
 
 export const L10nProvider = ({
   locale,
-  language,
+  language: languageProp,
   children,
 }: PropsWithChildren<Omit<L10nProviderState, "i18n">>) => {
+  const language = languageProp in catalog ? languageProp : defaultLanguage
   const [activeLanguage, setActiveLanguage] = useState<"en" | "de">()
 
   useEffect(() => {
+    i18n.activate(language)
     // enforce rerendering consumers when language changes
-    setActiveLanguage(activate(language))
+    setActiveLanguage(language)
   }, [language])
 
   return (

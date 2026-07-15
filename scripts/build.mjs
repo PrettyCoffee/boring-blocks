@@ -29,7 +29,7 @@ const run = cmd =>
   })
 
 printHeadline("🛠️ Compile translations")
-await run("lingui compile --typescript")
+await run("lingui compile")
 
 printHeadline("🛠️ Bundling javascript")
 await run("vite build")

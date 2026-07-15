@@ -21,7 +21,7 @@ msgstr "An unexpected error occurred here"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/components/ui/text-input.tsx:79
+#: src/components/ui/text-input.tsx:81
 msgid "Clear text field"
 msgstr "Clear text field"
 
@@ -29,7 +29,7 @@ msgstr "Clear text field"
 msgid "Close"
 msgstr "Close"
 
-#: src/components/ui/toaster/toast.tsx:127
+#: src/components/ui/toaster/toast.tsx:126
 msgid "Close message"
 msgstr "Close message"
 
@@ -65,6 +65,6 @@ msgstr "Previous year"
 msgid "Size"
 msgstr "Size"
 
-#: src/components/ui/date-input.tsx:16
+#: src/components/ui/date-input.tsx:18
 msgid "Today"
 msgstr "Today"

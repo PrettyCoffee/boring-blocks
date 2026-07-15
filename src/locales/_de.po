@@ -21,7 +21,7 @@ msgstr "Ein unerwarteter Fehler ist aufgetreten"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/components/ui/text-input.tsx:79
+#: src/components/ui/text-input.tsx:81
 msgid "Clear text field"
 msgstr "Textfeld leeren"
 
@@ -29,7 +29,7 @@ msgstr "Textfeld leeren"
 msgid "Close"
 msgstr "Schließen"
 
-#: src/components/ui/toaster/toast.tsx:127
+#: src/components/ui/toaster/toast.tsx:126
 msgid "Close message"
 msgstr "Nachricht schließen"
 
@@ -65,6 +65,6 @@ msgstr "Vorheriges Jahr"
 msgid "Size"
 msgstr "Größe"
 
-#: src/components/ui/date-input.tsx:16
+#: src/components/ui/date-input.tsx:18
 msgid "Today"
 msgstr "Heute"

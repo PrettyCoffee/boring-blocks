@@ -6,6 +6,6 @@
 dist/
 node_modules
 storybook-static/
-src/locales/_*.ts
+src/locales/_*.json
 
 .eslintcache

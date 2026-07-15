@@ -42,7 +42,7 @@
     "start": "pnpm run build && pnpm run --filter ./docs start",
     "build": "node ./scripts/build.mjs",
     "build:docs": "pnpm run build && pnpm run --filter ./docs build",
-    "l10n:build": "lingui extract --clean && lingui compile --typescript",
+    "l10n:build": "lingui extract --clean && lingui compile",
     "lint": "tsc -b && eslint",
     "lint:fix": "pnpm run lint --fix",
     "test": "vitest"
