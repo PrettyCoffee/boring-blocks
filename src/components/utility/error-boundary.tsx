@@ -2,12 +2,12 @@ import { Component, type ReactNode } from "react"
 
 import { msg } from "@lingui/core/macro"
 
-import { useTrans } from "../../locales"
+import { i18n } from "../../locales"
 
 const DefaultFallback = () => (
   <div
     className="grid size-10 place-content-center"
-    title={useTrans(msg`An unexpected error occurred here`)}
+    title={i18n._(msg`An unexpected error occurred here`)}
   >
     💥
   </div>

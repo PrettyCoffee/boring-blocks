@@ -6,7 +6,7 @@ import { keyframes } from "goober"
 import { XIcon } from "../../icons"
 import { Icon } from "../icon"
 import { type ToastDataProps } from "./toaster-data"
-import { useTrans } from "../../../locales"
+import { i18n } from "../../../locales"
 import { alert } from "../../../styles/alert"
 import { hstack } from "../../../styles/stack"
 import { surface } from "../../../styles/surface"
@@ -123,7 +123,7 @@ export const Toast = ({
           </div>
           <IconButton
             icon={XIcon}
-            title={useTrans(msg`Close message`)}
+            title={i18n._(msg`Close message`)}
             hideTitle
             look="flat"
             onClick={() => void exit()}

@@ -2,7 +2,7 @@ import { type PropsWithChildren, type ReactNode } from "react"
 
 import { msg } from "@lingui/core/macro"
 
-import { useTrans } from "../../../locales"
+import { i18n } from "../../../locales"
 import { hstack, vstack } from "../../../styles/stack"
 import { surface } from "../../../styles/surface"
 import { zIndex } from "../../../styles/z-index"
@@ -38,7 +38,6 @@ const DialogActions = ({
   confirm,
   cancel,
 }: Pick<DialogProps, "confirm" | "cancel">) => {
-  const trans = useTrans()
   if (!confirm && !cancel) return null
 
   return (
@@ -50,7 +49,7 @@ const DialogActions = ({
             disabled={confirm.disabled}
             onClick={confirm.onClick}
           >
-            {confirm.caption ?? trans._(msg`Confirm`)}
+            {confirm.caption ?? i18n._(msg`Confirm`)}
           </Button>
         </DialogPrimitive.Close>
       )}
@@ -61,7 +60,7 @@ const DialogActions = ({
             disabled={cancel.disabled}
             onClick={cancel.onClick}
           >
-            {cancel.caption ?? trans._(msg`Cancel`)}
+            {cancel.caption ?? i18n._(msg`Cancel`)}
           </Button>
         </DialogPrimitive.Close>
       )}
@@ -125,7 +124,7 @@ export const Dialog = ({
 
         <DialogPrimitive.Close>
           <IconButton
-            title={useTrans(msg`Close`)}
+            title={i18n._(msg`Close`)}
             className="absolute top-1 right-1"
             hideTitle
             icon={XIcon}

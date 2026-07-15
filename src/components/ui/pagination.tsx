@@ -4,7 +4,7 @@ import { msg } from "@lingui/core/macro"
 
 import { Button } from "./button"
 import { Select } from "./select"
-import { useTrans } from "../../locales"
+import { i18n } from "../../locales"
 import { hstack } from "../../styles/stack"
 import { type ClassNameProp } from "../../types/base-props"
 import { clamp } from "../../utils/clamp"
@@ -23,7 +23,7 @@ const PageSizeSelect = ({
 }: PageSizeSelectProps) => (
   <Select.Root
     value={String(value)}
-    placeholder={useTrans(msg`Size`)}
+    placeholder={i18n._(msg`Size`)}
     onChange={value => onPageSizeChange?.(Number(value))}
   >
     {pageSizes.map(size => (
@@ -113,7 +113,6 @@ export const Pagination = ({
   onPageSizeChange,
   className,
 }: PaginationProps) => {
-  const trans = useTrans()
   const numberOfPages = getNumberOfPages(items, pageSize)
 
   return (
@@ -128,7 +127,7 @@ export const Pagination = ({
         {pageSizeOptions && (
           <>
             <div className="flex-1" />
-            <span className="mr-2">{trans._(msg`Page size:`)}</span>
+            <span className="mr-2">{i18n._(msg`Page size:`)}</span>
             <PageSizeSelect
               pageSizes={pageSizeOptions}
               value={pageSize}

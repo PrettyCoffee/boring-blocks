@@ -2,7 +2,7 @@ import { type Dispatch, type SetStateAction, useState } from "react"
 
 import { msg } from "@lingui/core/macro"
 
-import { useLanguage, useTrans } from "../../../locales"
+import { i18n, useLanguage } from "../../../locales"
 import { hstack, vstack } from "../../../styles/stack"
 import { cn } from "../../../utils/cn"
 import { ChevronLeft, ChevronRight } from "../../icons"
@@ -119,8 +119,8 @@ const ViewSwitch = ({ month, min, max, setMonth }: ViewSwitchProps) => {
   const prevDisabled = month.valueOf() <= minMonth.valueOf()
   const nextDisabled = month.valueOf() >= maxMonth.valueOf()
 
-  const nextCaption = useTrans(magnitudeCaptions[magnitude].next)
-  const prevCaption = useTrans(magnitudeCaptions[magnitude].prev)
+  const nextCaption = i18n._(magnitudeCaptions[magnitude].next)
+  const prevCaption = i18n._(magnitudeCaptions[magnitude].prev)
 
   return (
     <div className="flex">
