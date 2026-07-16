@@ -1,13 +1,10 @@
 import {
   mergeConfigs,
   extendTailwindMerge,
-  validators,
   type Config,
   twJoin,
   type ClassNameValue,
 } from "tailwind-merge"
-
-const getAny = () => [validators.isAny] as const
 
 const withBgl = <ClassGroupIds extends string, ThemeGroupIds extends string>(
   prevConfig: Config<ClassGroupIds, ThemeGroupIds>
@@ -15,11 +12,11 @@ const withBgl = <ClassGroupIds extends string, ThemeGroupIds extends string>(
   mergeConfigs(prevConfig, {
     extend: {
       classGroups: {
-        "bgl-base": [{ "bgl-base": getAny() }],
-        "bgl-layer": [{ "bgl-layer": getAny() }],
+        "bgl-base": [{ bgl: [(key: string) => key.startsWith("base")] }],
+        "bgl-layer": [{ bgl: [(key: string) => key.startsWith("layer")] }],
       },
       conflictingClassGroups: {
-        "bg-color": ["bgl-base", "bgl-layer", "bgl"],
+        "bg-color": ["bgl-base", "bgl-layer"],
       },
     },
   })

@@ -14,8 +14,10 @@ type AnchorHtmlProps = HTMLProps<HTMLAnchorElement>
 type SharedKeys =
   | "ref"
   | "aria-current"
-  | "onMouseDown"
-  | "onMouseUp"
+  | "onPointerDown"
+  | "onPointerUp"
+  | "onPointerLeave"
+  | "onPointerEnter"
   | "onFocus"
   | "onBlur"
 
