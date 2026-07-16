@@ -38,9 +38,7 @@ const ControlledStory = ({
   onChange,
   ...props
 }: TimeInputProps) => {
-  const [value, setValue] = useState(
-    () => initialValue ?? new Temporal.PlainTime(13, 15)
-  )
+  const [value, setValue] = useState(() => initialValue ?? null)
   return (
     <TimeInput
       {...props}

@@ -14,13 +14,13 @@ import { clamp } from "../../utils/clamp"
 import { cn } from "../../utils/cn"
 import { ErrorBoundary } from "../utility/error-boundary"
 
-const getNumbers = (value: Temporal.PlainTime | string = "") => {
+const getNumbers = (value?: Temporal.PlainTime | string | null) => {
   if (value instanceof Temporal.PlainTime) {
     const hours = value.hour.toString().padStart(2, "0")
     const minutes = value.minute.toString().padStart(2, "0")
     return `${hours}${minutes}`
   }
-  return value.replaceAll(/[^\d]+/g, "").slice(0, 4)
+  return (value ?? "").replaceAll(/[^\d]+/g, "").slice(0, 4)
 }
 
 const parseNumbers = (value: string) => {
@@ -57,7 +57,8 @@ const forceTime = (value: string) => {
   return stringToTime(padded)
 }
 
-const nextQuarter = (time: Temporal.PlainTime) => {
+const nextQuarter = (timeArg: Temporal.PlainTime | null = null) => {
+  const time = timeArg ?? new Temporal.PlainTime()
   const toNextQuarter = 15 - (time.minute % 15)
   const duration = new Temporal.Duration(0, 0, 0, 0, 0, toNextQuarter)
   const newTime = time.add(duration)
@@ -67,7 +68,8 @@ const nextQuarter = (time: Temporal.PlainTime) => {
   return didOverflow ? max : newTime
 }
 
-const prevQuarter = (time: Temporal.PlainTime) => {
+const prevQuarter = (timeArg: Temporal.PlainTime | null = null) => {
+  const time = timeArg ?? new Temporal.PlainTime()
   const toPrevQuarter = time.minute % 15 || 15
   const duration = new Temporal.Duration(0, 0, 0, 0, 0, toPrevQuarter)
   const newTime = time.subtract(duration)
@@ -88,21 +90,19 @@ export interface TimeInputProps extends Pick<
   | "disabled"
   | "ref"
 > {
-  value?: Temporal.PlainTime
+  value?: Temporal.PlainTime | null
   onChange?: (
-    value: Temporal.PlainTime,
+    value: Temporal.PlainTime | null,
     event: ChangeEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement>
   ) => void
 }
-
-const defaultValue = new Temporal.PlainTime()
 
 export const TimeInput = ({
   onKeyDown,
   onChange,
   onFocus,
   onBlur,
-  value = defaultValue,
+  value,
   className,
   ...props
 }: TimeInputProps) => {
@@ -125,7 +125,7 @@ export const TimeInput = ({
       start === 5 ? value.slice(0, 3) + value.slice(4) : value.slice(0, 4)
 
     setText(inserted)
-    onChange?.(stringToTime(inserted), event)
+    onChange?.(!inserted ? null : stringToTime(inserted), event)
     target.value = inserted
     target.setSelectionRange(start, start)
   }
@@ -165,12 +165,13 @@ export const TimeInput = ({
           aria-hidden
           className={cn(
             hstack({ align: "center", justify: "center" }),
-            "pointer-events-none absolute inset-0 m-auto size-full text-sm [&:has(+input:focus)]:opacity-0"
+            "pointer-events-none absolute inset-0 m-auto size-full text-sm [&:has(+input:focus)]:opacity-0",
+            !value && "text-text-gentle"
           )}
         >
-          {text.slice(0, 2).padEnd(2, "-")}
+          {text.slice(0, 2) || "hh"}
           <span className="mx-0.5 font-bold opacity-50">:</span>
-          {text.slice(2, 4).padEnd(2, "-")}
+          {text.slice(2, 4) || "mm"}
         </div>
 
         <input
