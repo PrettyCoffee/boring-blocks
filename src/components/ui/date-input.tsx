@@ -47,7 +47,7 @@ export const DateInput = ({
             {...props}
             icon={CalendarDaysIcon}
             iconColor="muted"
-            className={cn("border border-stroke-gentle", className)}
+            className={cn("border border-stroke-muted", className)}
           >
             {caption || <DateValue date={value} />}
           </Button>
