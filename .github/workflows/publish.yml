@@ -1,0 +1,54 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+# Related npm documentation: https://docs.npmjs.com/trusted-publishers#github-actions-configuration
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "pnpm"
+          
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Publish package
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+
+          if npm view "$NAME@$VERSION" > /dev/null 2>&1; then
+            echo "Aborting, $NAME@$VERSION was already published..."
+            exit 1
+          fi
+
+          if [[ "$VERSION" == *-* ]]; then
+            echo "Publishing prerelease $NAME@$VERSION"
+            pnpm publish --tag next
+          else
+            echo "Publishing release $NAME@$VERSION"
+            pnpm publish
+          fi
