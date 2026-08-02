@@ -6,6 +6,14 @@ import { parseOklch } from "./utils/color"
 
 const getOklchHue = (value: string) => parseOklch(value).hue
 
+/** Some Tailwind 4.3.x version changed the last oklch value for some colors to "none", which doesn't work. */
+const neutral = Object.fromEntries(
+  Object.entries(twColors.neutral).map(([name, value]) => [
+    name,
+    value.replace("none", "0"),
+  ])
+) as typeof twColors.neutral
+
 const neutralWithAccent = Object.fromEntries(
   Object.entries(twColors.stone).map(([key, value]) => {
     const { light, chroma } = parseOklch(value)
@@ -18,7 +26,7 @@ const colors = {
   black: twColors.black,
   neutral: {
     1000: "#000",
-    ...twColors.neutral,
+    ...neutral,
     0: "#fff",
   },
   neutralWithAccent: {
