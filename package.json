@@ -3,11 +3,14 @@
   "version": "0.0.0-alpha.4",
   "description": "Boring react components for classic shadcn style productivity UIs",
   "author": "PrettyCoffee",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PrettyCoffee/boring-blocks"
+  },
   "license": "MIT",
   "type": "module",
   "files": [
     "dist",
-    "tailwind",
     "*.md"
   ],
   "module": "dist/index.js",

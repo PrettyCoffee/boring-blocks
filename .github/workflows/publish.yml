@@ -47,8 +47,8 @@ jobs:
 
           if [[ "$VERSION" == *-* ]]; then
             echo "Publishing prerelease $NAME@$VERSION"
-            pnpm publish --tag next
+            pnpm publish --tag next --no-git-checks
           else
             echo "Publishing release $NAME@$VERSION"
-            pnpm publish
+            pnpm publish --no-git-checks
           fi
