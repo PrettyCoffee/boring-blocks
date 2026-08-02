@@ -38,7 +38,7 @@ const icon = cva("inline-block shrink-0", {
   },
 })
 
-export type IconProps = Pick<LucideProps, "strokeWidth" | "ref"> &
+export type IconProps = Partial<Pick<LucideProps, "strokeWidth" | "ref">> &
   VariantProps<typeof icon> &
   Required<IconProp> &
   ClassNameProp

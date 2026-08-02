@@ -10,26 +10,29 @@
     "tailwind",
     "*.md"
   ],
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
     "./icons": {
-      "import": "./dist/index-icons.mjs",
+      "import": "./dist/index-icons.js",
       "types": "./dist/index-icons.d.ts"
     },
     "./theme": {
-      "import": "./dist/index-theme.mjs",
+      "import": "./dist/index-theme.js",
       "types": "./dist/index-theme.d.ts"
     },
     "./utils": {
-      "import": "./dist/index-utils.mjs",
+      "import": "./dist/index-utils.js",
       "types": "./dist/index-utils.d.ts"
     },
-    "./tailwind": "./tailwind/index.ts"
+    "./tailwind": {
+      "import": "./dist/tailwind.js",
+      "types": "./dist/tailwind.d.ts"
+    }
   },
   "scripts": {
     "start": "pnpm run build && pnpm run --filter ./docs start",
@@ -85,6 +88,7 @@
     "react-dom": "19.2.5",
     "tailwindcss": "4.3.3",
     "temporal-polyfill": "0.3.2",
+    "tsdown": "0.22.14",
     "typescript": "6.0.2",
     "vite": "8.0.8",
     "vitest": "4.1.4"

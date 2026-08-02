@@ -32,7 +32,4 @@ printHeadline("🛠️ Compile translations")
 await run("lingui compile")
 
 printHeadline("🛠️ Bundling javascript")
-await run("vite build")
-
-printHeadline("🛠️ Transpiling types")
-await run("tsc -p ./tsconfig.npm.json")
+await run("tsdown")
