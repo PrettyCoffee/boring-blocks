@@ -7,6 +7,7 @@ import { theme } from "../../theme"
 import { cn } from "../../utils/cn"
 
 const trackStyles = `
+  box-sizing: border-box;
   background: ${theme.read("color.stroke.default")};
   height: var(--track-width);
   border-radius: 50vh;
@@ -14,14 +15,21 @@ const trackStyles = `
 
 const thumbStyles = `
   appearance: none;
-  height: var(--slider-size);
-  width: var(--slider-size);
-  background: ${theme.read("color.background.default")};
-  outline: var(--track-width) solid ${theme.read("color.stroke.button")};
-  margin-top: -0.4rem;
+  box-sizing: border-box;
+  height: var(--thumb-size);
+  width: var(--thumb-size);
+  --half-height: calc((var(--thumb-size) / 2) - (var(--track-width) / 2));
+  margin-top: calc(-1 * var(--half-height));
+  
+  border: var(--track-width) solid var(--thumb-color);
   border-radius: 50%;
+  background: ${theme.read("color.background.default")};
   cursor: grab;
-  border: none;
+  `
+
+const thumbHoverStyles = `
+  --outline-width: calc((var(--slider-size) - var(--thumb-size)) / 2);
+  outline: var(--outline-width) solid color-mix(var(--thumb-color) 30%, transparent);
   `
 
 const thumbActiveStyles = `
@@ -29,18 +37,25 @@ const thumbActiveStyles = `
   `
 
 const slider = css`
+  --thumb-color: ${theme.read("color.stroke.button")};
   --track-width: 0.125rem;
-  --slider-size: 1rem;
+  --slider-size: 2.5rem;
+  --thumb-size: 1.25rem;
 
   appearance: none;
   display: inline-block;
   background: transparent;
   cursor: pointer;
-  height: 2rem;
+  height: var(--slider-size);
   border-radius: 0.25rem;
+  outline: none;
 
   &:active {
     cursor: grabbing;
+  }
+  &:focus-visible,
+  &:active {
+    --thumb-color: ${theme.read("color.accent")};
   }
 
   &::-moz-range-track {
@@ -59,13 +74,28 @@ const slider = css`
     }
   }
 
+  &:hover,
+  &:focus-visible {
+    &::-moz-range-thumb {
+      ${thumbHoverStyles}
+    }
+
+    input[type="range"]& {
+      &::-webkit-slider-thumb {
+        ${thumbHoverStyles}
+      }
+    }
+  }
+
   &:active {
     &::-moz-range-thumb {
+      ${thumbHoverStyles}
       ${thumbActiveStyles}
     }
 
     input[type="range"]& {
       &::-webkit-slider-thumb {
+        ${thumbHoverStyles}
         ${thumbActiveStyles}
       }
     }
